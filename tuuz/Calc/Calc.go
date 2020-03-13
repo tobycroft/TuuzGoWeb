@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"math/big"
 	rand2 "math/rand"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -83,4 +85,13 @@ func Any2Int(any interface{}) int {
 		return -99999998
 	}
 	return ret
+}
+
+func Hex2Dec(val string) int {
+	val = strings.Replace(val, "0x", "", 1)
+	n, err := strconv.ParseUint(val, 16, 32)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return int(n)
 }
