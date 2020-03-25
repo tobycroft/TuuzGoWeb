@@ -7,7 +7,7 @@ import (
 )
 
 func Write(file_name string, logs string, discript string, other string) {
-	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 777)
+	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		log.Fatalln(err)
 	} else {
