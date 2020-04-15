@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"fmt"
+	"math"
 	"math/big"
 	rand2 "math/rand"
 	"strconv"
@@ -71,7 +72,7 @@ func Any2Int64(any interface{}) int64 {
 func Any2Float64(any interface{}) float64 {
 	ret, err := String2Float64(Any2String(any))
 	if err != nil {
-		return -99999998
+		return 0
 	}
 	return ret
 }
@@ -87,11 +88,26 @@ func Any2Int(any interface{}) int {
 	return ret
 }
 
-func Hex2Dec(val string) int {
-	val = strings.Replace(val, "0x", "", 1)
-	n, err := strconv.ParseUint(val, 16, 32)
-	if err != nil {
-		fmt.Println(err)
+func Hex2Dec(val string) int64 {
+	val = strings.TrimLeft(val, "0x")
+	if val == "" {
+		return 0
 	}
-	return int(n)
+	n := new(big.Int)
+	n, _ = n.SetString(val, 16)
+
+	return n.Int64()
+}
+
+func Dec2Hex(val int64) string {
+	n := strconv.FormatInt(val, 16)
+	return n
+}
+
+func Hexdec(str string) (int64, error) {
+	return strconv.ParseInt(str, 16, 0)
+}
+
+func Transfer2Eth(value float64, decimal int) float64 {
+	return value / math.Pow10(Any2Int(decimal))
 }
