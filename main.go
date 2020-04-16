@@ -9,7 +9,7 @@ func main() {
 
 	mainroute := gin.Default()
 	//gin.SetMode(gin.ReleaseMode)
-	//gin.DefaultWriter = ioutil.Discard®®®
+	//gin.DefaultWriter = ioutil.Discard
 	route.OnRoute(mainroute)
 	mainroute.Run(":80")
 
