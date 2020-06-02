@@ -3,7 +3,6 @@ package route
 import (
 	"github.com/gin-gonic/gin"
 	v1 "main.go/route/v1"
-	"main.go/tuuz"
 )
 
 func OnRoute(router *gin.Engine) {
@@ -13,7 +12,6 @@ func OnRoute(router *gin.Engine) {
 	version1 := router.Group("/v1")
 	{
 		version1.Use(func(context *gin.Context) {
-			tuuz.Db = tuuz.DB()
 		}, gin.Recovery())
 		version1.Any("/", func(context *gin.Context) {
 			context.String(0, version1.BasePath())
