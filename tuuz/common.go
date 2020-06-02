@@ -7,10 +7,8 @@ import (
 	"runtime"
 )
 
-var Db gorose.IOrm
-
-func init() {
-	Db = database.Database.NewOrm()
+func Db() gorose.IOrm {
+	return DB()
 }
 
 func DB() gorose.IOrm {
