@@ -47,7 +47,7 @@ func Rpc(url string, postData map[string]interface{}, username, password string)
 	}
 }
 
-func Post(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookies map[string]string) (int, interface{}, error) {
+func Post(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookies map[string]string) (string, error) {
 	// 链式操作
 	req := Request()
 	req.SetHeaders(headers)
@@ -65,7 +65,7 @@ func Post(url string, queries map[string]interface{}, postData map[string]interf
 	}
 }
 
-func PostCookie(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookies map[string]string) (int, interface{}, map[string]interface{}, error) {
+func PostCookie(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookies map[string]string) (string, map[string]interface{}, error) {
 	req := Request()
 	req.SetHeaders(headers)
 	req.SetCookies(cookies)
@@ -85,7 +85,7 @@ func PostCookie(url string, queries map[string]interface{}, postData map[string]
 	}
 }
 
-func PostCookieAuto(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, ident string) (float64, interface{}, error) {
+func PostCookieAuto(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, ident string) (string, error) {
 	req := Request()
 	cookies, err := CookieSelector(ident)
 	cook := Array.Mapinterface2MapString(cookies)
@@ -108,7 +108,7 @@ func PostCookieAuto(url string, queries map[string]interface{}, postData map[str
 	}
 }
 
-func PostCookieManual(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookie map[string]interface{}, ident string) (float64, interface{}, error) {
+func PostCookieManual(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookie map[string]interface{}, ident string) (string, error) {
 	req := Request()
 	CookieUpdater(cookie, ident)
 	cookies, err := CookieSelector(ident)
@@ -132,7 +132,7 @@ func PostCookieManual(url string, queries map[string]interface{}, postData map[s
 	}
 }
 
-func Get(url string, queries map[string]interface{}, headers map[string]string, cookies map[string]string) (float64, interface{}, error) {
+func Get(url string, queries map[string]interface{}, headers map[string]string, cookies map[string]string) (string, error) {
 	req := Request()
 	req.SetHeaders(headers)
 	req.SetCookies(cookies)
@@ -154,7 +154,7 @@ func Get(url string, queries map[string]interface{}, headers map[string]string, 
 	}
 }
 
-func GetCookie(url string, queries map[string]interface{}, headers map[string]string, cookies map[string]string) (float64, interface{}, map[string]interface{}, error) {
+func GetCookie(url string, queries map[string]interface{}, headers map[string]string, cookies map[string]string) (string, map[string]interface{}, error) {
 	req := Request()
 	req.SetHeaders(headers)
 	req.SetCookies(cookies)
@@ -173,7 +173,7 @@ func GetCookie(url string, queries map[string]interface{}, headers map[string]st
 	}
 }
 
-func GetCookieAuto(url string, queries map[string]interface{}, headers map[string]string, ident string) (float64, interface{}, error) {
+func GetCookieAuto(url string, queries map[string]interface{}, headers map[string]string, ident string) (string, error) {
 	req := Request()
 	cookies, err := CookieSelector(ident)
 	cook := Array.Mapinterface2MapString(cookies)
@@ -202,7 +202,7 @@ func GetCookieAuto(url string, queries map[string]interface{}, headers map[strin
 	}
 }
 
-func GetCookieManual(url string, queries map[string]interface{}, headers map[string]string, cookie map[string]interface{}, ident string) (float64, interface{}, error) {
+func GetCookieManual(url string, queries map[string]interface{}, headers map[string]string, cookie map[string]interface{}, ident string) (string, error) {
 	req := Request()
 	CookieUpdater(cookie, ident)
 	cookies, err := CookieSelector(ident)
