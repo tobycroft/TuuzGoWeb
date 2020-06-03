@@ -5,7 +5,6 @@ go 1.14
 require (
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
 	github.com/bitly/go-simplejson v0.5.1-0.20200416141419-39a59b1b2866
-	github.com/garyburd/redigo v1.6.0
 	github.com/gin-contrib/cors v1.3.2-0.20200402113712-0223cb87b2c4
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.3.0 // indirect
