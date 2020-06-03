@@ -57,12 +57,10 @@ func Post(url string, queries map[string]interface{}, postData map[string]interf
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
-	body, err := ret.Body()
 	if err != nil {
-		return 500, "", err
-	} else {
-		return 0, string(body), err
+		return "", err
 	}
+	return ret.Content()
 }
 
 func PostCookie(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, cookies map[string]string) (string, map[string]interface{}, error) {
@@ -74,14 +72,14 @@ func PostCookie(url string, queries map[string]interface{}, postData map[string]
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
-	body, err := ret.Body()
+	body, err := ret.Content()
 
 	cookie_arr := CookieHandler(ret.Cookies())
 	//fmt.Println(cookie_arr)
 	if err != nil {
-		return 500, "", cookie_arr, err
+		return "", cookie_arr, err
 	} else {
-		return 0, string(body), cookie_arr, err
+		return body, cookie_arr, err
 	}
 }
 
@@ -97,14 +95,14 @@ func PostCookieAuto(url string, queries map[string]interface{}, postData map[str
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
-	body, err := ret.Body()
+	body, err := ret.Content()
 
 	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
-		return 500, "", err
+		return "", err
 	} else {
-		return 0, string(body), err
+		return body, err
 	}
 }
 
@@ -121,14 +119,14 @@ func PostCookieManual(url string, queries map[string]interface{}, postData map[s
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
-	body, err := ret.Body()
+	body, err := ret.Content()
 
 	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
-		return 500, "", err
+		return "", err
 	} else {
-		return 0, string(body), err
+		return body, err
 	}
 }
 
@@ -143,14 +141,14 @@ func Get(url string, queries map[string]interface{}, headers map[string]string, 
 	ret, err := req.Get(url, queries)
 	if err != nil {
 		fmt.Println(err)
-		return 500, "", err
+		return "", err
 	}
-	body, err := ret.Body()
+	body, err := ret.Content()
 
 	if err != nil {
-		return 500, "", err
+		return "", err
 	} else {
-		return 0, string(body), err
+		return body, err
 	}
 }
 
@@ -163,13 +161,13 @@ func GetCookie(url string, queries map[string]interface{}, headers map[string]st
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Get(url, queries)
-	body, err := ret.Body()
+	body, err := ret.Content()
 	cookie_arr := CookieHandler(ret.Cookies())
 	//fmt.Println(cookie_arr)
 	if err != nil {
-		return 500, "", cookie_arr, err
+		return "", cookie_arr, err
 	} else {
-		return 0, string(body), cookie_arr, err
+		return body, cookie_arr, err
 	}
 }
 
@@ -187,18 +185,18 @@ func GetCookieAuto(url string, queries map[string]interface{}, headers map[strin
 	ret, err := req.Get(url, queries)
 	if err != nil {
 		fmt.Println(err)
-		return 500, "", err
+		return "", err
 	}
-	body, err := ret.Body()
+	body, err := ret.Content()
 	if err != nil {
-		return 500, "", err
+		return "", err
 	}
 	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
-		return 500, "", err
+		return "", err
 	} else {
-		return 0, string(body), err
+		return body, err
 	}
 }
 
@@ -217,15 +215,15 @@ func GetCookieManual(url string, queries map[string]interface{}, headers map[str
 	ret, err := req.Get(url, queries)
 	if err != nil {
 		fmt.Println(err)
-		return 500, "", err
+		return "", err
 	}
-	body, err := ret.Body()
+	body, err := ret.Content()
 	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
-		return 500, "", err
+		return "", err
 	} else {
-		return 0, string(body), err
+		return body, err
 	}
 }
 
