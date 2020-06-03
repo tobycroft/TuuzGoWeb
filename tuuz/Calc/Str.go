@@ -83,3 +83,11 @@ func PhoneSafe(phone string) string {
 	phone = strings.Replace(phone, old, "****", -1)
 	return phone
 }
+
+func Interface2String(inter []interface{}) []string {
+	strs := []string{}
+	for it := range inter {
+		strs = append(strs, Any2String(it))
+	}
+	return strs
+}
