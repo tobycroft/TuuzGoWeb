@@ -2,7 +2,7 @@ package Redis
 
 import (
 	"fmt"
-	redigo "github.com/garyburd/redigo/redis"
+	redigo "github.com/gomodule/redigo/redis"
 	"log"
 )
 
