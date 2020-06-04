@@ -8,8 +8,6 @@ import (
 
 const project = "bilibili"
 
-var RRedis redigo.Conn
-
 func Set(key string, value interface{}, duration int) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
