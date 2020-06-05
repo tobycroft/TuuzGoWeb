@@ -2,13 +2,21 @@ package Input
 
 import (
 	"github.com/gin-gonic/gin"
+	"main.go/tuuz/RET"
 )
 
 func Combi(key string, c *gin.Context, xss bool) (string, bool) {
-	in, ok := Post(key, c, xss)
+	in, ok := c.GetPostForm(key)
 	if !ok {
-		return Get(key, c, xss)
+		in, ok = c.GetQuery(key)
+		if !ok {
+			c.JSON(200, RET.Ret_fail(400, key))
+			c.Abort()
+			return "", ok
+		} else {
+			return in, ok
+		}
 	} else {
-		return in, true
+		return in, ok
 	}
 }
