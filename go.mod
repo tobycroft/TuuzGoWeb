@@ -15,13 +15,13 @@ require (
 	github.com/gohouse/gorose/v2 v2.1.8-0.20200602075816-b0213cfa073c
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
-	github.com/gomodule/redigo v1.8.2-0.20200524143306-2eadaa0e59d3
-	github.com/json-iterator/go v1.1.9
+	github.com/gomodule/redigo v1.8.2
+	github.com/json-iterator/go v1.1.10
+	github.com/kirinlabs/HttpRequest v1.0.5
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	golang.org/x/image v0.0.0-20200430140353-33d19683fad8 // indirect
-	golang.org/x/sys v0.0.0-20200602225109-6fdc65e7d980 // indirect
-	google.golang.org/protobuf v1.24.0 // indirect
+	golang.org/x/image v0.0.0-20200801110659-972c09e46d76 // indirect
+	golang.org/x/sys v0.0.0-20200814200057-3d37ad5750ed // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
-	github.com/kirinlabs/HttpRequest v1.0.5
 )
