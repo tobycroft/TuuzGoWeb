@@ -3,10 +3,9 @@ package Redis
 import (
 	"fmt"
 	redigo "github.com/gomodule/redigo/redis"
+	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
 )
-
-const project = "bilibili"
 
 func Set(key string, value interface{}, duration int) (interface{}, error) {
 	RRedis := Conn()
@@ -17,7 +16,7 @@ func Set(key string, value interface{}, duration int) (interface{}, error) {
 		return str, err
 
 	}
-	status, errs := RRedis.Do("SET", project+":"+key, str, "EX", duration)
+	status, errs := RRedis.Do("SET", app_conf.Project+":"+key, str, "EX", duration)
 	if errs != nil {
 		fmt.Println("redis set failed2:", errs)
 		return status, errs
@@ -32,7 +31,7 @@ func Set_permenent(key string, value interface{}) (interface{}, error) {
 	if err != nil {
 		fmt.Println("redis set failed1json:", err)
 	}
-	status, err := RRedis.Do("SET", project+":"+key, str)
+	status, err := RRedis.Do("SET", app_conf.Project+":"+key, str)
 	if err != nil {
 		fmt.Println("redis set failed:", err)
 	}
@@ -43,7 +42,7 @@ func Get(key string) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
 
-	status, err := RRedis.Do("GET", project+":"+key)
+	status, err := RRedis.Do("GET", app_conf.Project+":"+key)
 	if err != nil {
 		//fmt.Println("redis get failed1:", err)
 		return nil, err
@@ -64,7 +63,7 @@ func Get(key string) (interface{}, error) {
 func Del(key string) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
-	status, err := RRedis.Do("DEL", project+":"+key)
+	status, err := RRedis.Do("DEL", app_conf.Project+":"+key)
 	if err != nil {
 		fmt.Println("redis delete fail", err)
 	}
@@ -74,7 +73,7 @@ func Del(key string) (interface{}, error) {
 func Expire(key string, duration float64) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
-	status, err := RRedis.Do("EXPIRE", project+":"+key, duration)
+	status, err := RRedis.Do("EXPIRE", app_conf.Project+":"+key, duration)
 	if err != nil {
 		fmt.Println("err while change duration:", err)
 	}

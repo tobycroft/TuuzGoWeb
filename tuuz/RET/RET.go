@@ -2,6 +2,7 @@ package RET
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"main.go/tuuz/Jsong"
 )
 
@@ -10,32 +11,33 @@ func Json(data interface{}) string {
 	return ret
 }
 
-func Success(code interface{}, data interface{}) string {
+func Success(c *gin.Context, code int, data, echo interface{}) {
+	c.JSON(Ret_succ(code, data, echo))
+	c.Abort()
+	return
+}
+
+func Fail(c *gin.Context, code int, data, echo interface{}) {
+	Success(c, code, data, echo)
+	return
+}
+
+func Ret_succ(code int, data, echo interface{}) (int, map[string]interface{}) {
 	ret := make(map[string]interface{})
-	ret["code"] = code
-	ret["data"] = data
-	jb, err := Jsong.Encode(ret)
-	//fmt.Println(jb)
-	if err != nil {
-		fmt.Println(err)
-		return ""
+	ret_code := -1
+	if code == 0 {
+		ret_code = 200
+	} else {
+		ret_code = code
 	}
-	return string(jb)
-}
-
-func Fail(code int, data interface{}) interface{} {
-	return Success(code, data)
-}
-
-func Ret_succ(code interface{}, data interface{}) map[string]interface{} {
-	ret := make(map[string]interface{})
 	ret["code"] = code
 	ret["data"] = data
-	return ret
+	ret["echo"] = echo
+	return ret_code, ret
 }
 
-func Ret_fail(code interface{}, data interface{}) map[string]interface{} {
-	return Ret_succ(code, data)
+func Ret_fail(code int, data, echo interface{}) (int, map[string]interface{}) {
+	return Ret_succ(code, data, echo)
 }
 
 func Ws_succ(typ string, code interface{}, data interface{}, echo interface{}) string {

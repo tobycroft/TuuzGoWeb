@@ -10,7 +10,7 @@ func Combi(key string, c *gin.Context, xss bool) (string, bool) {
 	if !ok {
 		in, ok = c.GetQuery(key)
 		if !ok {
-			c.JSON(200, RET.Ret_fail(400, key))
+			c.JSON(RET.Ret_fail(400, key, key))
 			c.Abort()
 			return "", ok
 		} else {
