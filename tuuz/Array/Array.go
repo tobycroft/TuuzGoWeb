@@ -110,3 +110,8 @@ func InArrayString(str string, haystack []string) bool {
 	}
 	return false
 }
+
+func ArrayKeyExists(key interface{}, m map[interface{}]interface{}) bool {
+	_, ok := m[key]
+	return ok
+}
