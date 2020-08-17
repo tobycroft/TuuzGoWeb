@@ -62,11 +62,15 @@ func Rand(min, max int) int {
 }
 
 func Any2Int64(any interface{}) int64 {
-	ret, err := String2Int64(Any2String(any))
+	ret, err := Any2Int64_2(any)
 	if err != nil {
 		return -99999998
 	}
 	return ret
+}
+
+func Any2Int64_2(any interface{}) (int64, error) {
+	return String2Int64(Any2String(any))
 }
 
 func Any2Float64(any interface{}) float64 {
@@ -81,11 +85,15 @@ func Any2Float64_2(any interface{}) (float64, error) {
 }
 
 func Any2Int(any interface{}) int {
-	ret, err := String2Int(Any2String(any))
+	ret, err := Any2Int_2(any)
 	if err != nil {
 		return -99999998
 	}
 	return ret
+}
+
+func Any2Int_2(any interface{}) (int, error) {
+	return String2Int(Any2String(any))
 }
 
 func Hex2Dec(val string) int64 {
