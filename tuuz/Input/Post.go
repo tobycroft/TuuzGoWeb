@@ -9,7 +9,7 @@ import (
 func Post(key string, c *gin.Context, xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
-		c.JSON(RET.Ret_fail(400, key, key))
+		c.JSON(RET.Ret_fail(400, key, "POST"+key))
 		c.Abort()
 		return "", false
 	} else {
@@ -20,7 +20,7 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 func PostInt(key string, c *gin.Context) (int, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
-		c.JSON(RET.Ret_fail(400, key, key))
+		c.JSON(RET.Ret_fail(400, key, "POST"+key))
 		c.Abort()
 		return 0, false
 	} else {
@@ -37,7 +37,7 @@ func PostInt(key string, c *gin.Context) (int, bool) {
 func PostInt64(key string, c *gin.Context) (int64, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
-		c.JSON(RET.Ret_fail(400, key, key))
+		c.JSON(RET.Ret_fail(400, key, "POST"+key))
 		c.Abort()
 		return 0, false
 	} else {
@@ -54,7 +54,7 @@ func PostInt64(key string, c *gin.Context) (int64, bool) {
 func PostFloat64(key string, c *gin.Context) (float64, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
-		c.JSON(RET.Ret_fail(400, key, key))
+		c.JSON(RET.Ret_fail(400, key, "POST"+key))
 		c.Abort()
 		return 0, false
 	} else {
@@ -65,5 +65,31 @@ func PostFloat64(key string, c *gin.Context) (float64, bool) {
 			return 0, false
 		}
 		return i, true
+	}
+}
+
+func PostBool(key string, c *gin.Context) (bool, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST"+key))
+		c.Abort()
+		return false, false
+	} else {
+		switch in {
+		case "1":
+			return true, true
+
+		case "0":
+			return false, true
+
+		case "true":
+			return true, true
+
+		case "false":
+			return false, true
+
+		default:
+			return false, false
+		}
 	}
 }
