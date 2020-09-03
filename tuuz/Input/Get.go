@@ -2,6 +2,7 @@ package Input
 
 import (
 	"github.com/gin-gonic/gin"
+	"html/template"
 	"main.go/tuuz/RET"
 )
 
@@ -12,7 +13,11 @@ func Get(key string, c *gin.Context, xss bool) (string, bool) {
 		c.Abort()
 		return "", false
 	} else {
-		return in, true
+		if xss {
+			return template.JSEscapeString(in), true
+		} else {
+			return in, true
+		}
 	}
 }
 
