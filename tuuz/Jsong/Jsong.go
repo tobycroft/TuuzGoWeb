@@ -50,6 +50,16 @@ func Decode(data string) interface{} {
 	return ret
 }
 
+func JArrayObject(data string) ([]map[string]interface{}, error) {
+	var arr []map[string]interface{}
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	err := json.Unmarshal([]byte(data), &arr)
+	if err != nil {
+		return nil, err
+	}
+	return arr, err
+}
+
 func JArray(data string) ([]interface{}, error) {
 	var arr []interface{}
 	var json = jsoniter.ConfigCompatibleWithStandardLibrary

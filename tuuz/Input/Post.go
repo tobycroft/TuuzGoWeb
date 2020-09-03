@@ -133,3 +133,20 @@ func PostObject(key string, c *gin.Context) (map[string]interface{}, bool) {
 		return i, true
 	}
 }
+
+func PostArrayObject(key string, c *gin.Context) ([]map[string]interface{}, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return nil, false
+	} else {
+		i, err := Jsong.JArrayObject(in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should be a Json-ArrayObject", key+" should be a Json-ArrayObject"))
+			c.Abort()
+			return nil, false
+		}
+		return i, true
+	}
+}
