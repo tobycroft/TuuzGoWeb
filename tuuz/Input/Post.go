@@ -2,6 +2,7 @@ package Input
 
 import (
 	"github.com/gin-gonic/gin"
+	jsoniter "github.com/json-iterator/go"
 	"html/template"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
@@ -148,5 +149,23 @@ func PostArrayObject(key string, c *gin.Context) ([]map[string]interface{}, bool
 			return nil, false
 		}
 		return i, true
+	}
+}
+
+func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return false
+	} else {
+		var json = jsoniter.ConfigCompatibleWithStandardLibrary
+		err := json.Unmarshal([]byte(in), &AnyType)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should be a Json-AnyType", key+" should be a Json-AnyType"))
+			c.Abort()
+			return false
+		}
+		return true
 	}
 }
