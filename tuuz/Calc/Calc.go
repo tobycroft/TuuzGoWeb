@@ -124,3 +124,8 @@ func Round(x float64, decimal int) float64 {
 	n := math.Pow10(decimal)
 	return math.Trunc((x+0.5/n)*n) / n
 }
+
+func Decimal(x float64, decimal int) string {
+	value := strconv.FormatFloat(x, 'f', decimal, 64)
+	return value
+}
