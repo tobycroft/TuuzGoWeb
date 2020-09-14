@@ -119,3 +119,8 @@ func Hexdec(str string) (int64, error) {
 func Transfer2Eth(value float64, decimal int) float64 {
 	return value / math.Pow10(Any2Int(decimal))
 }
+
+func Round(x float64, decimal int) float64 {
+	n := math.Pow10(decimal)
+	return math.Trunc((x+0.5/n)*n) / n
+}
