@@ -15,3 +15,11 @@ func ParseSlice(data interface{}) ([]interface{}, error) {
 	}
 	return JArray(ret)
 }
+
+func ParseArrayObject(data interface{}) ([]map[string]interface{}, error) {
+	ret, err := Encode(data)
+	if err != nil {
+		return nil, err
+	}
+	return JArrayObject(ret)
+}
