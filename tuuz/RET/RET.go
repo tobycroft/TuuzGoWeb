@@ -12,12 +12,37 @@ func Json(data interface{}) string {
 }
 
 func Success(c *gin.Context, code int, data, echo interface{}) {
+	if echo == nil {
+		echo = "成功"
+	}
+	switch echo.(type) {
+	case error:
+		echo = echo.(error).Error()
+		break
+	default:
+		break
+	}
+	if data == nil {
+		data = []interface{}{}
+	}
 	c.JSON(Ret_succ(code, data, echo))
 	c.Abort()
 	return
 }
 
 func Fail(c *gin.Context, code int, data, echo interface{}) {
+	if echo == nil {
+		switch code {
+
+		case 404:
+			echo = "未找到数据"
+			break
+
+		default:
+			echo = "失败"
+			break
+		}
+	}
 	Success(c, code, data, echo)
 	return
 }
@@ -28,7 +53,10 @@ func Ret_succ(code int, data, echo interface{}) (int, map[string]interface{}) {
 	if code == 0 {
 		ret_code = 200
 	} else {
-		ret_code = code
+		ret_code = 200
+	}
+	if data == nil {
+		data = []interface{}{}
 	}
 	ret["code"] = code
 	ret["data"] = data
