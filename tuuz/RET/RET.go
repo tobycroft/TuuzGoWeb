@@ -34,8 +34,20 @@ func Fail(c *gin.Context, code int, data, echo interface{}) {
 	if echo == nil {
 		switch code {
 
+		case 400:
+			echo = "参数错误"
+			break
+
+		case 403:
+			echo = "权限不足"
+			break
+
 		case 404:
 			echo = "未找到数据"
+			break
+
+		case 500:
+			echo = "数据库错误"
 			break
 
 		default:
