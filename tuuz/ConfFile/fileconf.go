@@ -6,6 +6,7 @@ func Load(section, key string) (string, error) {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	value, err := cfg.GetValue(section, key)
 	if err != nil {
+		SaveConf(section, key, "")
 		return "", err
 	} else {
 		return value, nil
