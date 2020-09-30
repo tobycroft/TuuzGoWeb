@@ -1,6 +1,8 @@
 package Calc
 
-import "github.com/shopspring/decimal"
+import (
+	"github.com/shopspring/decimal"
+)
 
 func todecimal(number interface{}) decimal.Decimal {
 	switch number.(type) {
@@ -25,6 +27,9 @@ func todecimal(number interface{}) decimal.Decimal {
 			return decimal.NewFromInt(0)
 		}
 		return ret
+
+	case decimal.Decimal:
+		return number.(decimal.Decimal)
 
 	default:
 		return decimal.NewFromFloat(Any2Float64(number))
