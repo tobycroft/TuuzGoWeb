@@ -31,6 +31,10 @@ func todecimal(number interface{}) decimal.Decimal {
 	}
 }
 
+func Bc_add(num1, num2 interface{}) decimal.Decimal {
+	return Bc_sum(num1, num2)
+}
+
 func Bc_sum(num1, num2 interface{}) decimal.Decimal {
 	return todecimal(num1).Add(todecimal(num2))
 }
