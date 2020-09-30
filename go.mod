@@ -3,6 +3,7 @@ module main.go
 go 1.14
 
 require (
+	github.com/Unknwon/goconfig v0.0.0-20200908083735-df7de6a44db8 // indirect
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
 	github.com/bitly/go-simplejson v0.5.1-0.20200416141419-39a59b1b2866
 	github.com/gin-contrib/cors v1.3.2-0.20200402113712-0223cb87b2c4

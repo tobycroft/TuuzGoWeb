@@ -2,6 +2,16 @@ package ConfFile
 
 import "github.com/Unknwon/goconfig"
 
+func Load(section, key string) (string, error) {
+	cfg, err := goconfig.LoadConfigFile("conf.ini")
+	value, err := cfg.GetValue(section, key)
+	if err != nil {
+		return "", err
+	} else {
+		return value, nil
+	}
+}
+
 func LoadSec(section string) map[string]string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	value, err := cfg.GetSection(section)
