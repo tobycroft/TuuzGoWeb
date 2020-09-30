@@ -2,14 +2,18 @@ package ConfFile
 
 import "github.com/Unknwon/goconfig"
 
-func Load(section, key string) (string, error) {
+func Load(section, key string) string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
+	if err != nil {
+		SaveConf(section, key, "")
+		return ""
+	}
 	value, err := cfg.GetValue(section, key)
 	if err != nil {
 		SaveConf(section, key, "")
-		return "", err
+		return ""
 	} else {
-		return value, nil
+		return value
 	}
 }
 
