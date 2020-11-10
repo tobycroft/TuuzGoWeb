@@ -102,6 +102,15 @@ func InArrayInt(str int, haystack []int) bool {
 	return false
 }
 
+func InArrayInt64(str int64, haystack []int64) bool {
+	for _, v := range haystack {
+		if str == v {
+			return true
+		}
+	}
+	return false
+}
+
 func InArrayString(str string, haystack []string) bool {
 	for _, v := range haystack {
 		if str == v {
@@ -114,4 +123,43 @@ func InArrayString(str string, haystack []string) bool {
 func ArrayKeyExists(key interface{}, m map[interface{}]interface{}) bool {
 	_, ok := m[key]
 	return ok
+}
+
+func ArrayUnique_int64(slice []int64) []int64 {
+	n64 := []int64{}
+	for _, s1 := range slice {
+		for _, s2 := range n64 {
+			if s2 == s1 {
+				continue
+			}
+		}
+		n64 = append(n64, s1)
+	}
+	return n64
+}
+
+func ArrayUnique_float64(slice []float64) []float64 {
+	n64 := []float64{}
+	for _, s1 := range slice {
+		for _, s2 := range n64 {
+			if s2 == s1 {
+				continue
+			}
+		}
+		n64 = append(n64, s1)
+	}
+	return n64
+}
+
+func ArrayUnique_string(slice []string) []string {
+	n64 := []string{}
+	for _, s1 := range slice {
+		for _, s2 := range n64 {
+			if s2 == s1 {
+				continue
+			}
+		}
+		n64 = append(n64, s1)
+	}
+	return n64
 }
