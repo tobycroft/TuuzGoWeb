@@ -128,12 +128,16 @@ func ArrayKeyExists(key interface{}, m map[interface{}]interface{}) bool {
 func ArrayUnique_int64(slice []int64) []int64 {
 	n64 := []int64{}
 	for _, s1 := range slice {
+		temp := true
 		for _, s2 := range n64 {
 			if s2 == s1 {
-				continue
+				temp = false
+				break
 			}
 		}
-		n64 = append(n64, s1)
+		if temp {
+			n64 = append(n64, s1)
+		}
 	}
 	return n64
 }
@@ -141,12 +145,16 @@ func ArrayUnique_int64(slice []int64) []int64 {
 func ArrayUnique_float64(slice []float64) []float64 {
 	n64 := []float64{}
 	for _, s1 := range slice {
+		temp := true
 		for _, s2 := range n64 {
 			if s2 == s1 {
-				continue
+				temp = false
+				break
 			}
 		}
-		n64 = append(n64, s1)
+		if temp {
+			n64 = append(n64, s1)
+		}
 	}
 	return n64
 }
@@ -154,12 +162,16 @@ func ArrayUnique_float64(slice []float64) []float64 {
 func ArrayUnique_string(slice []string) []string {
 	n64 := []string{}
 	for _, s1 := range slice {
+		temp := true
 		for _, s2 := range n64 {
 			if s2 == s1 {
-				continue
+				temp = false
+				break
 			}
 		}
-		n64 = append(n64, s1)
+		if temp {
+			n64 = append(n64, s1)
+		}
 	}
 	return n64
 }
