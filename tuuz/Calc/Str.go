@@ -35,7 +35,7 @@ func Any2String(any interface{}) string {
 		str = Float642String(tmp)
 
 	case float32:
-		tmp := float64(any.(float32))
+		tmp := Float322Float64(any.(float32))
 		str = Float642String(tmp)
 
 	case *big.Int:
