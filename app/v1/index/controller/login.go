@@ -34,14 +34,12 @@ func initialize() gin.HandlerFunc {
 		if is == false {
 			username, is = c.GetQuery("username")
 			if is == false {
-				c.JSON(200, RET.Ret_succ(400, "username"))
-				c.Abort()
+				RET.Fail(c, 400, nil, "username")
 				return
 			}
 		}
 		if len(username) < 8 {
-			c.JSON(200, RET.Ret_succ(400, "username"))
-			c.Abort()
+			RET.Fail(c, 400, nil, "username<8")
 			return
 		}
 		password, is = c.GetPostForm("password")
@@ -70,25 +68,23 @@ func get_captcha_64(c *gin.Context) {
 	ret := make(map[string]string)
 	ret["ident"] = ident
 	ret["b64"] = b64
-	c.JSON(200, RET.Ret_succ(0, ret))
+	RET.Fail(c, 400, ret, nil)
 }
 
 func verify_captcha(c *gin.Context) {
 	ident, is := c.GetPostForm("ident")
 	if is == false {
-		c.JSON(200, RET.Ret_succ(400, "ident"))
-		c.Abort()
+		RET.Fail(c, 400, nil, "ident")
 		return
 	}
 	if is_verify == false {
-		c.JSON(200, RET.Ret_succ(400, "verify"))
-		c.Abort()
+		RET.Fail(c, 400, nil, "is_verify")
 		return
 	}
 	bol := Captcha.AutoVerify(ident, verify)
 	if bol == true {
-		c.JSON(200, RET.Ret_succ(0, "验证成功"))
+		RET.Success(c, 0, nil, "验证成功")
 	} else {
-		c.JSON(200, RET.Ret_succ(0, "验证失败"))
+		RET.Fail(c, 400, nil, "验证失败")
 	}
 }
