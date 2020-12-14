@@ -40,3 +40,12 @@ func Complex(str string, need_number bool, need_letter, need_upcase, need_lowerc
 	}
 	return true, ""
 }
+
+func Cert(cert_no string) bool {
+	ident := regexp.MustCompile(`^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$`)
+	if !ident.MatchString(cert_no) {
+		return false
+	} else {
+		return true
+	}
+}
