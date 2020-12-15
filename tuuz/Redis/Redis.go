@@ -7,6 +7,34 @@ import (
 	"main.go/tuuz/Jsong"
 )
 
+func Add(key string, value string, duration int) (interface{}, error) {
+	RRedis := Conn()
+	defer RRedis.Close()
+	str, err := Jsong.Encode(value)
+	if err != nil {
+		fmt.Println("redis set failed1json:", err)
+		return str, err
+
+	}
+	status, errs := RRedis.Do("SADD", app_conf.Project+":"+key, str, "EX", duration)
+	if errs != nil {
+		fmt.Println("redis set failed2:", errs)
+		return status, errs
+	}
+	return status, err
+}
+
+func IsMember(key, value string) bool {
+	RRedis := Conn()
+	defer RRedis.Close()
+	ismember, err := redigo.Bool(RRedis.Do("sIsMember", key, value))
+	if err != nil {
+		return false
+	} else {
+		return ismember
+	}
+}
+
 func Set(key string, value interface{}, duration int) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
@@ -78,4 +106,44 @@ func Expire(key string, duration float64) (interface{}, error) {
 		fmt.Println("err while change duration:", err)
 	}
 	return status, err
+}
+
+func Rpush(key string, value interface{}, duration interface{}) error {
+	RRedis := Conn()
+	defer RRedis.Close()
+	_, err := RRedis.Do("rPush", app_conf.Project+":"+key, value)
+	if err != nil {
+		fmt.Println("redis set fail:", err)
+	}
+	return err
+}
+
+func Lrange(key string) (interface{}, error) {
+	RRedis := Conn()
+	defer RRedis.Close()
+	data, err := RRedis.Do("LRANGE", app_conf.Project+":"+key, "0", "-1")
+	if err != nil {
+		fmt.Println("redis set fail:", err)
+	}
+	return data, err
+}
+
+func Lpop(key string) (interface{}, error) {
+	RRedis := Conn()
+	defer RRedis.Close()
+	data, err := RRedis.Do("LPOP", app_conf.Project+":"+key)
+	if err != nil {
+		fmt.Println("redis set fail:", err)
+	}
+	return data, err
+}
+
+func Lpush(key string, value interface{}) error {
+	RRedis := Conn()
+	defer RRedis.Close()
+	_, err := RRedis.Do("lPush", app_conf.Project+":"+key, value)
+	if err != nil {
+		fmt.Println("redis set fail:", err)
+	}
+	return err
 }
