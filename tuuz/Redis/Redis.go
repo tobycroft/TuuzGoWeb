@@ -88,6 +88,28 @@ func Get(key string) (interface{}, error) {
 	return ret, err
 }
 
+func GetBool(key string) (interface{}, bool) {
+	RRedis := Conn()
+	defer RRedis.Close()
+
+	status, err := RRedis.Do("GET", app_conf.Project+":"+key)
+	if err != nil {
+		//fmt.Println("redis get failed1:", err)
+		return nil, false
+	}
+	status2, err := redigo.String(status, err)
+	if err != nil {
+		//fmt.Println("redis get failed2:", err)
+		return nil, false
+	}
+	ret, err := Jsong.JToken(status2)
+	if err != nil {
+		fmt.Println("redis get failed3:", err, status2)
+		return nil, false
+	}
+	return ret, true
+}
+
 func Del(key string) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
