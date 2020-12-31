@@ -55,8 +55,12 @@ func Post(url string, queries map[string]interface{}, postData map[string]interf
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	q := ""
 	req.Transport(transport)
-	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
+	if queries != nil {
+		q = "?" + Http_build_query(queries)
+	}
+	ret, err := req.Post(url+q, postData)
 	if err != nil {
 		return "", err
 	}
