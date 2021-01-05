@@ -103,7 +103,7 @@ func Get(key string) (interface{}, error) {
 func CheckExists(key string) bool {
 	redis := Conn()
 	defer redis.Close()
-	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", "go_key"))
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
 	if err != nil {
 		return false
 	}
@@ -131,56 +131,56 @@ func GetString(key string) (string, error) {
 func GetBool(key string) (bool, error) {
 	redis := Conn()
 	defer redis.Close()
-	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
 	if !is_key_exit {
 		return false, errors.New("not exists")
 	}
 	if err != nil {
 		return false, err
 	}
-	n, err := redis.Do("GET", key)
+	n, err := redis.Do("GET", app_conf.Project+":"+key)
 	return redigo.Bool(n, err)
 }
 
 func GetInt(key string) (int, error) {
 	redis := Conn()
 	defer redis.Close()
-	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
 	if !is_key_exit {
 		return 0, errors.New("not exists")
 	}
 	if err != nil {
 		return 0, err
 	}
-	n, err := redis.Do("GET", key)
+	n, err := redis.Do("GET", app_conf.Project+":"+key)
 	return redigo.Int(n, err)
 }
 
 func GetFloat64(key string) (float64, error) {
 	redis := Conn()
 	defer redis.Close()
-	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
 	if !is_key_exit {
 		return 0, errors.New("not exists")
 	}
 	if err != nil {
 		return 0, err
 	}
-	n, err := redis.Do("GET", key)
+	n, err := redis.Do("GET", app_conf.Project+":"+key)
 	return redigo.Float64(n, err)
 }
 
 func GetAny(key string, value *interface{}) error {
 	redis := Conn()
 	defer redis.Close()
-	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
 	if !is_key_exit {
 		return errors.New("not exists")
 	}
 	if err != nil {
 		return err
 	}
-	*value, err = redis.Do("GET", key)
+	*value, err = redis.Do("GET", app_conf.Project+":"+key)
 	if err != nil {
 		return err
 	}
