@@ -56,7 +56,7 @@ func Set(key string, value interface{}, duration int) (interface{}, error) {
 func SetRaw(key string, value interface{}, duration int) error {
 	redis := Conn()
 	defer redis.Close()
-	_, err := redis.Do("SET", key, value)
+	_, err := redis.Do("SET", app_conf.Project+":"+key, value, "EX", duration)
 	if err != nil {
 		return err
 	} else {
