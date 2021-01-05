@@ -1,6 +1,7 @@
 package Redis
 
 import (
+	"errors"
 	"fmt"
 	redigo "github.com/gomodule/redigo/redis"
 	"main.go/config/app_conf"
@@ -52,6 +53,17 @@ func Set(key string, value interface{}, duration int) (interface{}, error) {
 	return status, err
 }
 
+func SetRaw(key string, value interface{}, duration int) error {
+	redis := Conn()
+	defer redis.Close()
+	_, err := redis.Do("SET", key, value)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
+}
+
 func Set_permenent(key string, value interface{}) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()
@@ -88,26 +100,86 @@ func Get(key string) (interface{}, error) {
 	return ret, err
 }
 
-func GetBool(key string) (interface{}, bool) {
-	RRedis := Conn()
-	defer RRedis.Close()
+func CheckExists(key string) bool {
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", "go_key"))
+	if err != nil {
+		fmt.Println("err while checking keys:", err)
+	} else {
+		fmt.Println(is_key_exit)
+	}
+}
 
-	status, err := RRedis.Do("GET", app_conf.Project+":"+key)
-	if err != nil {
-		//fmt.Println("redis get failed1:", err)
-		return nil, false
+func GetString(key string) (string, error) {
+	redis := Conn()
+	defer redis.Close()
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", app_conf.Project+":"+key))
+	if !is_key_exit {
+		return "", errors.New("not exists")
 	}
-	status2, err := redigo.String(status, err)
 	if err != nil {
-		//fmt.Println("redis get failed2:", err)
-		return nil, false
+		return "", err
 	}
-	ret, err := Jsong.JToken(status2)
+	n, err := redis.Do("GET", app_conf.Project+":"+key)
+	return redigo.String(n, err)
+}
+
+func GetBool(key string) (bool, error) {
+	redis := Conn()
+	defer redis.Close()
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	if !is_key_exit {
+		return false, errors.New("not exists")
+	}
 	if err != nil {
-		fmt.Println("redis get failed3:", err, status2)
-		return nil, false
+		return false, err
 	}
-	return ret, true
+	n, err := redis.Do("GET", key)
+	return redigo.Bool(n, err)
+}
+
+func GetInt(key string) (int, error) {
+	redis := Conn()
+	defer redis.Close()
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	if !is_key_exit {
+		return 0, errors.New("not exists")
+	}
+	if err != nil {
+		return 0, err
+	}
+	n, err := redis.Do("GET", key)
+	return redigo.Int(n, err)
+}
+
+func GetFloat64(key string) (float64, error) {
+	redis := Conn()
+	defer redis.Close()
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	if !is_key_exit {
+		return 0, errors.New("not exists")
+	}
+	if err != nil {
+		return 0, err
+	}
+	n, err := redis.Do("GET", key)
+	return redigo.Float64(n, err)
+}
+
+func GetAny(key string, value *interface{}) error {
+	redis := Conn()
+	defer redis.Close()
+	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", key))
+	if !is_key_exit {
+		return errors.New("not exists")
+	}
+	if err != nil {
+		return err
+	}
+	*value, err = redis.Do("GET", key)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func Del(key string) (interface{}, error) {
