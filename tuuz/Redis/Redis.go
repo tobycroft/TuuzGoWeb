@@ -101,11 +101,16 @@ func Get(key string) (interface{}, error) {
 }
 
 func CheckExists(key string) bool {
+	redis := Conn()
+	defer redis.Close()
 	is_key_exit, err := redigo.Bool(redis.Do("EXISTS", "go_key"))
 	if err != nil {
-		fmt.Println("err while checking keys:", err)
+		return false
+	}
+	if is_key_exit {
+		return true
 	} else {
-		fmt.Println(is_key_exit)
+		return false
 	}
 }
 
