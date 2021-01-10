@@ -1,5 +1,7 @@
 package Input
 
+import "strings"
+
 func Fliter_Ascii(json_string string) string {
 	originStr := json_string
 
@@ -21,4 +23,8 @@ func Fliter_Ascii(json_string string) string {
 	}
 
 	return string(dstRunes)
+}
+
+func Fliter_error_encode(json_string string) string {
+	return strings.ReplaceAll(json_string, "\\'", "'")
 }
