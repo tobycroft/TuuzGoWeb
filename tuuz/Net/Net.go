@@ -29,11 +29,28 @@ func init() {
 	}
 }
 
-func Rpc(url string, postData map[string]interface{}, username, password string) (string, error) {
+func Rpc(url string, postData interface{}, username, password string) (string, error) {
 	req := Request()
 	header := map[string]string{"Content-type": "application/json"}
 	req.SetHeaders(header)
 	req.SetBasicAuth(username, password)
+	req.SetTimeout(5 * time.Second)
+	req.DisableKeepAlives(true)
+	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	req.Transport(transport)
+	ret, err := req.Post(url, postData)
+	body, err := ret.Content()
+	if err != nil {
+		return "", err
+	} else {
+		return body, err
+	}
+}
+
+func PostRaw(url string, postData interface{}) (string, error) {
+	req := Request()
+	header := map[string]string{"Content-type": "application/json"}
+	req.SetHeaders(header)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
 	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
