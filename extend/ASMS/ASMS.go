@@ -31,7 +31,7 @@ func Sms_single(phone interface{}, quhao, code interface{}) error {
 		"text":  code,
 		"ts":    ts,
 		"name":  name,
-		"sign":  Calc.Md5(Calc.Any2String(ts) + token),
+		"sign":  Calc.Md5(token + Calc.Any2String(ts)),
 	}
 	ret, err := Net.Post(url+"/asms/send", nil, param, nil, nil)
 	if err != nil {
