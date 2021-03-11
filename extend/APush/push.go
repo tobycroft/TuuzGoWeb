@@ -33,9 +33,9 @@ import (
  *
 */
 
-const token = "token"
+const token = "gochat"
 
-const url = "http://push.t1.tuuz.cc"
+const url = "http://push.tuuz.cc:10080"
 
 func Push_single(uid interface{}, content, title, extra interface{}) error {
 	users, err := Jsong.Encode([]interface{}{uid})
