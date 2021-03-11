@@ -18,10 +18,10 @@ import (
  *
  */
 
-const name = "name"
-const token = "token"
+const name = "test"
+const token = "test"
 
-const url = "http://sms.tuuz.ltd:81"
+const url = "http://asms.tuuz.cc:10081"
 
 func Sms_single(phone interface{}, quhao, code interface{}) error {
 	ts := time.Now().Unix()
@@ -34,6 +34,7 @@ func Sms_single(phone interface{}, quhao, code interface{}) error {
 		"sign":  Calc.Md5(token + Calc.Any2String(ts)),
 	}
 	ret, err := Net.Post(url+"/asms/send", nil, param, nil, nil)
+	//fmt.Println(ret, err)
 	if err != nil {
 		return err
 	} else {
@@ -44,7 +45,7 @@ func Sms_single(phone interface{}, quhao, code interface{}) error {
 			if rtt["code"].(float64) == 0 {
 				return nil
 			} else {
-				return errors.New(Calc.Any2String(rtt["data"]))
+				return errors.New(Calc.Any2String(rtt["echo"]))
 			}
 		}
 	}
