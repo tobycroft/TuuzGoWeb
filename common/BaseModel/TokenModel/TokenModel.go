@@ -34,6 +34,7 @@ func Api_delete_byType(uid, Type interface{}) bool {
 	if err != nil {
 		Log.Dbrr(err, tuuz.FUNCTION_ALL())
 		return false
+
 	} else {
 		return true
 	}
