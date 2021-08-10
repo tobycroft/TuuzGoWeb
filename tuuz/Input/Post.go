@@ -3,6 +3,7 @@ package Input
 import (
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
+	"github.com/shopspring/decimal"
 	"html/template"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
@@ -72,6 +73,23 @@ func PostFloat64(key string, c *gin.Context) (float64, bool) {
 			return 0, false
 		}
 		return i, true
+	}
+}
+
+func PostDecimal(key string, c *gin.Context) (decimal.Decimal, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return decimal.Zero, false
+	} else {
+		ret, err := decimal.NewFromString(in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should be a Number", key+" should be a Number"))
+			c.Abort()
+			return decimal.Zero, false
+		}
+		return ret, true
 	}
 }
 

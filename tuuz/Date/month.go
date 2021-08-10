@@ -57,7 +57,7 @@ func Today() string {
 }
 
 func Today_int() int64 {
-	return Date2Int(Today())
+	return Datetime2Int(Today())
 }
 
 func Yesterday() string {

@@ -15,5 +15,5 @@ func GenerateToken() string {
 func GenerateOrderId() string {
 	rand := Mt_rand(0, 99999999)
 	str := Int642String(time.Now().UnixNano())
-	return time.Now().Format("D20060102T15:04:05U" + str + Int642String(rand))
+	return time.Now().Format("D20060102T15:04:05U" + str + "R" + Int642String(rand))
 }
