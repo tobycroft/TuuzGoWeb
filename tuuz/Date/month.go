@@ -70,3 +70,14 @@ func Yesterday() string {
 func Yesterday_int() int64 {
 	return Date2Int(Yesterday())
 }
+
+func WeekBefore() string {
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, 0, -7).Format("2006-01-02")
+	return monthOneDay
+}
+
+func WeekBefore_int() int64 {
+	return Date2Int(ThisWeek())
+}
