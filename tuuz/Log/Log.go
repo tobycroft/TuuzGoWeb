@@ -18,31 +18,47 @@ func Write(file_name string, logs string, discript string, other string) {
 }
 
 func Error(file_name string, err error) {
-	Write(file_name, "", "", err.Error())
+	if err != nil {
+		Write(file_name, "", "", err.Error())
+	}
 }
 
 func Err(err error) {
-	Write("Error", "", "", err.Error())
+	if err != nil {
+		Write("Error", "", "", err.Error())
+	}
 }
 
 func Errs(err error, log string) {
-	Write("Error", log, "", err.Error())
+	fmt.Println(log, err)
+	if err != nil {
+		Write("Error", log, "", err.Error())
+	}
 }
 
 //Database err
 func Drr(err error) {
-	Write("Database", "", "", err.Error())
+	if err != nil {
+		Write("Database", "", "", err.Error())
+	}
 }
 
 func Crr(logs error) {
-	Write("Common", "", "", logs.Error())
+	if logs != nil {
+		Write("Common", "", "", logs.Error())
+	}
 }
 
 func Crrs(logs error, discript string) {
-	Write("Common", "", discript, logs.Error())
+	fmt.Println(logs, discript)
+	if logs != nil {
+		Write("Common", "", discript, logs.Error())
+	}
 }
 
 func Dbrr(err error, log string) {
-	fmt.Println(err.Error())
-	Write("Dberror", log, "", err.Error())
+	fmt.Println(err, log)
+	if err != nil {
+		Write("Dberror", log, "", err.Error())
+	}
 }
