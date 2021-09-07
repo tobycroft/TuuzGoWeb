@@ -1,7 +1,6 @@
 package SystemParamModel
 
 import (
-	"github.com/tobycroft/gorose_pro"
 	"main.go/tuuz"
 	"main.go/tuuz/Log"
 )

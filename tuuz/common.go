@@ -1,7 +1,6 @@
 package tuuz
 
 import (
-	"github.com/tobycroft/gorose_pro"
 	"main.go/tuuz/Preg"
 	"main.go/tuuz/database"
 	"runtime"
