@@ -100,8 +100,10 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/stretchr/testify v1.5.1 h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=
 github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
-github.com/tobycroft/gorose v1.2.1 h1:cptddP1oDWQAlgxO1K+vTl2hyUw/Dtj5JU3UUdlFvgI=
-github.com/tobycroft/gorose v1.2.1/go.mod h1:iMiqEhOl6iTQzHhd+NyvmblFSHcTDIm3fJETQOcBTfE=
+github.com/tobycroft/gorose_pro v1.2.1 h1:cptddP1oDWQAlgxO1K+vTl2hyUw/Dtj5JU3UUdlFvgI=
+github.com/tobycroft/gorose_pro v1.2.1/go.mod h1:iMiqEhOl6iTQzHhd+NyvmblFSHcTDIm3fJETQOcBTfE=
+github.com/tobycroft/gorose_pro v1.2.4 h1:C1akA4b/TNicDhCPiAbhmPHpHnK8yXKnxyyW61+iqN4=
+github.com/tobycroft/gorose_pro v1.2.4/go.mod h1:R07aS3gj7Jnj6KOE2VyFOFTC7+mHl3Kd5llikf9znj0=
 github.com/ugorji/go v1.1.7 h1:/68gy2h+1mWMrwZFeD1kQialdSzAb432dtpeJ42ovdo=
 github.com/ugorji/go v1.1.7/go.mod h1:kZn38zHttfInRq0xu/PH0az30d+z6vm202qpg1oXVMw=
 github.com/ugorji/go/codec v1.1.7 h1:2SvQaVZ1ouYrrKKwoSk2pzd4A9evlKJb9oTL+OaLUSs=

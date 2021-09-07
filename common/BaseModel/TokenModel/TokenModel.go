@@ -1,7 +1,7 @@
 package TokenModel
 
 import (
-	"github.com/tobycroft/gorose"
+	"github.com/tobycroft/gorose_pro"
 	"main.go/tuuz"
 	"main.go/tuuz/Log"
 )

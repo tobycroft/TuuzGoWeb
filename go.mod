@@ -17,6 +17,6 @@ require (
 	github.com/kirinlabs/HttpRequest v1.1.1
 	github.com/shopspring/decimal v1.2.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
-	github.com/tobycroft/gorose v1.2.1
+	github.com/tobycroft/gorose_pro v1.2.4
 	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
 )
