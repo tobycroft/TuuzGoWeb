@@ -10,8 +10,6 @@ require (
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/gohouse/converter v0.0.3 // indirect
-	github.com/gohouse/gorose v1.0.5
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/gomodule/redigo v1.8.5
 	github.com/gorilla/websocket v1.4.2
