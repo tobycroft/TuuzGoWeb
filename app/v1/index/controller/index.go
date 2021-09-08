@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/tobycroft/gorose-pro"
 )
 
 func IndexController(route *gin.RouterGroup) {
