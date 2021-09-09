@@ -10,6 +10,6 @@ func IndexRouter(route *gin.RouterGroup) {
 		context.String(0, route.BasePath())
 	})
 
-	controller.IndexController(route.Group("/index"))
-	controller.LoginController(route.Group("/login"))
+	controller.IndexController(route.Group("index"))
+	controller.LoginController(route.Group("login"))
 }

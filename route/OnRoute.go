@@ -16,7 +16,7 @@ func OnRoute(router *gin.Engine) {
 		version1.Any("/", func(context *gin.Context) {
 			context.String(0, version1.BasePath())
 		})
-		index := version1.Group("/index")
+		index := version1.Group("index")
 		{
 			v1.IndexRouter(index)
 		}

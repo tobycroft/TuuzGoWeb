@@ -14,9 +14,9 @@ import (
 func LoginController(route *gin.RouterGroup) {
 	route.Use(cors.Default())
 
-	route.Any("/get_captcha", get_captcha)
-	route.Any("/get_captcha_64", get_captcha_64)
-	route.Any("/verify_captcha", verify_captcha)
+	route.Any("get_captcha", get_captcha)
+	route.Any("get_captcha_64", get_captcha_64)
+	route.Any("verify_captcha", verify_captcha)
 }
 
 func get_captcha(c *gin.Context) {
