@@ -15,12 +15,12 @@ func Length(str string, minlen int, maxlen int) error {
 	return nil
 }
 
-func Complex(str string, need_number bool, need_letter, need_upcase, need_lowercase bool) (bool, string) {
+func Complex(str string, need_number bool, need_letter, need_upcase, need_lowercase bool) error {
 	if need_number {
 		number := `[0-9]`
 		number_x := regexp.MustCompile(number)
 		if !number_x.MatchString(str) {
-			return false, "\"" + str + "\"" + "需要包含字符"
+			return errors.New("\"" + str + "\"" + "需要包含字符")
 		}
 	}
 	if need_letter {
@@ -28,18 +28,18 @@ func Complex(str string, need_number bool, need_letter, need_upcase, need_lowerc
 			up := `[A-Z]`
 			up_x := regexp.MustCompile(up)
 			if !up_x.MatchString(str) {
-				return false, "\"" + str + "\"" + "需要包含小写字符"
+				return errors.New("\"" + str + "\"" + "需要包含小写字符")
 			}
 		}
 		if need_lowercase {
 			low := `[a-z]`
 			low_x := regexp.MustCompile(low)
 			if !low_x.MatchString(str) {
-				return false, "\"" + str + "\"" + "需要包含大写字符"
+				return errors.New("\"" + str + "\"" + "需要包含大写字符")
 			}
 		}
 	}
-	return true, ""
+	return nil
 }
 
 func Cert(cert_no string) bool {
