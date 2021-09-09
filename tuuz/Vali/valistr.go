@@ -1,17 +1,18 @@
 package Vali
 
 import (
+	"errors"
 	"regexp"
 )
 
-func Length(str string, minlen int, maxlen int) (bool, string) {
+func Length(str string, minlen int, maxlen int) error {
 	if len(str) > maxlen {
-		return false, "长度需要小于" + any2string(maxlen)
+		return errors.New("长度需要小于" + any2string(maxlen))
 	}
 	if len(str) < minlen {
-		return false, "长度需要大于" + any2string(minlen)
+		return errors.New("长度需要大于" + any2string(minlen))
 	}
-	return true, ""
+	return nil
 }
 
 func Complex(str string, need_number bool, need_letter, need_upcase, need_lowercase bool) (bool, string) {
