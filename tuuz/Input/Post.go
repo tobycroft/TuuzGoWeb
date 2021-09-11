@@ -1,6 +1,7 @@
 package Input
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
@@ -186,4 +187,16 @@ func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
 		}
 		return true
 	}
+}
+
+func PostLimitPage(c *gin.Context) (int, int, error) {
+	limit, ok := PostInt("limit", c)
+	if !ok {
+		return 0, 0, errors.New("limit")
+	}
+	page, ok := PostInt("page", c)
+	if !ok {
+		return 0, 0, errors.New("page")
+	}
+	return limit, page, nil
 }
