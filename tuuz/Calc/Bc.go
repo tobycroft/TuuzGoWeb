@@ -4,6 +4,10 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+func ToDecimal(number interface{}) decimal.Decimal {
+	return todecimal(number)
+}
+
 func todecimal(number interface{}) decimal.Decimal {
 	switch number.(type) {
 	case int:
