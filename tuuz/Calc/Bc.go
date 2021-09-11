@@ -28,7 +28,7 @@ func todecimal(number interface{}) decimal.Decimal {
 	case string:
 		ret, err := decimal.NewFromString(number.(string))
 		if err != nil {
-			return decimal.NewFromInt(0)
+			return decimal.Zero
 		}
 		return ret
 
