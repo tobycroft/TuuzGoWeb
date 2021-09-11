@@ -20,7 +20,7 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 			break
 
 		case -1:
-			echo = "登录信息失效"
+			echo = "登录失效请重新登录"
 			break
 
 		case 400:
