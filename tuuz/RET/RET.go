@@ -19,12 +19,24 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 			echo = "成功"
 			break
 
+		case -1:
+			echo = "登录信息失效"
+			break
+
 		case 400:
 			echo = "参数错误"
 			break
 
+		case 401:
+			echo = "鉴权失败"
+			break
+
 		case 403:
 			echo = "权限不足"
+			break
+
+		case 406, 407:
+			echo = "数据不符合期待"
 			break
 
 		case 404:
@@ -56,7 +68,6 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 }
 
 func Fail(c *gin.Context, code int, data, echo interface{}) {
-
 	Success(c, code, data, echo)
 	return
 }
