@@ -35,6 +35,9 @@ func todecimal(number interface{}) decimal.Decimal {
 	case decimal.Decimal:
 		return number.(decimal.Decimal)
 
+	case nil:
+		return decimal.Zero
+
 	default:
 		return decimal.NewFromFloat(Any2Float64(number))
 	}
