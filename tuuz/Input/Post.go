@@ -10,6 +10,7 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
+	"strings"
 )
 
 func Post(key string, c *gin.Context, xss bool) (string, bool) {
@@ -212,6 +213,8 @@ func PostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
 		if Array.InArrayString(in, str_slices) {
 			return in, true
 		} else {
+			c.JSON(RET.Ret_fail(407, key+" 's data should in ["+strings.Join(str_slices, ",")+"]", key+" 's data should in ["+strings.Join(str_slices, ",")+"]"))
+			c.Abort()
 			return in, false
 		}
 	}
