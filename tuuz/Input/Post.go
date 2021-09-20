@@ -6,6 +6,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"html/template"
+	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
@@ -199,4 +200,19 @@ func PostLimitPage(c *gin.Context) (int, int, error) {
 		return 0, 0, errors.New("page")
 	}
 	return limit, page, nil
+}
+
+func PostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return "", false
+	} else {
+		if Array.InArrayString(in, str_slices) {
+			return in, true
+		} else {
+			return in, false
+		}
+	}
 }
