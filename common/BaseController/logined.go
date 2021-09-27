@@ -13,13 +13,15 @@ func LoginedController() gin.HandlerFunc {
 		c.Header("S-P-I", c.ClientIP())
 		c.Header("S-P-P", app_conf.Project)
 		c.Header("S-P-M", app_conf.AppMode)
-		uid, ok := Input.Post("uid", c, false)
+		uid, ok := c.GetPostForm("uid")
 		if !ok {
+			c.JSON(RET.Ret_fail(-1, nil, "POST-[uid]"))
 			c.Abort()
 			return
 		}
-		token, ok := Input.Post("token", c, false)
+		token, ok := c.GetPostForm("token")
 		if !ok {
+			c.JSON(RET.Ret_fail(-1, nil, "POST-[token]"))
 			c.Abort()
 			return
 		}

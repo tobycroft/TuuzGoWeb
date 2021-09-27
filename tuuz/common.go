@@ -1,16 +1,13 @@
 package tuuz
 
 import (
+	"github.com/tobycroft/gorose-pro"
 	"main.go/tuuz/Preg"
 	"main.go/tuuz/database"
 	"runtime"
 )
 
 func Db() gorose.IOrm {
-	return DB()
-}
-
-func DB() gorose.IOrm {
 	return database.Database.NewOrm()
 }
 
