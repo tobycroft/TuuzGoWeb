@@ -6,7 +6,7 @@ import (
 	"main.go/tuuz/Log"
 )
 
-const table = "cq_token"
+const table = "token"
 
 func Api_delete(uid interface{}) bool {
 	db := tuuz.Db().Table(table)
@@ -44,7 +44,7 @@ func Api_insert(uid, token, Type interface{}) bool {
 	data := map[string]interface{}{
 		"uid":   uid,
 		"token": token,
-		"Type":  Type,
+		"type":  Type,
 	}
 	db.Data(data)
 	_, err := db.Insert()
@@ -77,7 +77,7 @@ func Api_find_type(uid, token, Type interface{}) gorose.Data {
 	where := map[string]interface{}{
 		"uid":   uid,
 		"token": token,
-		"Type":  Type,
+		"type":  Type,
 	}
 	db.Where(where)
 	ret, err := db.First()

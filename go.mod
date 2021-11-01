@@ -13,8 +13,8 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/json-iterator/go v1.1.12
 	github.com/kirinlabs/HttpRequest v1.1.1
-	github.com/shopspring/decimal v1.2.0
-	github.com/tobycroft/gorose-pro v1.2.7
+	github.com/shopspring/decimal v1.3.1
+	github.com/tobycroft/gorose-pro v1.2.9
 )
 
 require (
@@ -33,10 +33,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
-	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
-	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
-	golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect
+	golang.org/x/sys v0.0.0-20211031064116-611d5d643895 // indirect
+	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
