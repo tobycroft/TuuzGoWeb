@@ -6,7 +6,7 @@ TuuzGoWeb基于Gin，四层写法，Gorose数据库，离合transaction写法
 
 # Gorose-Pro
 
-GorosePro为TuuzGoWeb的ORM支持，可用于复杂的nested transaction场景
+GorosePro为TuuzGoWeb的ORM支持，支持nested transaction，对复杂逻辑下的解耦有非常重要的帮助
 
 
 # TGW目录说明
