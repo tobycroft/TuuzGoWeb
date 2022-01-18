@@ -24,7 +24,7 @@ func Send(host, user, password, to, title, content string) error {
 	return err
 }
 
-func (mail *Mailer) Send() error {
+func (mail *Mailer) SendMail() error {
 	auth := smtp.PlainAuth("", mail.User, mail.Password, mail.Host)
 	content_type := "Content-Type: text/plain" + "; charset=UTF-8"
 
