@@ -1,8 +1,9 @@
 # TuuzGoWeb
-TuuzGoWeb基于Gin，四层写法，Gorose数据库，离合transaction写法
+TuuzGoWeb基于Gin，四层写法，Gorose-Pro数据库，支持NestedTransaction
 
+框架结构参考Thinkphp，极大降低上手难度
 
-基于TuuzGo开发脚手架，要不是go语言err！=nil不然开发效率就能更高了，C#是真好……加上dynamic类型，感觉用起来比interface{}舒服
+采用静态路由安全性好，性能高
 
 # Gorose-Pro
 
