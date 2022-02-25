@@ -8,7 +8,7 @@ import (
 const table = "logs"
 
 func Api_insert(discript string, log string) bool {
-	db := tuuz.DB().Table(table)
+	db := tuuz.Db().Table(table)
 	data := make(map[string]interface{})
 	data["log"] = log
 	data["discript"] = discript
