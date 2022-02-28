@@ -10,3 +10,5 @@ const SecureJson = false
 const SecureJsonPrefix = "tuuzgoweb"
 
 const FileSavePath = "./public"
+const FileDirectlySaveToPath = false
+const FilePathCreateByDate = true
