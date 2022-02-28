@@ -9,5 +9,5 @@ const WebsocketKey = ""
 const SecureJson = false
 const SecureJsonPrefix = "tuuzgoweb"
 
-const FileSavePath = "./public"
+const FileSavePath = "public"
 const FilePathCreateByDate = true

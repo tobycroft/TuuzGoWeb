@@ -9,8 +9,10 @@ import (
 	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
+	"main.go/tuuz/Date"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -237,9 +239,11 @@ func PostFile(c *gin.Context) (File, bool) {
 	}
 	filename := filepath.Base(file.Filename)
 	if app_conf.FilePathCreateByDate {
-		err = c.SaveUploadedFile(file, app_conf.FileSavePath+filename)
+		pathmake(app_conf.FileSavePath + "/" + Date.ThisMonthCombine())
+		err = c.SaveUploadedFile(file, app_conf.FileSavePath+"/"+Date.ThisMonthCombine()+"/"+filename)
 	} else {
-		err = c.SaveUploadedFile(file, app_conf.FileSavePath+filename)
+		pathmake(app_conf.FileSavePath)
+		err = c.SaveUploadedFile(file, app_conf.FileSavePath+"/"+filename)
 	}
 	if err != nil {
 		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[file]:"+err.Error()))
@@ -251,4 +255,16 @@ func PostFile(c *gin.Context) (File, bool) {
 		FileName: filename,
 		Size:     file.Size,
 	}, true
+}
+
+func pathmake(path string) error {
+	_, err := os.Stat(path)
+	if err == nil {
+		return nil
+	}
+	if os.IsNotExist(err) {
+		err := os.Mkdir(path, os.ModePerm)
+		return err
+	}
+	return err
 }
