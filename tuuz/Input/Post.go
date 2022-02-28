@@ -6,6 +6,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"html/template"
+	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
@@ -235,7 +236,12 @@ func PostFile(c *gin.Context) (File, bool) {
 		return File{}, false
 	}
 	filename := filepath.Base(file.Filename)
-	if err := c.SaveUploadedFile(file, filename); err != nil {
+	if app_conf.FileDirectlySaveToPath {
+		err = c.SaveUploadedFile(file, filename)
+	} else {
+		err = c.SaveUploadedFile(file, filename)
+	}
+	if err != nil {
 		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[\"File\"-Error]:"+err.Error()))
 		c.Abort()
 		return File{}, false

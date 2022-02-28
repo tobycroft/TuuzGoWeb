@@ -1,13 +1,16 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/gorose-pro"
+	"main.go/tuuz/Input"
 )
 
 func IndexController(route *gin.RouterGroup) {
 	route.Any("", index)
 	route.Any("login", loginss)
+	route.Any("upload", upload)
 	route.Any("register")
 }
 
@@ -23,4 +26,12 @@ func loginss(c *gin.Context) {
 	json["password"] = password
 	gorose.Open()
 	c.JSON(0, json)
+}
+
+func upload(c *gin.Context) {
+	file, ok := Input.PostFile(c)
+	if !ok {
+		return
+	}
+	fmt.Println(file)
 }
