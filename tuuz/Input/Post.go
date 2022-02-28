@@ -240,7 +240,9 @@ func PostFile(c *gin.Context) (File, bool) {
 	filename := filepath.Base(file.Filename)
 	ext := filepath.Ext(file.Filename)
 	var path string
-	if app_conf.FilePathCreateByDate {
+	if app_conf.FilePathCreateByDay {
+		path = app_conf.FileSavePath + "/" + Date.TodayCombine() + "/"
+	} else if app_conf.FilePathCreateByDate {
 		path = app_conf.FileSavePath + "/" + Date.ThisMonthCombine() + "/"
 	} else {
 		path = app_conf.FileSavePath + "/"
@@ -273,7 +275,7 @@ func pathmake(path string) error {
 		return nil
 	}
 	if os.IsNotExist(err) {
-		err := os.Mkdir(path, os.ModePerm)
+		err = os.MkdirAll(path, os.ModePerm)
 		return err
 	}
 	return err

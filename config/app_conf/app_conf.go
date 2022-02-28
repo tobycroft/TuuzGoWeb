@@ -11,4 +11,5 @@ const SecureJsonPrefix = "tuuzgoweb"
 
 const FileSavePath = "public"
 const FilePathCreateByDate = true
+const FilePathCreateByDay = true
 const FileNameSecurity = true //this will turn original file name into MD5 to avoid path attack

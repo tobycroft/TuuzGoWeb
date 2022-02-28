@@ -10,6 +10,10 @@ func ThisMonthCombine() string {
 	return time.Now().Format("200601")
 }
 
+func TodayCombine() string {
+	return time.Now().Format("20060102")
+}
+
 func LastMonth() string {
 	return time.Now().Format("2006-03")
 }
