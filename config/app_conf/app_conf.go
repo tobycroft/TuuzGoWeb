@@ -8,3 +8,5 @@ const WebsocketKey = ""
 
 const SecureJson = false
 const SecureJsonPrefix = "tuuzgoweb"
+
+const FileSavePath = "./public"

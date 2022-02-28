@@ -10,6 +10,7 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
+	"path/filepath"
 	"strings"
 )
 
@@ -218,4 +219,30 @@ func PostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
 			return in, false
 		}
 	}
+}
+
+type File struct {
+	Path     string
+	FileName string
+	Size     int64
+}
+
+func PostFile(c *gin.Context) (File, bool) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(RET.Ret_fail(400, "File Upload Error", "POST-[\"File\"-Error]:"+err.Error()))
+		c.Abort()
+		return File{}, false
+	}
+	filename := filepath.Base(file.Filename)
+	if err := c.SaveUploadedFile(file, filename); err != nil {
+		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[\"File\"-Error]:"+err.Error()))
+		c.Abort()
+		return File{}, false
+	}
+	return File{
+		Path:     file.Filename,
+		FileName: filename,
+		Size:     file.Size,
+	}, true
 }
