@@ -231,18 +231,18 @@ type File struct {
 func PostFile(c *gin.Context) (File, bool) {
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(RET.Ret_fail(400, "File Upload Error", "POST-[\"File\"-Error]:"+err.Error()))
+		c.JSON(RET.Ret_fail(400, "File Upload Error", "POST-[file]:"+err.Error()))
 		c.Abort()
 		return File{}, false
 	}
 	filename := filepath.Base(file.Filename)
-	if app_conf.FileDirectlySaveToPath {
-		err = c.SaveUploadedFile(file, filename)
+	if app_conf.FilePathCreateByDate {
+		err = c.SaveUploadedFile(file, app_conf.FileSavePath+filename)
 	} else {
-		err = c.SaveUploadedFile(file, filename)
+		err = c.SaveUploadedFile(file, app_conf.FileSavePath+filename)
 	}
 	if err != nil {
-		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[\"File\"-Error]:"+err.Error()))
+		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[file]:"+err.Error()))
 		c.Abort()
 		return File{}, false
 	}

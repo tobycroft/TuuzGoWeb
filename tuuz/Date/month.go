@@ -2,6 +2,22 @@ package Date
 
 import "time"
 
+func ThisMonth() string {
+	return time.Now().Format("2006-01")
+}
+
+func ThisMonthCombine() string {
+	return time.Now().Format("200601")
+}
+
+func LastMonth() string {
+	return time.Now().Format("2006-03")
+}
+
+func LastMonthCombine() string {
+	return time.Now().Format("200603")
+}
+
 func ThisMonth1st() string {
 	year, month, _ := time.Now().Date()
 	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
