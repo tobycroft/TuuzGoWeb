@@ -238,20 +238,30 @@ func PostFile(c *gin.Context) (File, bool) {
 		return File{}, false
 	}
 	filename := filepath.Base(file.Filename)
+	ext := filepath.Ext(file.Filename)
+	var path string
 	if app_conf.FilePathCreateByDate {
-		pathmake(app_conf.FileSavePath + "/" + Date.ThisMonthCombine())
-		err = c.SaveUploadedFile(file, app_conf.FileSavePath+"/"+Date.ThisMonthCombine()+"/"+filename)
+		path = app_conf.FileSavePath + "/" + Date.ThisMonthCombine() + "/"
 	} else {
-		pathmake(app_conf.FileSavePath)
-		err = c.SaveUploadedFile(file, app_conf.FileSavePath+"/"+filename)
+		path = app_conf.FileSavePath + "/"
 	}
+	err = pathmake(path)
+	if err != nil {
+		c.JSON(RET.Ret_fail(500, "Create Path Fail", "POST-[file]:"+err.Error()))
+		c.Abort()
+		return File{}, false
+	}
+	if app_conf.FileNameSecurity {
+		filename = Calc.Md5(filename)
+	}
+	err = c.SaveUploadedFile(file, path+filename+ext)
 	if err != nil {
 		c.JSON(RET.Ret_fail(500, "File Saved Fail", "POST-[file]:"+err.Error()))
 		c.Abort()
 		return File{}, false
 	}
 	return File{
-		Path:     file.Filename,
+		Path:     path + "/" + filename,
 		FileName: filename,
 		Size:     file.Size,
 	}, true

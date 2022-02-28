@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/gorose-pro"
 	"main.go/tuuz/Input"
-	"time"
 )
 
 func IndexController(route *gin.RouterGroup) {
@@ -30,7 +29,6 @@ func loginss(c *gin.Context) {
 }
 
 func upload(c *gin.Context) {
-	fmt.Println(time.Now().Format("200603"))
 	file, ok := Input.PostFile(c)
 	if !ok {
 		return
