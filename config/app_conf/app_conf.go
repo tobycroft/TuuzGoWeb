@@ -6,4 +6,5 @@ const TestMode = false
 const AppMode = "debug"
 const WebsocketKey = ""
 
+const SecureJson = false
 const SecureJsonPrefix = "tuuzgoweb"

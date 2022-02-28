@@ -3,6 +3,7 @@ package RET
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
 )
 
@@ -62,7 +63,11 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 	if data == nil {
 		data = []interface{}{}
 	}
-	c.JSON(Ret_succ(code, data, echo))
+	if app_conf.SecureJson {
+		c.SecureJSON(Ret_succ(code, data, echo))
+	} else {
+		c.JSON(Ret_succ(code, data, echo))
+	}
 	c.Abort()
 	return
 }
