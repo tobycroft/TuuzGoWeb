@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"main.go/config/app_conf"
 	"main.go/route"
 )
 
@@ -11,7 +12,7 @@ func main() {
 	//gin.SetMode(gin.ReleaseMode)
 	//gin.DefaultWriter = ioutil.Discard
 	mainroute.SetTrustedProxies(nil)
-	mainroute.SecureJsonPrefix("")
+	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
 	route.OnRoute(mainroute)
 	mainroute.Run(":80")
 
