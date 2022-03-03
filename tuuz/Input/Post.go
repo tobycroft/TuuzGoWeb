@@ -1,11 +1,14 @@
 package Input
 
 import (
+	"crypto/sha256"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"html/template"
+	"io"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
@@ -237,6 +240,22 @@ func Upload(c *gin.Context) (File, bool) {
 		c.Abort()
 		return File{}, false
 	}
+	temp_file, err := file.Open()
+	defer temp_file.Close()
+	if err != nil {
+		c.JSON(RET.Ret_fail(406, "File Open Error", "POST-[file]:"+err.Error()))
+		c.Abort()
+		return File{}, false
+	}
+	hash := sha256.New()
+	if _, err := io.Copy(hash, temp_file); err != nil {
+		c.JSON(RET.Ret_fail(303, "File Hash Error", "POST-[file]:"+err.Error()))
+		c.Abort()
+		return File{}, false
+	}
+	hash_md5 := hash.Sum(nil)
+
+	fmt.Printf("%x\n", hash_md5)
 	filename := filepath.Base(file.Filename)
 	ext := filepath.Ext(file.Filename)
 	var path string

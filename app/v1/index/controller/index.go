@@ -29,7 +29,7 @@ func loginss(c *gin.Context) {
 }
 
 func upload(c *gin.Context) {
-	file, ok := Input.PostFile(c)
+	file, ok := Input.Upload(c)
 	if !ok {
 		return
 	}
