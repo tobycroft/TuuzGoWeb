@@ -3,7 +3,6 @@ package Input
 import (
 	"crypto/sha256"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
@@ -231,6 +230,7 @@ type File struct {
 	Path     string
 	FileName string
 	Size     int64
+	Md5      string
 }
 
 func Upload(c *gin.Context) (File, bool) {
@@ -247,15 +247,13 @@ func Upload(c *gin.Context) (File, bool) {
 		c.Abort()
 		return File{}, false
 	}
-	hash := sha256.New()
-	if _, err := io.Copy(hash, temp_file); err != nil {
+	file_hash := sha256.New()
+	if _, err := io.Copy(file_hash, temp_file); err != nil {
 		c.JSON(RET.Ret_fail(303, "File Hash Error", "POST-[file]:"+err.Error()))
 		c.Abort()
 		return File{}, false
 	}
-	hash_md5 := hash.Sum(nil)
-
-	fmt.Printf("%x\n", hash_md5)
+	file_md5 := file_hash.Sum(nil)
 	filename := filepath.Base(file.Filename)
 	ext := filepath.Ext(file.Filename)
 	var path string
@@ -285,6 +283,7 @@ func Upload(c *gin.Context) (File, bool) {
 		Path:     path + "/" + filename,
 		FileName: filename,
 		Size:     file.Size,
+		Md5:      string(file_md5),
 	}, true
 }
 
