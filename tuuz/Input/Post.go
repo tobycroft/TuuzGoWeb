@@ -230,7 +230,7 @@ type File struct {
 	Size     int64
 }
 
-func PostFile(c *gin.Context) (File, bool) {
+func Upload(c *gin.Context) (File, bool) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(RET.Ret_fail(400, "File Upload Error", "POST-[file]:"+err.Error()))
