@@ -232,6 +232,7 @@ type File struct {
 	Size     int64
 	Md5      string
 	Mime     string
+	Ext      string
 }
 
 func Upload(c *gin.Context) (File, bool) {
@@ -286,6 +287,7 @@ func Upload(c *gin.Context) (File, bool) {
 		Size:     file.Size,
 		Md5:      string(file_md5),
 		Mime:     file.Header.Get("Content-Type"),
+		Ext:      ext,
 	}, true
 }
 
