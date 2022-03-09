@@ -31,3 +31,12 @@ func Int2Datetime(t int64) string {
 	timing := time.Unix(t, 0)
 	return timing.Format("2006-01-02 15:04:05")
 }
+
+func Datetime2Date(datetime string) string {
+	p, err := time.Parse("2006-01-02 15:04:05", datetime)
+	if err != nil {
+		return ""
+	} else {
+		return p.Format("2006-01-02")
+	}
+}
