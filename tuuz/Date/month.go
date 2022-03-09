@@ -87,9 +87,7 @@ func Today() string {
 }
 
 func Tomorrow() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, 0, 1).Format("2006-01-02")
+	monthOneDay := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 	return monthOneDay
 }
 
@@ -98,10 +96,8 @@ func Today_int() int64 {
 }
 
 func Yesterday() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, 0, -1).Format("2006-01-02")
-	return monthOneDay
+	dat := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+	return dat
 }
 
 func Yesterday_int() int64 {
@@ -109,12 +105,16 @@ func Yesterday_int() int64 {
 }
 
 func WeekBefore() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, 0, -7).Format("2006-01-02")
-	return monthOneDay
+	now := time.Now()
+	offset := int(time.Monday - now.Weekday())
+	if offset > 0 {
+		offset = -6
+	}
+	weekStartDate := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local).AddDate(0, 0, offset).AddDate(0, 0, -7)
+	weekMonday := weekStartDate.Format("2006-01-02")
+	return weekMonday
 }
 
 func WeekBefore_int() int64 {
-	return Date2Int(ThisWeek())
+	return Date2Int(WeekBefore())
 }
