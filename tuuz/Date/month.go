@@ -25,6 +25,20 @@ func LastMonth() string {
 	return monthOneDay
 }
 
+func NextMonth() string {
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, 1, 0).Format("2006-01")
+	return monthOneDay
+}
+
+func NextMonth_1st() string {
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, 1, 0).Format("2006-01-02")
+	return monthOneDay
+}
+
 func LastMonthCombine() string {
 	year, month, _ := time.Now().Date()
 	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
@@ -73,6 +87,14 @@ func LastWeek() string {
 	thisWeekMonday := ThisWeek()
 	TimeMonday, _ := time.Parse("2006-01-02", thisWeekMonday)
 	lastWeekMonday := TimeMonday.AddDate(0, 0, -7)
+	weekMonday := lastWeekMonday.Format("2006-01-02")
+	return weekMonday
+}
+
+func NextWeek() string {
+	thisWeekMonday := ThisWeek()
+	TimeMonday, _ := time.Parse("2006-01-02", thisWeekMonday)
+	lastWeekMonday := TimeMonday.AddDate(0, 0, 7)
 	weekMonday := lastWeekMonday.Format("2006-01-02")
 	return weekMonday
 }
