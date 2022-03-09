@@ -2,6 +2,10 @@ package Date
 
 import "time"
 
+func ThisYear() string {
+	return time.Now().Format("2006")
+}
+
 func ThisMonth() string {
 	return time.Now().Format("2006-01")
 }
@@ -15,11 +19,17 @@ func TodayCombine() string {
 }
 
 func LastMonth() string {
-	return time.Now().Format("2006-03")
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, -1, 0).Format("2006-01")
+	return monthOneDay
 }
 
 func LastMonthCombine() string {
-	return time.Now().Format("200603")
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, -1, 0).Format("200601")
+	return monthOneDay
 }
 
 func ThisMonth1st() string {
@@ -73,6 +83,13 @@ func LastWeek_int() int64 {
 
 func Today() string {
 	monthOneDay := time.Now().Format("2006-01-02")
+	return monthOneDay
+}
+
+func Tomorrow() string {
+	year, month, _ := time.Now().Date()
+	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+	monthOneDay := thisMonth.AddDate(0, 0, 1).Format("2006-01-02")
 	return monthOneDay
 }
 
