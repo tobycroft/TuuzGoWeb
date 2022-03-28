@@ -38,8 +38,27 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 func PostNull(key string, c *gin.Context, xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
-		return "", false
+		return "", true
 	} else {
+		if xss {
+			return template.JSEscapeString(in), true
+		} else {
+			return in, true
+		}
+	}
+}
+
+func PostNullWithLength(key string, max_length int, c *gin.Context, xss bool) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		return "", true
+	} else {
+		err := Vali.Length(in, 0, max_length)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" "+err.Error(), key+" "+err.Error()))
+			c.Abort()
+			return "", false
+		}
 		if xss {
 			return template.JSEscapeString(in), true
 		} else {
