@@ -3,13 +3,17 @@ package Vali
 import (
 	"errors"
 	"regexp"
+	"unicode/utf8"
 )
 
 func Length(str string, minlen int, maxlen int) error {
-	if len(str) > maxlen {
+	if minlen == maxlen && utf8.RuneCountInString(str) != minlen {
+		return errors.New("长度必须为" + any2string(maxlen))
+	}
+	if utf8.RuneCountInString(str) > maxlen {
 		return errors.New("长度需要小于" + any2string(maxlen))
 	}
-	if len(str) < minlen {
+	if utf8.RuneCountInString(str) < minlen {
 		return errors.New("长度需要大于" + any2string(minlen))
 	}
 	return nil
