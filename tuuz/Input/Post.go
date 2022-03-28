@@ -35,6 +35,19 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 	}
 }
 
+func PostNull(key string, c *gin.Context, xss bool) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		return "", false
+	} else {
+		if xss {
+			return template.JSEscapeString(in), true
+		} else {
+			return in, true
+		}
+	}
+}
+
 func PostPhone(key string, length int, c *gin.Context) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
