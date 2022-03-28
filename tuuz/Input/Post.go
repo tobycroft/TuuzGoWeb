@@ -35,7 +35,7 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 	}
 }
 
-func PostPhone(key string, length int, c *gin.Context, xss bool) (string, bool) {
+func PostPhone(key string, length int, c *gin.Context) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
