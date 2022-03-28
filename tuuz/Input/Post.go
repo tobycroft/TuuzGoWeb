@@ -42,8 +42,33 @@ func PostPhone(key string, length int, c *gin.Context, xss bool) (string, bool) 
 		c.Abort()
 		return "", false
 	} else {
-		err := Vali.Length(in, length, length)
+		ret, err := decimal.NewFromString(in)
 		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should only be numbers", key+" should only be numbers"))
+			c.Abort()
+			return "", false
+		}
+		err = Vali.Length(ret.String(), length, length)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" "+err.Error(), key+" "+err.Error()))
+			c.Abort()
+			return "", false
+		}
+		return in, true
+	}
+}
+
+func PostLength(key string, min, max int, c *gin.Context, xss bool) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return "", false
+	} else {
+		err := Vali.Length(in, min, max)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" "+err.Error(), key+" "+err.Error()))
+			c.Abort()
 			return "", false
 		}
 		return in, true
