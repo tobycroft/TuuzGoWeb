@@ -14,6 +14,7 @@ import (
 	"main.go/tuuz/Date"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
+	"main.go/tuuz/Vali"
 	"os"
 	"path/filepath"
 	"strings"
@@ -31,6 +32,21 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 		} else {
 			return in, true
 		}
+	}
+}
+
+func PostPhone(key string, length int, c *gin.Context, xss bool) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return "", false
+	} else {
+		err := Vali.Length(in, length, length)
+		if err != nil {
+			return "", false
+		}
+		return in, true
 	}
 }
 
