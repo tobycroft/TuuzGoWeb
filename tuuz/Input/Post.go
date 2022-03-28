@@ -86,7 +86,7 @@ func PostPhone(key string, length int, c *gin.Context) (string, bool) {
 			c.Abort()
 			return "", false
 		}
-		return in, true
+		return ret.String(), true
 	}
 }
 
@@ -103,7 +103,11 @@ func PostLength(key string, min, max int, c *gin.Context, xss bool) (string, boo
 			c.Abort()
 			return "", false
 		}
-		return in, true
+		if xss {
+			return template.JSEscapeString(in), true
+		} else {
+			return in, true
+		}
 	}
 }
 
