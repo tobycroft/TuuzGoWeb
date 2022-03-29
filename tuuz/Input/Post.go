@@ -200,6 +200,8 @@ func PostBool(key string, c *gin.Context) (bool, bool) {
 			return false, true
 
 		default:
+			c.JSON(RET.Ret_fail(407, key+" should be Boolean", key+" should be Boolean"))
+			c.Abort()
 			return false, false
 		}
 	}
