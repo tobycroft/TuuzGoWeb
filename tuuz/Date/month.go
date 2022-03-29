@@ -32,6 +32,21 @@ func NextMonth() string {
 	return monthOneDay
 }
 
+func MonthDateNow(month int) string {
+	monthOneDay := time.Now().AddDate(0, 1, 0).Format("2006-01-02 15:04:05")
+	return monthOneDay
+}
+
+func MonthDay(month int) string {
+	monthOneDay := time.Now().AddDate(0, 1, 0).Format("2006-01-02")
+	return monthOneDay
+}
+
+func Month(month int) string {
+	monthOneDay := time.Now().AddDate(0, 1, 0).Format("2006-01")
+	return monthOneDay
+}
+
 func NextMonth_1st() string {
 	year, month, _ := time.Now().Date()
 	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
