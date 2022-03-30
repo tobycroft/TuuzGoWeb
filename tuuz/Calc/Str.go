@@ -2,6 +2,7 @@ package Calc
 
 import (
 	"fmt"
+	"github.com/shopspring/decimal"
 	"math/big"
 	"reflect"
 	"strconv"
@@ -40,6 +41,10 @@ func Any2String(any interface{}) string {
 
 	case *big.Int:
 		tmp := any.(*big.Int)
+		str = tmp.String()
+
+	case decimal.Decimal:
+		tmp := any.(decimal.Decimal)
 		str = tmp.String()
 
 	case nil:
