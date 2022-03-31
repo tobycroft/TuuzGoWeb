@@ -18,6 +18,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func Post(key string, c *gin.Context, xss bool) (string, bool) {
@@ -87,6 +88,24 @@ func PostPhone(key string, length int, c *gin.Context) (string, bool) {
 			return "", false
 		}
 		return ret.String(), true
+	}
+}
+
+func PostDate(key string, c *gin.Context) (string, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return "", false
+	} else {
+		p, err := time.Parse("2006-01-02 15:04:05", in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should only be a DateTime", key+" should only be a DateTime"))
+			c.Abort()
+			return "", false
+		} else {
+			return p.Format("2006-01-02"), true
+		}
 	}
 }
 
