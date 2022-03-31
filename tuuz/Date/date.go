@@ -32,6 +32,14 @@ func Int2Datetime(t int64) string {
 	return timing.Format("2006-01-02 15:04:05")
 }
 
+func Time2Datetime(t time.Time) string {
+	return t.Format("2006-01-02 15:04:05")
+}
+
+func Time2Int64(t time.Time) int64 {
+	return t.Unix()
+}
+
 func Datetime2Date(datetime string) string {
 	p, err := time.Parse("2006-01-02 15:04:05", datetime)
 	if err != nil {
