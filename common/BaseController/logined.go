@@ -10,9 +10,7 @@ import (
 
 func LoginedController() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Header("S-P-I", c.ClientIP())
-		c.Header("S-P-P", app_conf.Project)
-		c.Header("S-P-M", app_conf.AppMode)
+		header_handler(c)
 		uid, ok := c.GetPostForm("uid")
 		if !ok {
 			c.JSON(RET.Ret_fail(-1, nil, "POST-[uid]"))
@@ -45,9 +43,7 @@ func LoginedController() gin.HandlerFunc {
 
 func LoginWSController() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Header("S-P-I", c.ClientIP())
-		c.Header("S-P-P", app_conf.Project)
-		c.Header("S-P-M", app_conf.AppMode)
+		header_handler(c)
 		uid, ok := Input.Post("uid", c, false)
 		if !ok {
 			c.Abort()
