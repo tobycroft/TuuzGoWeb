@@ -6,10 +6,15 @@ import (
 	"main.go/config/app_conf"
 	"main.go/tuuz/Input"
 	"main.go/tuuz/RET"
+	"net/http"
 )
 
 func LoginedController() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
 		header_handler(c)
 		uid := ""
 		token := ""
