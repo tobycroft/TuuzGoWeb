@@ -9,6 +9,7 @@ import (
 func header_handler(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("S-P-I", c.ClientIP())
+	c.Header("S-P-H", c.Request.Host)
 	c.Header("S-P-P", app_conf.Project)
 	c.Header("S-P-M", app_conf.AppMode)
 	c.Header("S-V-L", app_conf.Version_lowest)
