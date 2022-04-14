@@ -8,6 +8,7 @@ import (
 )
 
 func IndexController(route *gin.RouterGroup) {
+
 	route.Any("", index)
 	route.Any("login", loginss)
 	route.Any("upload", upload)
