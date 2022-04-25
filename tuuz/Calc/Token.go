@@ -30,7 +30,7 @@ func RefreshBaseNum() {
 			//case <-done:
 			//	return
 			case <-ticker.C:
-				atomic.StoreInt64(&BaseNum, 99)
+				atomic.StoreInt64(&BaseNum, 0)
 			}
 		}
 	}()
