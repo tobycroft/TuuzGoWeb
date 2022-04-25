@@ -37,7 +37,7 @@ func loginss(c *fiber.Ctx) error {
 func upload(c *fiber.Ctx) error {
 	file, ok := Input.Upload(c)
 	if !ok {
-		return
+		return nil
 	}
 	fmt.Println(file)
 	return nil
