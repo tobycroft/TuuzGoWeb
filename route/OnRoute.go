@@ -8,9 +8,11 @@ import (
 
 func MainRoute(app *fiber.App) *fiber.App {
 	app.Use(recover2.New())
+	app.All("", func(c *fiber.Ctx) error {
+		c.SendString(c.Path())
+		return nil
+	})
 	version1 := app.Group("v1")
-	//version1.Use(func(c *fiber.Ctx) {
-	//})
 	version1.All("", func(c *fiber.Ctx) error {
 		c.SendString(c.Path())
 		return nil
