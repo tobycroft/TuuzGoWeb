@@ -1,13 +1,14 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"main.go/app/v1/index/controller"
 )
 
-func IndexRouter(route *gin.RouterGroup) {
-	route.Any("/", func(context *gin.Context) {
-		context.String(0, route.BasePath())
+func IndexRouter(route fiber.Router) {
+	route.All("/", func(context *fiber.Ctx) error {
+		context.SendString(context.Path())
+		return nil
 	})
 
 	controller.IndexController(route.Group("index"))

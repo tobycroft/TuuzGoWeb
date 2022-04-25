@@ -1,38 +1,40 @@
 package controller
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/tobycroft/gorose-pro"
-	"main.go/tuuz/Input"
 )
 
-func IndexController(route *gin.RouterGroup) {
+func IndexController(route fiber.Router) {
 
-	route.Any("", index)
-	route.Any("login", loginss)
-	route.Any("upload", upload)
-	route.Any("register")
+	route.All("", index)
+	route.All("login", loginss)
+	route.All("upload", upload)
+	//route.All("register")
 }
 
-func index(c *gin.Context) {
-	c.String(0, "index")
+func index(c *fiber.Ctx) error {
+	c.SendString("index")
+	return nil
 }
 
-func loginss(c *gin.Context) {
+func loginss(c *fiber.Ctx) error {
 	password := c.Query("password")
 	username := c.Query("username")
 	json := map[string]string{}
 	json["username"] = username
 	json["password"] = password
 	gorose.Open()
-	c.JSON(0, json)
+	c.JSON(json)
+	return nil
 }
 
-func upload(c *gin.Context) {
-	file, ok := Input.Upload(c)
-	if !ok {
-		return
-	}
-	fmt.Println(file)
+func upload(c *fiber.Ctx) error {
+	//file, ok := Input.Upload(c)
+	//if !ok {
+	//	return
+	//}
+	//fmt.Println(file)
+	return nil
+
 }

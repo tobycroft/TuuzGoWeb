@@ -1,25 +1,22 @@
 package route
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
+	recover2 "github.com/gofiber/fiber/v2/middleware/recover"
 	v1 "main.go/route/v1"
 )
 
-func OnRoute(router *gin.Engine) {
-	router.Any("/", func(context *gin.Context) {
-		context.String(0, router.BasePath())
+func MainRoute(app *fiber.App) *fiber.App {
+	app.Use(recover2.New())
+	version1 := app.Group("v1")
+	//version1.Use(func(c *fiber.Ctx) {
+	//})
+	version1.All("", func(c *fiber.Ctx) error {
+		c.SendString(c.Path())
+		return nil
 	})
-	version1 := router.Group("/v1")
-	{
-		version1.Use(func(context *gin.Context) {
-		}, gin.Recovery())
-		version1.Any("/", func(context *gin.Context) {
-			context.String(0, version1.BasePath())
-		})
-		index := version1.Group("index")
-		{
-			v1.IndexRouter(index)
-		}
 
-	}
+	v1.IndexRouter(version1.Group("index"))
+
+	return app
 }
