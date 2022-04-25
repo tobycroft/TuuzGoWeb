@@ -1,16 +1,15 @@
 package Input
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"html/template"
 	"main.go/tuuz/RET"
 )
 
-func Get(key string, c *gin.Context, xss bool) (string, bool) {
-	in, ok := c.GetQuery(key)
-	if !ok {
+func Get(key string, c *fiber.Ctx, xss bool) (string, bool) {
+	in := c.Query(key)
+	if len(in) == 0 {
 		c.JSON(RET.Ret_fail(400, key, "GET-["+key+"]"))
-		c.Abort()
 		return "", false
 	} else {
 		if xss {
@@ -21,11 +20,10 @@ func Get(key string, c *gin.Context, xss bool) (string, bool) {
 	}
 }
 
-func GetBool(key string, c *gin.Context) (bool, bool) {
-	in, ok := c.GetQuery(key)
-	if !ok {
+func GetBool(key string, c *fiber.Ctx) (bool, bool) {
+	in := c.Query(key)
+	if len(in) == 0 {
 		c.JSON(RET.Ret_fail(400, key, "GET-["+key+"]"))
-		c.Abort()
 		return false, false
 	} else {
 		switch in {

@@ -1,22 +1,21 @@
 package Input
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"main.go/tuuz/RET"
 )
 
-func Combi(key string, c *gin.Context, xss bool) (string, bool) {
-	in, ok := c.GetPostForm(key)
-	if !ok {
-		in, ok = c.GetQuery(key)
-		if !ok {
+func Combi(key string, c *fiber.Ctx, xss bool) (string, bool) {
+	in := c.FormValue(key)
+	if len(in) == 0 {
+		in = c.Query(key)
+		if len(in) == 0 {
 			c.JSON(RET.Ret_fail(400, key, key))
-			c.Abort()
-			return "", ok
+			return "", false
 		} else {
-			return in, ok
+			return in, true
 		}
 	} else {
-		return in, ok
+		return in, true
 	}
 }
