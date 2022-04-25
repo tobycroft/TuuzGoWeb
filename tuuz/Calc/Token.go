@@ -13,7 +13,7 @@ func GenerateToken() string {
 	return Md5(str)
 }
 
-var BaseNum = int64(99)
+var BaseNum = int64(0)
 
 func GenerateOrderId() string {
 	new_num := atomic.AddInt64(&BaseNum, 1)
