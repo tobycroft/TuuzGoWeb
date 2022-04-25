@@ -293,8 +293,7 @@ func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
 		c.Abort()
 		return false
 	} else {
-		var json = jsoniter.ConfigCompatibleWithStandardLibrary
-		err := json.Unmarshal([]byte(in), &AnyType)
+		err := jsoniter.UnmarshalFromString(in, &AnyType)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should be a Json-AnyType", key+" should be a Json-AnyType"))
 			c.Abort()
