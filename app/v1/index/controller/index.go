@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tobycroft/gorose-pro"
 )
@@ -8,14 +9,16 @@ import (
 func IndexController(route fiber.Router) {
 
 	route.All("", index)
+	route.All("index", index)
 	route.All("login", loginss)
 	route.All("upload", upload)
 	//route.All("register")
 }
 
 func index(c *fiber.Ctx) error {
-	c.SendString("index")
-	return nil
+
+	c.SendString(c.Path())
+	return errors.New("asdasd")
 }
 
 func loginss(c *fiber.Ctx) error {
