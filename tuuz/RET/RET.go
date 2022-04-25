@@ -2,7 +2,7 @@ package RET
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
 )
@@ -12,7 +12,7 @@ func Json(data interface{}) string {
 	return ret
 }
 
-func Success(c *gin.Context, code int, data, echo interface{}) {
+func Success(c *fiber.Ctx, code int, data, echo interface{}) {
 	if echo == nil {
 		switch code {
 
@@ -64,37 +64,30 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 		data = []interface{}{}
 	}
 	if app_conf.SecureJson {
-		c.SecureJSON(Ret_succ(code, data, echo))
+		c.JSON(Ret_succ(code, data, echo))
 	} else {
 		c.JSON(Ret_succ(code, data, echo))
 	}
-	c.Abort()
 	return
 }
 
-func Fail(c *gin.Context, code int, data, echo interface{}) {
+func Fail(c *fiber.Ctx, code int, data, echo interface{}) {
 	Success(c, code, data, echo)
 	return
 }
 
-func Ret_succ(code int, data, echo interface{}) (int, map[string]interface{}) {
+func Ret_succ(code int, data, echo interface{}) map[string]interface{} {
 	ret := make(map[string]interface{})
-	ret_code := -1
-	if code == 0 {
-		ret_code = 200
-	} else {
-		ret_code = 200
-	}
 	if data == nil {
 		data = []interface{}{}
 	}
 	ret["code"] = code
 	ret["data"] = data
 	ret["echo"] = echo
-	return ret_code, ret
+	return ret
 }
 
-func Ret_fail(code int, data, echo interface{}) (int, map[string]interface{}) {
+func Ret_fail(code int, data, echo interface{}) map[string]interface{} {
 	return Ret_succ(code, data, echo)
 }
 

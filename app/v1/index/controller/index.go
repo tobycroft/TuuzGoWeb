@@ -2,8 +2,10 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tobycroft/gorose-pro"
+	"main.go/tuuz/Input"
 )
 
 func IndexController(route fiber.Router) {
@@ -33,11 +35,11 @@ func loginss(c *fiber.Ctx) error {
 }
 
 func upload(c *fiber.Ctx) error {
-	//file, ok := Input.Upload(c)
-	//if !ok {
-	//	return
-	//}
-	//fmt.Println(file)
+	file, ok := Input.Upload(c)
+	if !ok {
+		return
+	}
+	fmt.Println(file)
 	return nil
 
 }
