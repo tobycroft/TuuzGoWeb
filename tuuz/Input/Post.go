@@ -98,6 +98,24 @@ func PostDate(key string, c *gin.Context) (time.Time, bool) {
 		c.Abort()
 		return time.Time{}, false
 	} else {
+		p, err := time.Parse("2006-01-02", in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, key+" should only be a DateTime", key+" should only be a DateTime"))
+			c.Abort()
+			return time.Time{}, false
+		} else {
+			return p, true
+		}
+	}
+}
+
+func PostDateTime(key string, c *gin.Context) (time.Time, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return time.Time{}, false
+	} else {
 		p, err := time.Parse("2006-01-02 15:04:05", in)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should only be a DateTime", key+" should only be a DateTime"))
