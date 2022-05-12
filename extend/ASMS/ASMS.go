@@ -26,7 +26,7 @@ func Sms_single(phone interface{}, quhao, code interface{}) error {
 	if err != nil {
 		return err
 	}
-	value, err := conf.GetSection("wechat")
+	value, err := conf.GetSection("sms")
 	if err != nil {
 		return err
 	}
