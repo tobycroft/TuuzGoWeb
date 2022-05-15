@@ -2,7 +2,6 @@ package ASMS
 
 import (
 	"errors"
-	"github.com/Unknwon/goconfig"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Net"
@@ -19,19 +18,12 @@ import (
  *
  */
 
+const name = "test"
+const token = "test"
+
 const url = "http://asms.tuuz.cc:10081"
 
 func Sms_single(phone interface{}, quhao, code interface{}) error {
-	conf, err := goconfig.LoadConfigFile("conf.ini")
-	if err != nil {
-		return err
-	}
-	value, err := conf.GetSection("asms")
-	if err != nil {
-		return err
-	}
-	name := value["name"]
-	token := value["token"]
 	ts := time.Now().Unix()
 	param := map[string]interface{}{
 		"phone": phone,

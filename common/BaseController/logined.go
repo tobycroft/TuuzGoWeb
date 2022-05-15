@@ -11,11 +11,11 @@ import (
 
 func LoginedController() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		header_handler(c)
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
 			return
 		}
+		header_handler(c)
 		uid := ""
 		token := ""
 		debug := ""

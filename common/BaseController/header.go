@@ -8,10 +8,6 @@ import (
 
 func header_handler(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-	c.Header("Access-Control-Allow-Headers", "*")
-	c.Header("Access-Control-Allow-Credentials", "true")
-	c.Header("Access-Control-Max-Age", "3600")
-	c.Header("Access-Control-Allow-Methods:", "GET, POST, PATCH, PUT, DELETE")
 	c.Header("S-P-I", c.ClientIP())
 	c.Header("S-P-H", c.Request.Host)
 	c.Header("S-P-P", app_conf.Project)

@@ -100,7 +100,7 @@ func PostDate(key string, c *gin.Context) (time.Time, bool) {
 	} else {
 		p, err := time.Parse("2006-01-02", in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should only be a DateTime", key+" should only be a DateTime"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime"))
 			c.Abort()
 			return time.Time{}, false
 		} else {
@@ -118,7 +118,7 @@ func PostDateTime(key string, c *gin.Context) (time.Time, bool) {
 	} else {
 		p, err := time.Parse("2006-01-02 15:04:05", in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should only be a DateTime", key+" should only be a DateTime"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime"))
 			c.Abort()
 			return time.Time{}, false
 		} else {
@@ -166,7 +166,7 @@ func PostInt(key string, c *gin.Context) (int, bool) {
 	} else {
 		i, e := Calc.String2Int(in)
 		if e != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be int", key+" should be int"))
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be int"))
 			c.Abort()
 			return 0, false
 		}
@@ -183,7 +183,7 @@ func PostInt64(key string, c *gin.Context) (int64, bool) {
 	} else {
 		i, e := Calc.String2Int64(in)
 		if e != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be int64", key+" should be int64"))
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be int64"))
 			c.Abort()
 			return 0, false
 		}
@@ -200,7 +200,7 @@ func PostFloat64(key string, c *gin.Context) (float64, bool) {
 	} else {
 		i, e := Calc.String2Float64(in)
 		if e != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be float64", key+" should be float64"))
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be float64"))
 			c.Abort()
 			return 0, false
 		}
@@ -217,7 +217,7 @@ func PostDecimal(key string, c *gin.Context) (decimal.Decimal, bool) {
 	} else {
 		ret, err := decimal.NewFromString(in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be a Number", key+" should be a Number"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Number"))
 			c.Abort()
 			return decimal.Zero, false
 		}
@@ -262,7 +262,7 @@ func PostArray(key string, c *gin.Context) ([]interface{}, bool) {
 	} else {
 		i, err := Jsong.JArray(in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be a Json-Array", key+" should be a Json-Array"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array"))
 			c.Abort()
 			return nil, false
 		}
@@ -313,7 +313,7 @@ func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
 	} else {
 		err := jsoniter.UnmarshalFromString(in, &AnyType)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be a Json-AnyType", key+" should be a Json-AnyType"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType"))
 			c.Abort()
 			return false
 		}

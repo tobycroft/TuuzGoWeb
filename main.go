@@ -5,13 +5,7 @@ import (
 	"main.go/config/app_conf"
 	"main.go/route"
 	"main.go/tuuz/Calc"
-	"time"
 )
-
-func init() {
-	var cstZone = time.FixedZone("CST", 8*3600) // 东八
-	time.Local = cstZone
-}
 
 func main() {
 	Calc.RefreshBaseNum()
