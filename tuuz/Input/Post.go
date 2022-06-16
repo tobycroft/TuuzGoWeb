@@ -100,7 +100,7 @@ func PostDate(key string, c *gin.Context) (time.Time, bool) {
 	} else {
 		p, err := time.Parse("2006-01-02", in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a Date"))
 			c.Abort()
 			return time.Time{}, false
 		} else {
