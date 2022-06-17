@@ -20,7 +20,16 @@ import (
 	"time"
 )
 
-func SPost(key string, c *gin.Context, xss bool) (string, bool) {
+func SPost(key string, c *gin.Context) interface{} {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		return nil
+	} else {
+		return in
+	}
+}
+
+func SPostString(key string, c *gin.Context, xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return "", false
