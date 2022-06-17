@@ -20,12 +20,69 @@ import (
 	"time"
 )
 
-func SPost(key string, c *gin.Context) interface{} {
+func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil
 	} else {
-		return in
+		switch DemoType.(type) {
+		case string:
+			return in
+
+		case int:
+			str, err := Calc.String2Int(in)
+			if err != nil {
+				return nil
+			}
+			return str
+
+		case int32:
+			str, err := Calc.String2Int64(in)
+			if err != nil {
+				return nil
+			}
+			return str
+
+		case int64:
+			str, err := Calc.String2Int64(in)
+			if err != nil {
+				return nil
+			}
+			return str
+
+		case float64:
+			str, err := Calc.String2Float64(in)
+			if err != nil {
+				return nil
+			}
+			return str
+
+		case float32:
+			str, err := Calc.String2Float64(in)
+			if err != nil {
+				return nil
+			}
+			return str
+
+		case decimal.Decimal:
+			ret, err := decimal.NewFromString(in)
+			if err != nil {
+				return nil
+			}
+			return ret
+
+		case nil:
+			return nil
+
+		case bool:
+			str, ok := SPostBool(key, c)
+			if !ok {
+				return nil
+			}
+			return str
+
+		}
+		return nil
 	}
 }
 
