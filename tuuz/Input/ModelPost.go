@@ -81,7 +81,7 @@ func MPost(key string, data *gorose.Data, c *gin.Context) (ok bool) {
 		}
 
 	case nil:
-		temp_data[key] = in
+		temp_data[key] = template.JSEscapeString(in)
 
 	case bool:
 		temp_data[key], ok = PostBool(key, c)
