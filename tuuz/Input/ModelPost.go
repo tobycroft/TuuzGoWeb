@@ -34,16 +34,61 @@ func MPostAuto(data *gorose.Data, c *gin.Context, xss bool) {
 	return
 }
 
-func MPost(key string, data *gorose.Data, c *gin.Context, xss bool) bool {
+func MPost(key string, data *gorose.Data, c *gin.Context) (ok bool) {
 	in, ok := c.GetPostForm(key)
 	temp_data := *data
 	if !ok {
-		return false
+		return
 	}
-	if xss {
+	switch temp_data[key].(type) {
+	case string:
 		temp_data[key] = template.JSEscapeString(in)
-	} else {
+
+	case int:
+		temp_data[key], ok = PostInt(key, c)
+		if !ok {
+			return
+		}
+
+	case int32:
+		temp_data[key], ok = PostInt64(key, c)
+		if !ok {
+			return
+		}
+
+	case int64:
+		temp_data[key], ok = PostInt64(key, c)
+		if !ok {
+			return
+		}
+
+	case float64:
+		temp_data[key], ok = PostFloat64(key, c)
+		if !ok {
+			return
+		}
+
+	case float32:
+		temp_data[key], ok = PostFloat64(key, c)
+		if !ok {
+			return
+		}
+
+	case decimal.Decimal:
+		temp_data[key], ok = SPostInt(key, c)
+		if !ok {
+			return
+		}
+
+	case nil:
 		temp_data[key] = in
+
+	case bool:
+		temp_data[key], ok = PostBool(key, c)
+		if !ok {
+			return
+		}
+
 	}
 	data = &temp_data
 	return true
