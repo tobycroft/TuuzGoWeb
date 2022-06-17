@@ -21,7 +21,7 @@ import (
 	"time"
 )
 
-func MPostAuto(data *gorose.Data, c *gin.Context, non_editable []string, xss bool) {
+func MPostAuto(data *gorose.Data, c *gin.Context, xss bool) {
 	temp_data := *data
 	for key, _ := range temp_data {
 		p, ok := c.GetPostForm(key)
