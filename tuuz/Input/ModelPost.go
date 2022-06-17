@@ -11,15 +11,9 @@ import (
 )
 
 func MPostAuto(data *gorose.Data, c *gin.Context, xss bool) {
-	temp_data := *data
-	for key, _ := range temp_data {
-		p, ok := c.GetPostForm(key)
-		if !ok {
-			continue
-		}
-		temp_data[key] = p
+	for key, _ := range *data {
+		MPost(key, data, c)
 	}
-	data = &temp_data
 	return
 }
 
