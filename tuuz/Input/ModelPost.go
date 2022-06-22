@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (data map[string]interface{}) {
+func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (ok bool, data map[string]interface{}) {
 	whereMap := *where
 	for key, _ := range *goroseData {
 		_, whereHave := whereMap[key]
@@ -18,7 +18,7 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 			if !ok {
 				c.JSON(RET.Ret_fail(400, "", key+" should be exist or Not in the GoroseProWhere"))
 				c.Abort()
-				return
+				return false, nil
 			}
 			whereMap[key] = ret
 		} else {
@@ -29,6 +29,11 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 		}
 	}
 	where = &whereMap
+	if len(data) < 1 {
+		c.JSON(RET.Ret_fail(400, "", "GoroseProData is not ready"))
+		c.Abort()
+		return false, nil
+	}
 	return
 }
 
@@ -81,7 +86,7 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 		break
 
 	default:
-		ret = in
+		ret = template.JSEscapeString(in)
 		break
 	}
 	goroseData = &temp_data
