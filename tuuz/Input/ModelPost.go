@@ -16,8 +16,9 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 		if whereHave {
 			ok, ret := MPost(key, c, goroseData)
 			if !ok {
-				c.JSON(RET.Ret_fail(400, "", key+" is not avail in GorosePro or WhereNull"))
+				c.JSON(RET.Ret_fail(400, "", key+" should be exist or Not in the GoroseProWhere"))
 				c.Abort()
+				return
 			}
 			whereMap[key] = ret
 		} else {
