@@ -10,12 +10,24 @@ import (
 )
 
 func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (data map[string]interface{}) {
+	whereMap := *where
 	for key, _ := range *goroseData {
-		ok, ret := MPost(key, c, goroseData)
-		if ok {
-			data[key] = ret
+		_, whereHave := whereMap[key]
+		if whereHave {
+			ok, ret := MPost(key, c, goroseData)
+			if !ok {
+				c.JSON(RET.Ret_fail(400, "", key+" is not avail in GorosePro or WhereNull"))
+				c.Abort()
+			}
+			whereMap[key] = ret
+		} else {
+			ok, ret := MPost(key, c, goroseData)
+			if ok {
+				data[key] = ret
+			}
 		}
 	}
+	where = &whereMap
 	return
 }
 
@@ -27,6 +39,11 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 		return
 	}
 	switch temp_data[key].(type) {
+	case nil:
+		ok = false
+		c.JSON(RET.Ret_fail(400, "", key+" is not avail in GorosePro or DefaultNull"))
+		c.Abort()
+		return
 
 	case int:
 		ret, ok = PostInt(key, c)
@@ -51,11 +68,6 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 			return
 		}
 		break
-
-	case nil:
-		c.JSON(RET.Ret_fail(407, "", key+" is not avail in GorosePro or DefaultNull"))
-		c.Abort()
-		return
 
 	case time.Time:
 		ret, ok = PostDateTime(key, c)
