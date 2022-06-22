@@ -10,6 +10,7 @@ func main() {
 		"eee": nil,
 	}
 	ass(&arr)
+	fmt.Println(arr)
 
 	//Calc.RefreshBaseNum()
 	//mainroute := gin.Default()
@@ -24,5 +25,6 @@ func main() {
 
 func ass(arr *map[string]interface{}) {
 	temp := *arr
-	fmt.Println(temp["fff"] == temp["eee"])
+	temp["eee"] = "fff"
+	arr = &temp
 }

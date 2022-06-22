@@ -9,9 +9,12 @@ import (
 	"time"
 )
 
-func MPostAuto(c *gin.Context, goroseData *gorose.Data, whereKey []string) (data map[string]interface{}) {
+func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (data map[string]interface{}) {
 	for key, _ := range *goroseData {
-		MPost(key, c, goroseData)
+		ok, ret := MPost(key, c, goroseData)
+		if ok {
+			data[key] = ret
+		}
 	}
 	return
 }
