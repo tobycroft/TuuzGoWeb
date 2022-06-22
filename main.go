@@ -12,7 +12,7 @@ func main() {
 	mainroute := gin.Default()
 	//gin.SetMode(gin.ReleaseMode)
 	//gin.DefaultWriter = ioutil.Discard
-	mainroute.SetTrustedProxies(nil)
+	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
 	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
 	route.OnRoute(mainroute)
 	mainroute.Run(":80")
