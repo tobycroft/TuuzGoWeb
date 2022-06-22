@@ -1,20 +1,28 @@
 package main
 
-import (
-	"github.com/gin-gonic/gin"
-	"main.go/config/app_conf"
-	"main.go/route"
-	"main.go/tuuz/Calc"
-)
+import "fmt"
 
 func main() {
-	Calc.RefreshBaseNum()
-	mainroute := gin.Default()
-	//gin.SetMode(gin.ReleaseMode)
-	//gin.DefaultWriter = ioutil.Discard
-	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
-	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
-	route.OnRoute(mainroute)
-	mainroute.Run(":80")
 
+	arr := map[string]interface{}{
+		"aaa": "bbb",
+		"ccc": "ddd",
+		"eee": nil,
+	}
+	ass(&arr)
+
+	//Calc.RefreshBaseNum()
+	//mainroute := gin.Default()
+	////gin.SetMode(gin.ReleaseMode)
+	////gin.DefaultWriter = ioutil.Discard
+	//mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
+	//mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
+	//route.OnRoute(mainroute)
+	//mainroute.Run(":80")
+
+}
+
+func ass(arr *map[string]interface{}) {
+	temp := *arr
+	fmt.Println(temp["fff"] == temp["eee"])
 }

@@ -2,7 +2,6 @@ package Input
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/shopspring/decimal"
 	"github.com/tobycroft/gorose-pro"
 	"html/template"
 	"main.go/tuuz/RET"
@@ -10,81 +9,55 @@ import (
 	"time"
 )
 
-func MPostAuto(data *gorose.Data, c *gin.Context, xss bool) {
-	for key, _ := range *data {
-		MPost(key, data, c)
+func MPostAuto(c *gin.Context, goroseData *gorose.Data, whereKey []string) (data map[string]interface{}) {
+	for key, _ := range *goroseData {
+		MPost(key, c, goroseData)
 	}
 	return
 }
 
-func MPost(key string, data *gorose.Data, c *gin.Context) (ok bool) {
-	in, ok := c.GetPostForm(key)
-	temp_data := *data
+func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret interface{}) {
+	var in string
+	in, ok = c.GetPostForm(key)
+	temp_data := *goroseData
 	if !ok {
 		return
 	}
 	switch temp_data[key].(type) {
-	case string:
-		temp_data[key] = template.JSEscapeString(in)
-		break
 
 	case int:
-		temp_data[key], ok = PostInt(key, c)
-		if !ok {
-			return
-		}
-		break
-
-	case int32:
-		temp_data[key], ok = PostInt64(key, c)
+		ret, ok = PostInt(key, c)
 		if !ok {
 			return
 		}
 		break
 
 	case int64:
-		temp_data[key], ok = PostInt64(key, c)
+		ret, ok = PostInt64(key, c)
 		if !ok {
-			return
+			ret, ok = PostBool(key, c)
+			if !ok {
+				return
+			}
 		}
 		break
 
 	case float64:
-		temp_data[key], ok = PostFloat64(key, c)
-		if !ok {
-			return
-		}
-		break
-
-	case float32:
-		temp_data[key], ok = PostFloat64(key, c)
-		if !ok {
-			return
-		}
-		break
-
-	case decimal.Decimal:
-		temp_data[key], ok = PostDecimal(key, c)
+		ret, ok = PostFloat64(key, c)
 		if !ok {
 			return
 		}
 		break
 
 	case nil:
-		temp_data[key] = template.JSEscapeString(in)
-		break
-
-	case bool:
-		temp_data[key], ok = PostBool(key, c)
-		if !ok {
-			return
-		}
-		break
+		c.JSON(RET.Ret_fail(407, "", key+" is not avail in GorosePro or DefaultNull"))
+		c.Abort()
+		return
 
 	case time.Time:
-		temp_data[key], ok = PostDateTime(key, c)
+		ret, ok = PostDateTime(key, c)
 		if !ok {
-			temp_data[key], ok = PostDate(key, c)
+			ret, ok = PostDate(key, c)
 			if !ok {
 				return
 			}
@@ -92,11 +65,11 @@ func MPost(key string, data *gorose.Data, c *gin.Context) (ok bool) {
 		break
 
 	default:
-		temp_data[key] = in
+		ret = in
 		break
 	}
-	data = &temp_data
-	return true
+	goroseData = &temp_data
+	return
 }
 
 func MPostDate(key string, c *gin.Context) (time.Time, bool) {
