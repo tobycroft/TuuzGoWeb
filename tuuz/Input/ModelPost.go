@@ -14,16 +14,16 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 	for key, _ := range *goroseData {
 		_, whereHave := whereMap[key]
 		if whereHave {
-			ok, ret := MPost(key, c, goroseData)
-			if !ok {
+			okWhere, ret := MPost(key, c, goroseData)
+			if !okWhere {
 				c.JSON(RET.Ret_fail(400, "", key+" should be exist or Not in the GoroseProWhere"))
 				c.Abort()
 				return false, nil
 			}
 			whereMap[key] = ret
 		} else {
-			ok, ret := MPost(key, c, goroseData)
-			if ok {
+			okData, ret := MPost(key, c, goroseData)
+			if okData {
 				data[key] = ret
 			}
 		}
@@ -34,7 +34,7 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 		c.Abort()
 		return false, nil
 	}
-	return
+	return true, data
 }
 
 func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret interface{}) {
