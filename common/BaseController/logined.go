@@ -51,17 +51,17 @@ func LoginedController() gin.HandlerFunc {
 }
 
 func post_auth(c *gin.Context) (ok bool, uid string, token string, debug string) {
-	uid, ok = c.GetPostForm("uid")
-	if !ok {
-		c.JSON(RET.Ret_fail(-1, nil, "POST-[uid]"))
-		return
+	uid = c.GetHeader("uid")
+	if len(uid) < 1 {
+		c.JSON(RET.Ret_fail(-1, nil, "Header-[uid]"))
+		return false, "", "", ""
 	}
-	token, ok = c.GetPostForm("token")
-	if !ok {
-		c.JSON(RET.Ret_fail(-1, nil, "POST-[token]"))
-		return
+	token = c.GetHeader("token")
+	if len(token) < 1 {
+		c.JSON(RET.Ret_fail(-1, nil, "Header-[token]"))
+		return false, "", "", ""
 	}
-	debug = c.PostForm("debug")
+	debug = c.GetHeader("debug")
 	return
 }
 
