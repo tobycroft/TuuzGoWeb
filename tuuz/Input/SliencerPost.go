@@ -12,7 +12,6 @@ import (
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Date"
-	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
 	"main.go/tuuz/Vali"
 	"path/filepath"
@@ -273,48 +272,51 @@ func SPostBool(key string, c *gin.Context) (bool, bool) {
 	}
 }
 
-func SPostArray(key string, c *gin.Context) ([]interface{}, bool) {
+func SPostArray[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) ([]T, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JArray(in)
+		var arr []T
+		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array"))
 			c.Abort()
 			return nil, false
 		}
-		return i, true
+		return arr, true
 	}
 }
 
-func SPostObject(key string, c *gin.Context) (map[string]interface{}, bool) {
+func SPostObject[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) (map[string]T, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JObject(in)
+		var arr map[string]T
+		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should be a Json-Object", key+" should be a Json-Object"))
 			c.Abort()
 			return nil, false
 		}
-		return i, true
+		return arr, true
 	}
 }
 
-func SPostArrayObject(key string, c *gin.Context) ([]map[string]interface{}, bool) {
+func SPostArrayObject[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) ([]map[string]T, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JArrayObject(in)
+		var arr []map[string]T
+		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should be a Json-ArrayObject", key+" should be a Json-ArrayObject"))
 			c.Abort()
 			return nil, false
 		}
-		return i, true
+		return arr, true
 	}
 }
 
