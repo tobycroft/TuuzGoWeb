@@ -91,21 +91,7 @@ func PostPhone(key string, length int, c *gin.Context) (string, bool) {
 }
 
 func PostDate(key string, c *gin.Context) (time.Time, bool) {
-	in, ok := c.GetPostForm(key)
-	if !ok {
-		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
-		c.Abort()
-		return time.Time{}, false
-	} else {
-		p, err := time.Parse("2006-01-02", in)
-		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a Date"))
-			c.Abort()
-			return time.Time{}, false
-		} else {
-			return p, true
-		}
-	}
+	return PostDateTime(key, c)
 }
 
 func PostDateTime(key string, c *gin.Context) (time.Time, bool) {
