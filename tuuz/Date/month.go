@@ -84,38 +84,26 @@ func LastMonth1st_int() int64 {
 }
 
 func ThisWeek() string {
-	now := time.Now()
-	offset := int(time.Monday - now.Weekday())
-	if offset > 0 {
-		offset = -6
-	}
-	weekStartDate := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local).AddDate(0, 0, offset)
-	weekMonday := weekStartDate.Format("2006-01-02")
-	return weekMonday
+	weekMonday := Offset_thisWeek()
+	return Offset_format_day(weekMonday)
 }
 
 func ThisWeek_int() int64 {
-	return Date2Int(ThisWeek())
+	return Offset_thisWeek().Unix()
 }
 
 func LastWeek() string {
-	thisWeekMonday := ThisWeek()
-	TimeMonday, _ := time.Parse("2006-01-02", thisWeekMonday)
-	lastWeekMonday := TimeMonday.AddDate(0, 0, -7)
-	weekMonday := lastWeekMonday.Format("2006-01-02")
-	return weekMonday
+	weekMonday := Offset_week1st(-1)
+	return Offset_format_day(weekMonday)
 }
 
 func NextWeek() string {
-	thisWeekMonday := ThisWeek()
-	TimeMonday, _ := time.Parse("2006-01-02", thisWeekMonday)
-	lastWeekMonday := TimeMonday.AddDate(0, 0, 7)
-	weekMonday := lastWeekMonday.Format("2006-01-02")
-	return weekMonday
+	weekMonday := Offset_week1st(1)
+	return Offset_format_day(weekMonday)
 }
 
 func LastWeek_int() int64 {
-	return Date2Int(LastWeek())
+	return Offset_week1st(-1).Unix()
 }
 
 func Today() string {
