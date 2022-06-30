@@ -91,7 +91,7 @@ func Tomorrow() string {
 }
 
 func Today_int() int64 {
-	return Datetime2Int(Today())
+	return Offset_dayZero(0).Unix()
 }
 
 func Yesterday() string {
