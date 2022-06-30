@@ -32,6 +32,11 @@ func Offset_week1st(week_offset int) time.Time {
 	return Offset_thisWeek().AddDate(0, 0, -7*week_offset)
 }
 
+func Offset_dayZero(day_offset int) time.Time {
+	now := time.Now()
+	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local).AddDate(0, 0, day_offset)
+}
+
 func Offset_format_year(T time.Time) string {
 	return T.Format("2006")
 }

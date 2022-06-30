@@ -38,27 +38,19 @@ func MonthDateNow(month int) string {
 }
 
 func MonthDay(month int) string {
-	monthOneDay := time.Now().AddDate(0, month, 0).Format("2006-01-02")
-	return monthOneDay
+	return Offset_format_day(Offset_month1st(month))
 }
 
 func Month(month int) string {
-	monthOneDay := time.Now().AddDate(0, month, 0).Format("2006-01")
-	return monthOneDay
+	return Offset_format_month(Offset_month1st(0))
 }
 
 func NextMonth_1st() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, 1, 0).Format("2006-01-02")
-	return monthOneDay
+	return Offset_format_second(Offset_month1st(1))
 }
 
 func LastMonthCombine() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, -1, 0).Format("200601")
-	return monthOneDay
+	return Offset_month1st(-1).Format("200601")
 }
 
 func ThisMonth1st() string {
@@ -70,19 +62,15 @@ func ThisMonth1st_int() int64 {
 }
 
 func LastMonth1st() string {
-	year, month, _ := time.Now().Date()
-	thisMonth := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	monthOneDay := thisMonth.AddDate(0, -1, 0).Format("2006-01-02")
-	return monthOneDay
+	return Offset_format_second(Offset_month1st(-1))
 }
 
 func LastMonth1st_int() int64 {
-	return Date2Int(LastMonth1st())
+	return Offset_month1st(-1).Unix()
 }
 
 func ThisWeek() string {
-	weekMonday := Offset_thisWeek()
-	return Offset_format_day(weekMonday)
+	return Offset_format_day(Offset_thisWeek())
 }
 
 func ThisWeek_int() int64 {
@@ -90,13 +78,11 @@ func ThisWeek_int() int64 {
 }
 
 func LastWeek() string {
-	weekMonday := Offset_week1st(-1)
-	return Offset_format_day(weekMonday)
+	return Offset_format_day(Offset_week1st(-1))
 }
 
 func NextWeek() string {
-	weekMonday := Offset_week1st(1)
-	return Offset_format_day(weekMonday)
+	return Offset_format_day(Offset_week1st(1))
 }
 
 func LastWeek_int() int64 {
@@ -104,8 +90,7 @@ func LastWeek_int() int64 {
 }
 
 func Today() string {
-	monthOneDay := time.Now().Format("2006-01-02")
-	return monthOneDay
+	return Offset_format_second(Offset_dayZero(0))
 }
 
 func Tomorrow() string {
