@@ -259,7 +259,7 @@ func PostArray[T int | string | int64 | float64 | interface{}](key string, c *gi
 		var arr []T
 		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array now is : "+in))
 			c.Abort()
 			return nil, false
 		}
@@ -277,7 +277,7 @@ func PostObject[T int | string | int64 | float64 | interface{}](key string, c *g
 		var arr map[string]T
 		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be a Json-Object", key+" should be a Json-Object"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Object now is : "+in))
 			c.Abort()
 			return nil, false
 		}
@@ -295,7 +295,7 @@ func PostArrayObject[T int | string | int64 | float64 | interface{}](key string,
 		var arr []map[string]T
 		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, key+" should be a Json-ArrayObject", key+" should be a Json-ArrayObject"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-ArrayObject now is : "+in))
 			c.Abort()
 			return nil, false
 		}
@@ -312,7 +312,7 @@ func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
 	} else {
 		err := jsoniter.UnmarshalFromString(in, &AnyType)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType"))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType now is : "+in))
 			c.Abort()
 			return false
 		}
