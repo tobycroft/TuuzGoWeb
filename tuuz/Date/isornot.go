@@ -12,14 +12,56 @@ func Date_between_time(the_time time.Time, start_time time.Time, end_time time.T
 	return true
 }
 
-func Date_is_in_thisMonth(the_time time.Time) bool {
+func Date_is_in_this_Month(the_time time.Time) bool {
 	this_month := Date_offset_month1st(0)
 	next_month := Date_offset_month1st(1)
 	return Date_between_time(the_time, this_month, next_month)
 }
 
-func Date_is_in_thisWeek(the_time time.Time) bool {
+func Date_is_in_offset_Month(the_time time.Time, offset int) bool {
+	this_month := Date_offset_month1st(offset)
+	next_month := Date_offset_month1st(offset + 1)
+	return Date_between_time(the_time, this_month, next_month)
+}
+
+func Date_is_in_offset_free_Month(the_time time.Time, offset_start, offset_end int) bool {
+	this_month := Date_offset_month1st(offset_start)
+	next_month := Date_offset_month1st(offset_end)
+	return Date_between_time(the_time, this_month, next_month)
+}
+
+func Date_is_in_this_Week(the_time time.Time) bool {
 	this_week := Date_offset_week1st(0)
 	next_week := Date_offset_week1st(1)
 	return Date_between_time(the_time, this_week, next_week)
+}
+
+func Date_is_in_offset_Week(the_time time.Time, offset int) bool {
+	this_week := Date_offset_week1st(offset)
+	next_week := Date_offset_week1st(offset + 1)
+	return Date_between_time(the_time, this_week, next_week)
+}
+
+func Date_is_in_offset_free_Week(the_time time.Time, offset_start, offset_end int) bool {
+	this_week := Date_offset_week1st(offset_start)
+	next_week := Date_offset_week1st(offset_end)
+	return Date_between_time(the_time, this_week, next_week)
+}
+
+func Date_is_in_today(the_time time.Time) bool {
+	today := Date_offset_dayZero(0)
+	tomorrow := Date_offset_dayZero(1)
+	return Date_between_time(the_time, today, tomorrow)
+}
+
+func Date_is_in_offset_Day(the_time time.Time, offset int) bool {
+	today := Date_offset_dayZero(offset)
+	tomorrow := Date_offset_dayZero(offset + 1)
+	return Date_between_time(the_time, today, tomorrow)
+}
+
+func Date_is_in_offset_free_Day(the_time time.Time, offset_start, offset_end int) bool {
+	today := Date_offset_dayZero(offset_start)
+	tomorrow := Date_offset_dayZero(offset_end)
+	return Date_between_time(the_time, today, tomorrow)
 }
