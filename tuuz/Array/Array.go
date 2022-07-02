@@ -1,12 +1,22 @@
 package Array
 
 import (
+	"github.com/shopspring/decimal"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
+	"strings"
 )
 
-func Merge(args ...map[string]interface{}) map[string]interface{} {
-	arr := make(map[string]interface{})
+func Join[T int | int64 | float64 | float32 | decimal.Decimal | string | interface{}](slices []T) string {
+	strs := []string{}
+	for _, slice := range slices {
+		strs = append(strs, Calc.Any2String(slice))
+	}
+	return strings.Join(strs, ",")
+}
+
+func Merge[T string | int64 | float64, K string | interface{} | int64 | float64 | decimal.Decimal](args ...map[T]K) map[T]K {
+	arr := make(map[T]K)
 	for _, arrs := range args {
 		for key, value := range arrs {
 			arr[key] = value
