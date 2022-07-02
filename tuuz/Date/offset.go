@@ -1,6 +1,8 @@
 package Date
 
-import "time"
+import (
+	"time"
+)
 
 func Date_offset_month1st(month_offset int) time.Time {
 	year, month, _ := time.Now().Date()
@@ -29,7 +31,7 @@ func Date_offset_thisWeek() time.Time {
 }
 
 func Date_offset_week1st(week_offset int) time.Time {
-	return Date_offset_thisWeek().AddDate(0, 0, -7*week_offset)
+	return Date_offset_thisWeek().AddDate(0, 0, 7*week_offset)
 }
 
 func Date_offset_dayZero(day_offset int) time.Time {
