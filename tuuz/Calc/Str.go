@@ -13,6 +13,10 @@ func Chop(s string, character_mask string) string {
 	return strings.TrimRight(s, character_mask)
 }
 
+func Transform[T int | int64 | string | interface{}, K int | int64 | string | interface{}](any T) K {
+
+}
+
 func Any2String(any interface{}) string {
 	var str string
 	switch any.(type) {
