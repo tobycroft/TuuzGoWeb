@@ -2,8 +2,8 @@ package APush
 
 import (
 	"errors"
+	"github.com/tobycroft/Calc"
 	"main.go/tuuz"
-	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Log"
 	"main.go/tuuz/Net"
