@@ -11,13 +11,7 @@ import (
 )
 
 func Mt_rand(min, max int64) int64 {
-	rand2.Seed(Seed())
-	if min == max {
-		return min
-	} else {
-		r := rand2.New(rand2.NewSource(time.Now().UnixNano()))
-		return r.Int63n(max-min+1) + min
-	}
+	return Rand[int64](min, max)
 }
 
 func Seed() int64 {
