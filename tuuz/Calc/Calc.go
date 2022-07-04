@@ -25,18 +25,16 @@ func Seed() int64 {
 	return num.Int64() + time.Now().UnixNano()
 }
 
-func Rand(min, max int) int {
+func Rand[T int | int64](min, max T) T {
 	rand2.Seed(Seed())
 	if min == max {
 		return min
 	} else {
-		var randNum int
 		if max-min < 0 {
-			randNum = rand2.Intn(min-max) + min
+			return T(rand2.Int63n(int64(min-max))) + min
 		} else {
-			randNum = rand2.Intn(max-min) + min
+			return T(rand2.Int63n(int64(max-min))) + min
 		}
-		return randNum
 	}
 }
 
