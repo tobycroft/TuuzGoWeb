@@ -134,6 +134,8 @@ github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
+github.com/tobycroft/Calc v1.0.0 h1:ZZJQbGwJEKXLKJp8AOODgMMGlKMeIOuRHT7wFksCNxA=
+github.com/tobycroft/Calc v1.0.0/go.mod h1:Rtbth5rVSBICUCh2tH0tQwB1x2SHzhtkyB1FndlETEA=
 github.com/tobycroft/gorose-pro v1.2.9 h1:0FJxnphdboRpX8c/uNETn7N8AY1+ffL6sJZ9OFepH5g=
 github.com/tobycroft/gorose-pro v1.2.9/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
 github.com/tobycroft/gorose-pro v1.4.1 h1:PLKC4wVH44RgQeqh6LZWndDFluTO2eD/h7iDM3qs4QE=

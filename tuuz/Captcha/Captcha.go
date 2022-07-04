@@ -2,10 +2,10 @@ package Captcha
 
 import (
 	"github.com/afocus/captcha"
+	"github.com/tobycroft/Calc"
 	"image"
 	"image/color"
 	"log"
-	"main.go/tuuz/Calc"
 	"main.go/tuuz/Redis"
 )
 

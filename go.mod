@@ -15,6 +15,7 @@ require (
 	github.com/kirinlabs/HttpRequest v1.1.1
 	github.com/shopspring/decimal v1.3.1
 	github.com/tobycroft/gorose-pro v1.4.2
+	github.com/tobycroft/Calc v1.0.0
 )
 
 require (

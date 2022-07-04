@@ -2,7 +2,7 @@ package Array
 
 import (
 	"github.com/shopspring/decimal"
-	"main.go/tuuz/Calc"
+	"github.com/tobycroft/Calc"
 	"main.go/tuuz/Jsong"
 	"strings"
 )
