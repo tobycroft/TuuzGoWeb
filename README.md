@@ -25,7 +25,8 @@ GorosePro为TuuzGoWeb的ORM支持，支持nested transaction，对复杂逻辑�
 - route
     - 路由控制面
 - tuuz
-    - 框架面
+    - 核心Utils
+        - [计算+转换器模块](https://github.com/tobycroft/Calc)
 
 # TGW的四段路由说明
 
