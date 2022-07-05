@@ -58,7 +58,7 @@ func MPostAuto(c *gin.Context, goroseProData *gorose.Data, where *map[string]int
 	}
 	where = &whereMap
 	if len(data) < 1 {
-		c.JSON(RET.Ret_fail(400, "request with ["+strings.Join(auto_wheres, ",")+"] request in ["+strings.Join(auto_datas, ",")+"]", "GoroseProData is not ready"))
+		c.JSON(RET.Ret_fail(400, "request with ["+strings.Join(auto_wheres, ",")+"] request in ["+strings.Join(auto_datas, ",")+"]", "GoroseProData is not need to set"))
 		c.Abort()
 		return false, nil
 	}
@@ -90,7 +90,7 @@ func MPostIn(c *gin.Context, goroseProData *gorose.Data, data_keys []string) (ok
 		return false, nil
 	}
 	if data_keys == nil || len(data_keys) < 1 {
-		c.JSON(RET.Ret_fail(402, "DataKeys should be setted", "GoroseProKeys is not ready"))
+		c.JSON(RET.Ret_fail(402, "DataKeys should be set", "GoroseProKeys is not ready"))
 		c.Abort()
 		return false, nil
 	}
