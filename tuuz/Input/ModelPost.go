@@ -135,16 +135,16 @@ func MPost(key string, c *gin.Context, goroseProData *gorose.Data) (ok bool, ret
 		return
 
 	case int:
-		ret, ok = PostInt(key, c)
+		ret, ok = SPostInt(key, c)
 		if !ok {
 			return
 		}
 		break
 
 	case int64:
-		ret, ok = PostInt64(key, c)
+		ret, ok = SPostInt64(key, c)
 		if !ok {
-			ret, ok = PostBool(key, c)
+			ret, ok = SPostBool(key, c)
 			if !ok {
 				return
 			}
@@ -152,16 +152,16 @@ func MPost(key string, c *gin.Context, goroseProData *gorose.Data) (ok bool, ret
 		break
 
 	case float64:
-		ret, ok = PostFloat64(key, c)
+		ret, ok = SPostFloat64(key, c)
 		if !ok {
 			return
 		}
 		break
 
 	case time.Time:
-		ret, ok = PostDateTime(key, c)
+		ret, ok = SPostDateTime(key, c)
 		if !ok {
-			ret, ok = PostDate(key, c)
+			ret, ok = SPostDate(key, c)
 			if !ok {
 				return
 			}
