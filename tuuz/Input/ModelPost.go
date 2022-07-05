@@ -135,7 +135,7 @@ func MPost(key string, c *gin.Context, goroseProData *gorose.Data) (ok bool, ret
 		return
 
 	case int:
-		ret, ok = SPostInt(key, c)
+		ret, ok = PostInt(key, c)
 		if !ok {
 			return
 		}
