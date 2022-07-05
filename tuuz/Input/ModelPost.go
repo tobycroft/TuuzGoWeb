@@ -37,24 +37,43 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 	return true, data
 }
 
+func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bool, data map[string]interface{}) {
+	temp_data := *goroseData
+	data = make(map[string]interface{})
+	for _, data_key := range data_keys {
+		_, whereHave := temp_data[data_key]
+		if whereHave {
+			okWhere, ret := MPost(data_key, c, goroseData)
+			if !okWhere {
+				c.JSON(RET.Ret_fail(400, "", data_key+" should be exist or Not in the GoroseProWhere"))
+				c.Abort()
+				return false, nil
+			}
+			data[data_key] = ret
+		}
+	}
+	if len(data) < 1 {
+		c.JSON(RET.Ret_fail(400, "", "GoroseProData is not ready"))
+		c.Abort()
+		return false, nil
+	}
+	return true, data
+}
+
 func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret interface{}) {
 	var in string
 	in, ok = c.GetPostForm(key)
-	temp_data := *goroseData
-	if _, ok := temp_data["date"]; ok {
-		delete(temp_data, "date")
-	}
-	if _, ok := temp_data["change_date"]; ok {
-		delete(temp_data, "date")
-	}
 	if !ok {
 		return
 	}
-	switch temp_data[key].(type) {
+	temp_data := *goroseData
+	tdata, ok := temp_data[key]
+	if !ok {
+		return
+	}
+	switch tdata.(type) {
 	case nil:
-		ok = false
-		c.JSON(RET.Ret_fail(400, "", key+" is not avail in GorosePro or DefaultNull"))
-		c.Abort()
+		ret = in
 		return
 
 	case int:
@@ -95,6 +114,7 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 		ret = template.JSEscapeString(in)
 		break
 	}
+	temp_data[key] = ret
 	goroseData = &temp_data
 	return
 }
