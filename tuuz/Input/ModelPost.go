@@ -10,6 +10,19 @@ import (
 	"time"
 )
 
+/*
+MPostAuto
+if u wanna use this functions
+1.load the data by find functions like single_object_data:=Api_find(id)
+2.prepare the where map[string]interface{} the value can be prepared like nil or exact, for example where_maps:=map[string]interface{}{"key1":int64(0),"key2":nil}
+3.if u set the value in the wheremap above, then if the request val is nor in the same type, it will echo failed-json to client
+
+4.use ok,data_to_change:=MPostAuto(c,&single_object_data,&where_maps)
+5.grab the data from this function
+6.use update like Api_update(where_maps,data_to_change)
+7.direct insert the data_to_change into GorosePro
+8.for example: db.Where(where_maps) | db.Data(data_to_change)
+*/
 func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (ok bool, data map[string]interface{}) {
 	whereMap := *where
 	auto_wheres := []string{}
@@ -43,6 +56,16 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 	return true, data
 }
 
+/*
+MPostIn
+if u wanna use this functions
+1.load the data by find functions like single_object_data:=Api_find(id)
+2.use ok,data_to_change:=MPostIn(c,&single_object_data,[]stirng{"key1","key2"}
+3.grab the data from this function
+4.use update like Api_update(id,data_to_change)
+5.direct insert the data_to_change into GorosePro
+6.for example, db.Data(data_to_change)
+*/
 func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bool, data map[string]interface{}) {
 	temp_data := *goroseData
 	data = make(map[string]interface{})
