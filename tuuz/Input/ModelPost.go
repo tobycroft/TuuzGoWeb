@@ -23,15 +23,24 @@ if u wanna use this functions
 7.direct insert the data_to_change into GorosePro
 8.for example: db.Where(where_maps) | db.Data(data_to_change)
 */
-func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (ok bool, data map[string]interface{}) {
+func MPostAuto(c *gin.Context, goroseProData *gorose.Data, where *map[string]interface{}) (ok bool, data map[string]interface{}) {
+	ok = mpost_checker(c, goroseProData)
+	if !ok {
+		return false, nil
+	}
+	if *where == nil || where == nil {
+		where = &map[string]interface{}{
+			"id": int64(0),
+		}
+	}
 	whereMap := *where
 	auto_wheres := []string{}
 	auto_datas := []string{}
-	for key, _ := range *goroseData {
+	for key, _ := range *goroseProData {
 		_, whereHave := whereMap[key]
 		if whereHave {
 			auto_wheres = append(auto_wheres, key)
-			okWhere, ret := MPost(key, c, goroseData)
+			okWhere, ret := MPost(key, c, goroseProData)
 			if !okWhere {
 				c.JSON(RET.Ret_fail(400, nil, key+" should be exist or Not in the GoroseProWhere"))
 				c.Abort()
@@ -40,7 +49,7 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 			whereMap[key] = ret
 		} else {
 			auto_datas = append(auto_datas, key)
-			okData, ret := MPost(key, c, goroseData)
+			okData, ret := MPost(key, c, goroseProData)
 			if okData {
 				//if data's key is existed here then insert that data into the map, otherwise it won't shows in the datamap where it returns
 				data[key] = ret
@@ -56,6 +65,15 @@ func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interf
 	return true, data
 }
 
+func mpost_checker(c *gin.Context, goroseProData *gorose.Data) bool {
+	if *goroseProData == nil || goroseProData == nil {
+		c.JSON(RET.Ret_fail(404, "GoroseProData is not ready", nil))
+		c.Abort()
+		return false
+	}
+	return true
+}
+
 /*
 MPostIn
 if u wanna use this functions
@@ -66,13 +84,22 @@ if u wanna use this functions
 5.direct insert the data_to_change into GorosePro
 6.for example, db.Data(data_to_change)
 */
-func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bool, data map[string]interface{}) {
-	temp_data := *goroseData
+func MPostIn(c *gin.Context, goroseProData *gorose.Data, data_keys []string) (ok bool, data map[string]interface{}) {
+	ok = mpost_checker(c, goroseProData)
+	if !ok {
+		return false, nil
+	}
+	if data_keys == nil || len(data_keys) < 1 {
+		c.JSON(RET.Ret_fail(402, "DataKeys should be setted", "GoroseProKeys is not ready"))
+		c.Abort()
+		return false, nil
+	}
+	temp_data := *goroseProData
 	data = make(map[string]interface{})
 	for _, data_key := range data_keys {
 		_, whereHave := temp_data[data_key]
 		if whereHave {
-			okWhere, ret := MPost(data_key, c, goroseData)
+			okWhere, ret := MPost(data_key, c, goroseProData)
 			if !okWhere {
 				continue
 			}
@@ -87,13 +114,17 @@ func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bo
 	return true, data
 }
 
-func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret interface{}) {
+func MPost(key string, c *gin.Context, goroseProData *gorose.Data) (ok bool, ret interface{}) {
+	ok = mpost_checker(c, goroseProData)
+	if !ok {
+		return false, nil
+	}
 	var in string
 	in, ok = c.GetPostForm(key)
 	if !ok {
 		return
 	}
-	temp_data := *goroseData
+	temp_data := *goroseProData
 	tdata, ok := temp_data[key]
 	if !ok {
 		return
@@ -142,7 +173,7 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 		break
 	}
 	temp_data[key] = ret
-	goroseData = &temp_data
+	goroseProData = &temp_data
 	return
 }
 
