@@ -6,31 +6,36 @@ import (
 	"html/template"
 	"main.go/tuuz/RET"
 	"main.go/tuuz/Vali"
+	"strings"
 	"time"
 )
 
 func MPostAuto(c *gin.Context, goroseData *gorose.Data, where *map[string]interface{}) (ok bool, data map[string]interface{}) {
 	whereMap := *where
+	auto_keys := []string{}
 	for key, _ := range *goroseData {
 		_, whereHave := whereMap[key]
 		if whereHave {
+			auto_keys = append(auto_keys, key)
 			okWhere, ret := MPost(key, c, goroseData)
 			if !okWhere {
-				c.JSON(RET.Ret_fail(400, "", key+" should be exist or Not in the GoroseProWhere"))
+				c.JSON(RET.Ret_fail(400, nil, key+" should be exist or Not in the GoroseProWhere"))
 				c.Abort()
 				return false, nil
 			}
 			whereMap[key] = ret
 		} else {
+			auto_keys = append(auto_keys, key)
 			okData, ret := MPost(key, c, goroseData)
 			if okData {
+				//if data's key is existed here then insert that data into the map, otherwise it won't shows in the datamap where it returns
 				data[key] = ret
 			}
 		}
 	}
 	where = &whereMap
 	if len(data) < 1 {
-		c.JSON(RET.Ret_fail(400, "", "GoroseProData is not ready"))
+		c.JSON(RET.Ret_fail(400, "request in ["+strings.Join(auto_keys, ",")+"]", "GoroseProData is not ready"))
 		c.Abort()
 		return false, nil
 	}
@@ -51,7 +56,7 @@ func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bo
 		}
 	}
 	if len(data) < 1 {
-		c.JSON(RET.Ret_fail(400, "", "GoroseProData is not ready"))
+		c.JSON(RET.Ret_fail(400, "request in ["+strings.Join(data_keys, ",")+"]", "GoroseProData is not ready"))
 		c.Abort()
 		return false, nil
 	}
