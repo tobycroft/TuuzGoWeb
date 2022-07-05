@@ -16,7 +16,7 @@ require github.com/tobycroft/Calc v1.0.0
 go get -u github.com/tobycroft/Calc
 ```
 
-# 功能
+# 功能[]()
 
 ## 类型转换
 

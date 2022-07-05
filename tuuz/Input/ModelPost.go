@@ -41,6 +41,12 @@ func MPost(key string, c *gin.Context, goroseData *gorose.Data) (ok bool, ret in
 	var in string
 	in, ok = c.GetPostForm(key)
 	temp_data := *goroseData
+	if _, ok := temp_data["date"]; ok {
+		delete(temp_data, "date")
+	}
+	if _, ok := temp_data["change_date"]; ok {
+		delete(temp_data, "date")
+	}
 	if !ok {
 		return
 	}
