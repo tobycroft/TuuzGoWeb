@@ -45,9 +45,7 @@ func MPostIn(c *gin.Context, goroseData *gorose.Data, data_keys []string) (ok bo
 		if whereHave {
 			okWhere, ret := MPost(data_key, c, goroseData)
 			if !okWhere {
-				c.JSON(RET.Ret_fail(400, "", data_key+" should be exist or Not in the GoroseProWhere"))
-				c.Abort()
-				return false, nil
+				continue
 			}
 			data[data_key] = ret
 		}
