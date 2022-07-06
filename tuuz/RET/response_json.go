@@ -13,9 +13,9 @@ var (
 	jsonASCIIContentType = []string{"application/json"}
 )
 
-func json(c *gin.Context, retCode *int, retJson interface{}) {
+func json(c *gin.Context, retCode *int, retJsonPointer any) {
 	writeContentType(c.Writer, jsonContentType)
-	jsonBytes, err := jsoniter.Marshal(&retJson)
+	jsonBytes, err := jsoniter.Marshal(&retJsonPointer)
 	if err != nil {
 		c.Writer.WriteHeader(500)
 		c.Writer.WriteString("RetData-Marshal-Error:" + err.Error())
@@ -25,9 +25,9 @@ func json(c *gin.Context, retCode *int, retJson interface{}) {
 	c.Writer.Write(jsonBytes)
 }
 
-func secure_json(c *gin.Context, retCode *int, retJson interface{}) {
+func secure_json(c *gin.Context, retCode *int, retJsonPointer any) {
 	writeContentType(c.Writer, jsonContentType)
-	jsonBytes, err := jsoniter.Marshal(&retJson)
+	jsonBytes, err := jsoniter.Marshal(&retJsonPointer)
 	if err != nil {
 		c.Writer.WriteHeader(500)
 		c.Writer.WriteString("RetData-Marshal-Error:" + err.Error())
