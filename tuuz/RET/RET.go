@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
+	"net/http"
 )
 
 func Json(data interface{}) string {
@@ -64,12 +65,22 @@ func Success(c *gin.Context, code int, data, echo interface{}) {
 		data = []interface{}{}
 	}
 	if app_conf.SecureJson {
-		c.SecureJSON(Ret_succ(code, data, echo))
+		retCode, retJson := Ret_succ(code, data, echo)
+		secure_json(c, &retCode, &retJson)
 	} else {
-		c.JSON(Ret_succ(code, data, echo))
+		retCode, retJson := Ret_succ(code, data, echo)
+		json(c, &retCode, &retJson)
 	}
 	c.Abort()
 	return
+}
+
+func writeContentType(w http.ResponseWriter,
+	value []string) {
+	header := w.Header()
+	if val := header["Content-Type"]; len(val) == 0 {
+		header["Content-Type"] = value
+	}
 }
 
 func Fail(c *gin.Context, code int, data, echo interface{}) {
