@@ -101,25 +101,13 @@ func PostDateTime(key string, c *gin.Context) (time.Time, bool) {
 		c.Abort()
 		return time.Time{}, false
 	} else {
-		p, err := time.Parse("2006-01-02 15:04:05", in)
-		if err == nil {
-			return p, true
+		datetime, err := Date.Date_time_parser(in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime or RFC3339"))
+			c.Abort()
+			return time.Time{}, false
 		}
-		p, err = time.Parse(time.RFC3339, in)
-		if err == nil {
-			return p, true
-		}
-		p, err = time.Parse(time.RFC3339Nano, in)
-		if err == nil {
-			return p, true
-		}
-		p, err = time.Parse("2006-01-02", in)
-		if err == nil {
-			return p, true
-		}
-		c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime or RFC3339"))
-		c.Abort()
-		return time.Time{}, false
+		return datetime, true
 	}
 }
 
