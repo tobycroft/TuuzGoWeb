@@ -204,7 +204,6 @@ func Lpop(key string) (interface{}, error) {
 }
 
 func Lpush(key string, value interface{}) error {
-	RRedis := Conn()
 	defer RRedis.Close()
 	_, err := RRedis.Do("lPush", app_conf.Project+":"+key, value)
 	if err != nil {
