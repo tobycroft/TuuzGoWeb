@@ -4,16 +4,15 @@ import (
 	"fmt"
 	redigo "github.com/gomodule/redigo/redis"
 	"log"
+	"main.go/config/app_conf"
 )
 
 var pool *redigo.Pool
 
 func init() {
-	redis_host := address
-	redis_port := port
-	pool_size := 10
+	pool_size := app_conf.Redicon_poolsize
 	pool = redigo.NewPool(func() (redigo.Conn, error) {
-		c, err := redigo.Dial("tcp", fmt.Sprintf("%s:%s", redis_host, redis_port))
+		c, err := redigo.Dial("tcp", fmt.Sprintf("%s:%s", app_conf.Redicon_address, app_conf.Redicon_port))
 		if err != nil {
 			log.Panic(err)
 			return nil, err
