@@ -8,34 +8,6 @@ import (
 	"main.go/tuuz/Jsong"
 )
 
-func Add(key string, value string, duration int) (interface{}, error) {
-	RRedis := Conn()
-	defer RRedis.Close()
-	str, err := Jsong.Encode(value)
-	if err != nil {
-		fmt.Println("redis set failed1json:", err)
-		return str, err
-
-	}
-	status, errs := RRedis.Do("SADD", app_conf.Project+":"+key, str, "EX", duration)
-	if errs != nil {
-		fmt.Println("redis set failed2:", errs)
-		return status, errs
-	}
-	return status, err
-}
-
-func IsMember(key, value string) bool {
-	RRedis := Conn()
-	defer RRedis.Close()
-	ismember, err := redigo.Bool(RRedis.Do("sIsMember", key, value))
-	if err != nil {
-		return false
-	} else {
-		return ismember
-	}
-}
-
 func Set(key string, value interface{}, duration int) (interface{}, error) {
 	RRedis := Conn()
 	defer RRedis.Close()

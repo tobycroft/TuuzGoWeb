@@ -6,7 +6,9 @@ import (
 	"main.go/config/app_conf"
 )
 
-var goredis = context.Background()
+var goredis_ctx = context.Background()
+
+var goredis *redis.Client
 
 func init() {
 	options := redis.Options{
@@ -24,9 +26,5 @@ func init() {
 	if app_conf.Redicon_poolsize > 0 {
 		options.PoolSize = app_conf.Redicon_poolsize
 	}
-	//rdb := redis.NewClient(&options)
-}
-
-func Conn() {
-
+	goredis = redis.NewClient(&options)
 }
