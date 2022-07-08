@@ -6,3 +6,4 @@ const Redicon_proto = "tcp"
 const Redicon_username = ""
 const Redicon_password = ""
 const Redicon_poolsize = 10
+const Redicon_timeout = 10
