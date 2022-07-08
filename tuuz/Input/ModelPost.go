@@ -36,6 +36,7 @@ func MPostAuto(c *gin.Context, goroseProData *gorose.Data, where *map[string]int
 	whereMap := *where
 	auto_wheres := []string{}
 	auto_datas := []string{}
+	data = make(map[string]interface{})
 	for key, _ := range *goroseProData {
 		_, whereHave := whereMap[key]
 		if whereHave {
@@ -161,10 +162,7 @@ func MPost(key string, c *gin.Context, goroseProData *gorose.Data) (ok bool, ret
 	case time.Time:
 		ret, ok = SPostDateTime(key, c)
 		if !ok {
-			ret, ok = SPostDate(key, c)
-			if !ok {
-				return
-			}
+			return
 		}
 		break
 

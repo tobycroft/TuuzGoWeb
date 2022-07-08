@@ -24,7 +24,7 @@ func init() {
 	if app_conf.Redicon_poolsize > 0 {
 		options.PoolSize = app_conf.Redicon_poolsize
 	}
-	rdb := redis.NewClient(&options)
+	//rdb := redis.NewClient(&options)
 }
 
 func Conn() {
