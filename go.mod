@@ -14,16 +14,19 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/kirinlabs/HttpRequest v1.1.1
 	github.com/shopspring/decimal v1.3.1
-	github.com/tobycroft/gorose-pro v1.4.2
 	github.com/tobycroft/Calc v1.0.0
+	github.com/tobycroft/gorose-pro v1.4.2
 )
 
 require (
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.0 // indirect
+	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/gohouse/golib v0.0.0-20210711163732-a5c22059eb75 // indirect
 	github.com/gohouse/t v0.0.0-20201007094014-630049a6bfe9 // indirect
