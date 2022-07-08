@@ -6,6 +6,7 @@ import (
 	redigo "github.com/gomodule/redigo/redis"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
+	"time"
 )
 
 func Set(key string, value interface{}, duration int) (interface{}, error) {
@@ -159,24 +160,17 @@ func GetAny(key string, value *interface{}) error {
 	return nil
 }
 
-func Del(key string) (interface{}, error) {
-	RRedis := Conn()
-	defer RRedis.Close()
-	status, err := RRedis.Do("DEL", app_conf.Project+":"+key)
-	if err != nil {
-		fmt.Println("redis delete fail", err)
-	}
-	return status, err
+func Del(key string) error {
+	return goredis.Del(goredis_ctx, app_conf.Project+":"+key).Err()
 }
 
-func Expire(key string, duration float64) (interface{}, error) {
-	RRedis := Conn()
-	defer RRedis.Close()
-	status, err := RRedis.Do("EXPIRE", app_conf.Project+":"+key, duration)
-	if err != nil {
-		fmt.Println("err while change duration:", err)
-	}
-	return status, err
+func DelGet(key string) (string, error) {
+	ret, err := goredis.GetDel(goredis_ctx, app_conf.Project+":"+key).Result()
+	return ret, err
+}
+
+func Expire(key string, duration time.Duration) error {
+	return goredis.Expire(goredis_ctx, app_conf.Project+":"+key, duration).Err()
 }
 
 func Rpush(key string, value interface{}, duration interface{}) error {
