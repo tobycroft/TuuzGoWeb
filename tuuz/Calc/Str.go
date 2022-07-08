@@ -20,16 +20,6 @@ func Chop(s string, character_mask string) string {
 func Any2String(any interface{}) string {
 	var str string
 	switch any.(type) {
-	case string:
-		str = any.(string)
-
-	case int:
-		tmp := any.(int)
-		str = Int2String(tmp)
-
-	case int32:
-		tmp := int64(any.(int32))
-		str = Int642String(tmp)
 
 	case int64:
 		tmp := any.(int64)
@@ -38,6 +28,28 @@ func Any2String(any interface{}) string {
 	case float64:
 		tmp := any.(float64)
 		str = Float642String(tmp)
+
+	case bool:
+		tmp := any.(bool)
+		if tmp == true {
+			return "true"
+		} else {
+			return "false"
+		}
+
+	case string:
+		str = any.(string)
+
+	case nil:
+		str = ""
+
+	case int:
+		tmp := any.(int)
+		str = Int2String(tmp)
+
+	case int32:
+		tmp := int64(any.(int32))
+		str = Int642String(tmp)
 
 	case float32:
 		tmp := Float322Float64(any.(float32))
@@ -50,17 +62,6 @@ func Any2String(any interface{}) string {
 	case decimal.Decimal:
 		tmp := any.(decimal.Decimal)
 		str = tmp.String()
-
-	case nil:
-		str = ""
-
-	case bool:
-		tmp := any.(bool)
-		if tmp == true {
-			return "true"
-		} else {
-			return "false"
-		}
 
 	default:
 		fmt.Println("any2string", any, reflect.TypeOf(any))
@@ -99,4 +100,12 @@ func Interface2String(inter []interface{}) []string {
 		strs = append(strs, Any2String(it))
 	}
 	return strs
+}
+
+func AnyJoin[T int | int64 | float64 | decimal.Decimal](joins []T, sep string) string {
+	strs := []string{}
+	for _, join := range joins {
+		strs = append(strs, Any2String(join))
+	}
+	return strings.Join(strs, sep)
 }
