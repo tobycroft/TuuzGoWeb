@@ -45,11 +45,11 @@ func SortSet_rank(key, rank_by string) (int64, error) {
 }
 
 func SortSet_list_asc(key string) ([]string, error) {
-	return SortSet_list_asc_min_max(key, 0, -1)
+	return SortSet_list_asc_min_max(app_conf.Project+":"+key, 0, -1)
 }
 
 func SortSet_list_desc(key string) ([]string, error) {
-	return SortSet_list_desc_min_max(key, 0, -1)
+	return SortSet_list_desc_min_max(app_conf.Project+":"+key, 0, -1)
 }
 
 func SortSet_list_asc_min_max(key string, start, end int64) ([]string, error) {
