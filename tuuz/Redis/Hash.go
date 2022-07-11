@@ -34,10 +34,6 @@ func Hash_map_set(key string, value map[string]interface{}) error {
 	return Hash_add(app_conf.Project+":"+key, value)
 }
 
-func Hash_map_get(key string) map[string]string {
-	ret, err := goredis.HGetAll(goredis_ctx, app_conf.Project+":"+key).Result()
-	if err != nil {
-		return nil
-	}
-	return ret
+func Hash_map_get(key string) (map[string]string, error) {
+	return goredis.HGetAll(goredis_ctx, app_conf.Project+":"+key).Result()
 }
