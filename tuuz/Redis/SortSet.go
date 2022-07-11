@@ -44,8 +44,20 @@ func SortSet_rank(key, rank_by string) (int64, error) {
 	return goredis.ZRank(goredis_ctx, app_conf.Project+":"+key, rank_by).Result()
 }
 
-func SortSet_list(key string) ([]string, error) {
-	return goredis.ZRange(goredis_ctx, app_conf.Project+":"+key, 0, -1).Result()
+func SortSet_list_asc(key string) ([]string, error) {
+	return SortSet_list_asc_min_max(key, 0, -1)
+}
+
+func SortSet_list_desc(key string) ([]string, error) {
+	return SortSet_list_desc_min_max(key, 0, -1)
+}
+
+func SortSet_list_asc_min_max(key string, start, end int64) ([]string, error) {
+	return goredis.ZRange(goredis_ctx, app_conf.Project+":"+key, start, end).Result()
+}
+
+func SortSet_list_desc_min_max(key string, start, end int64) ([]string, error) {
+	return goredis.ZRevRange(goredis_ctx, app_conf.Project+":"+key, start, end).Result()
 }
 
 func SortSet_search(key, search string, limit int) (ret []string, err error) {
