@@ -11,7 +11,7 @@ func Set_add(key string, value any, duration time.Duration) error {
 }
 
 func Set_count(key string) int64 {
-	count, err := goredis.SCard(goredis_ctx, key).Result()
+	count, err := goredis.SCard(goredis_ctx, app_conf.Project+":"+key).Result()
 	if err != nil {
 		return 0
 	}
@@ -47,7 +47,7 @@ func Set_isMembers(key string, value ...any) []bool {
 }
 
 func Set_search(key string, search string, limit int) ([]string, error) {
-	strs, _, err := goredis.SScan(goredis_ctx, key, 0, search, int64(limit)).Result()
+	strs, _, err := goredis.SScan(goredis_ctx, app_conf.Project+":"+key, 0, search, int64(limit)).Result()
 	if err != nil {
 		return strs, err
 	}
@@ -55,37 +55,37 @@ func Set_search(key string, search string, limit int) ([]string, error) {
 }
 
 func Set_del_get(key string, value interface{}) (string, error) {
-	return goredis.SPop(goredis_ctx, key).Result()
+	return goredis.SPop(goredis_ctx, app_conf.Project+":"+key).Result()
 }
 
 func Set_same_with_others(set1_key string, set2_key string) ([]string, error) {
-	return goredis.SInter(goredis_ctx, set1_key, set2_key).Result()
+	return goredis.SInter(goredis_ctx, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Result()
 }
 
 func Set_diff_with_others(set1_key, set2_key string) ([]string, error) {
-	return goredis.SDiff(goredis_ctx, set1_key, set2_key).Result()
+	return goredis.SDiff(goredis_ctx, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Result()
 }
 
 func Set_store_same_with_others(dest_key, set1_key, set2_key string) error {
-	return goredis.SInterStore(goredis_ctx, set1_key, set2_key).Err()
+	return goredis.SInterStore(goredis_ctx, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Err()
 }
 
 func Set_store_diff_with_others(dest_key, set1_key, set2_key string) error {
-	return goredis.SDiffStore(goredis_ctx, dest_key, set1_key, set2_key).Err()
+	return goredis.SDiffStore(goredis_ctx, app_conf.Project+":"+dest_key, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Err()
 }
 
 func Set_del_get_random(key string) (string, error) {
-	return goredis.SPop(goredis_ctx, key).Result()
+	return goredis.SPop(goredis_ctx, app_conf.Project+":"+key).Result()
 }
 
 func Set_del(key string, value ...interface{}) error {
-	return goredis.SRem(goredis_ctx, key, value).Err()
+	return goredis.SRem(goredis_ctx, app_conf.Project+":"+key, value).Err()
 }
 
 func Set_combine_with_others(set1_key, set2_key string) ([]string, error) {
-	return goredis.SUnion(goredis_ctx, set1_key, set2_key).Result()
+	return goredis.SUnion(goredis_ctx, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Result()
 }
 
 func Set_store_combine_with_others(dest_key, set1_key, set2_key string) error {
-	return goredis.SUnionStore(goredis_ctx, dest_key, set1_key, set2_key).Err()
+	return goredis.SUnionStore(goredis_ctx, app_conf.Project+":"+dest_key, app_conf.Project+":"+set1_key, app_conf.Project+":"+set2_key).Err()
 }

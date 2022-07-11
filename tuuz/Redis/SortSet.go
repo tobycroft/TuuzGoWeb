@@ -41,8 +41,8 @@ func SortSet_rank(key, rank_by string) (int64, error) {
 	return goredis.ZRank(goredis_ctx, key, rank_by).Result()
 }
 
-func SortSet_list() {
-
+func SortSet_list(key string) {
+	return goredis.ZRange(goredis_ctx)
 }
 
 func SortSet_search(key, search string, limit int) (ret []string, err error) {
