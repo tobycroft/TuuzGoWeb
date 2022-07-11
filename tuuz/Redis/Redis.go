@@ -12,3 +12,7 @@ func Del(key string) error {
 func Expire(key string, duration time.Duration) error {
 	return goredis.Expire(goredis_ctx, app_conf.Project+":"+key, duration).Err()
 }
+
+func WhenWillExpire(key string) (time.Duration, error) {
+	return goredis.TTL(goredis_ctx, key).Result()
+}
