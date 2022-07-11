@@ -7,6 +7,7 @@ import (
 	"image/color"
 	"log"
 	"main.go/tuuz/Redis"
+	"time"
 )
 
 var cap *captcha.Captcha
@@ -35,7 +36,7 @@ func AutoCreate() (image.Image, string) {
 
 func ManualCreate(lon int, ident string) (image.Image, error) {
 	img, str := Create(lon)
-	_, err := Redis.Set("__captcha__"+Calc.Md5(ident), str, 600)
+	err := Redis.String_set("__captcha__"+Calc.Md5(ident), str, 600*time.Second)
 	if err != nil {
 		log.Print(err)
 	}
@@ -43,11 +44,11 @@ func ManualCreate(lon int, ident string) (image.Image, error) {
 }
 
 func AutoVerify(ident string, cap_string string) bool {
-	ret, err := Redis.Get("__captcha__" + Calc.Md5(ident))
+	ret, err := Redis.String_get("__captcha__" + Calc.Md5(ident))
 	if err != nil {
 		return false
 	} else {
-		str := ret.(string)
+		str := ret
 		//fmt.Println(str)
 		if str == cap_string {
 			return true
