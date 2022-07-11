@@ -31,11 +31,11 @@ func Hash_count(key string) int64 {
 }
 
 func Hash_map_set(key string, value map[string]interface{}) error {
-	return Hash_add(key, value)
+	return Hash_add(app_conf.Project+":"+key, value)
 }
 
 func Hash_map_get(key string) map[string]string {
-	ret, err := goredis.HGetAll(goredis_ctx, key).Result()
+	ret, err := goredis.HGetAll(goredis_ctx, app_conf.Project+":"+key).Result()
 	if err != nil {
 		return nil
 	}
