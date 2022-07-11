@@ -1,7 +1,7 @@
 package Redis
 
 import (
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v9"
 	"main.go/config/app_conf"
 )
 

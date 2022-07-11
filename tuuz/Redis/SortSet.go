@@ -1,7 +1,7 @@
 package Redis
 
 import (
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v9"
 	"main.go/config/app_conf"
 )
 
@@ -9,7 +9,7 @@ func SortSet_Add(key string, score float64, value interface{}) error {
 	var z redis.Z
 	z.Score = score
 	z.Member = value
-	return goredis.ZAdd(goredis_ctx, app_conf.Project+":"+key, &z).Err()
+	return goredis.ZAdd(goredis_ctx, app_conf.Project+":"+key, z).Err()
 }
 
 func SortSet_Count(key string, min, max interface{}) int64 {
