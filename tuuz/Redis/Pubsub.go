@@ -1,10 +1,13 @@
 package Redis
 
-import "fmt"
+import (
+	"fmt"
+	"main.go/config/app_conf"
+)
 
 func Suscribe(channel string) {
 
-	pubsub := goredis.Subscribe(goredis_ctx, channel)
+	pubsub := goredis.Subscribe(goredis_ctx, app_conf.Project+":"+channel)
 
 	_, err := pubsub.Receive(goredis_ctx)
 	if err != nil {

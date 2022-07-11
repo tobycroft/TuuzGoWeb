@@ -14,9 +14,9 @@ func Expire(key string, duration time.Duration) error {
 }
 
 func ExpireTime(key string) (time.Duration, error) {
-	return goredis.TTL(goredis_ctx, key).Result()
+	return goredis.TTL(goredis_ctx, app_conf.Project+":"+key).Result()
 }
 
 func ExpireAt(key string, expire_at time.Time) error {
-	return goredis.ExpireAt(goredis_ctx, key, expire_at).Err()
+	return goredis.ExpireAt(goredis_ctx, app_conf.Project+":"+key, expire_at).Err()
 }
