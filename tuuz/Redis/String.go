@@ -33,6 +33,10 @@ func String_getBytes(key string) ([]byte, error) {
 	return goredis.Get(goredis_ctx, app_conf.Project+":"+key).Bytes()
 }
 
+func String_getBool(key string) (bool, error) {
+	return goredis.Get(goredis_ctx, app_conf.Project+":"+key).Bool()
+}
+
 func String_getTime(key string) (time.Time, error) {
 	return goredis.Get(goredis_ctx, app_conf.Project+":"+key).Time()
 }
