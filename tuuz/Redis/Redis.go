@@ -20,3 +20,11 @@ func ExpireTime(key string) (time.Duration, error) {
 func ExpireAt(key string, expire_at time.Time) error {
 	return goredis.ExpireAt(goredis_ctx, app_conf.Project+":"+key, expire_at).Err()
 }
+
+func CheckExists(key string) bool {
+	row, err := goredis.Exists(goredis_ctx, key).Result()
+	if err != nil {
+		return false
+	}
+	return row > 0
+}
