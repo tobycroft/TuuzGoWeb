@@ -6,7 +6,7 @@ import (
 )
 
 func String_set(key string, value interface{}, exp time.Duration) error {
-	return goredis.Set(goredis_ctx, app_conf.Project+":"+key, value, exp).Err()
+	return goredis.Set(goredis_ctx, app_conf.Project+":"+key, value, exp*time.Second).Err()
 }
 
 func String_get(key string) (string, error) {
