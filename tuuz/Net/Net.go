@@ -107,7 +107,7 @@ func PostCookie(url string, queries map[string]interface{}, postData map[string]
 func PostCookieAuto(url string, queries map[string]interface{}, postData map[string]interface{}, headers map[string]string, ident string) (string, error) {
 	req := Request()
 	cookies, err := CookieSelector(ident)
-	cook := Array.Mapinterface2MapString(cookies)
+	cook := Array.MapAny2MapString(cookies)
 
 	req.SetHeaders(headers)
 	req.SetCookies(cook)
@@ -131,7 +131,7 @@ func PostCookieManual(url string, queries map[string]interface{}, postData map[s
 	req := Request()
 	CookieUpdater(cookie, ident)
 	cookies, err := CookieSelector(ident)
-	cook := Array.Mapinterface2MapString(cookies)
+	cook := Array.MapAny2MapString(cookies)
 
 	req.SetHeaders(headers)
 	req.SetCookies(cook)
@@ -195,7 +195,7 @@ func GetCookie(url string, queries map[string]interface{}, headers map[string]st
 func GetCookieAuto(url string, queries map[string]interface{}, headers map[string]string, ident string) (string, error) {
 	req := Request()
 	cookies, err := CookieSelector(ident)
-	cook := Array.Mapinterface2MapString(cookies)
+	cook := Array.MapAny2MapString(cookies)
 
 	req.SetHeaders(headers)
 	req.SetCookies(cook)
@@ -225,7 +225,7 @@ func GetCookieManual(url string, queries map[string]interface{}, headers map[str
 	req := Request()
 	CookieUpdater(cookie, ident)
 	cookies, err := CookieSelector(ident)
-	cook := Array.Mapinterface2MapString(cookies)
+	cook := Array.MapAny2MapString(cookies)
 
 	req.SetHeaders(headers)
 	req.SetCookies(cook)

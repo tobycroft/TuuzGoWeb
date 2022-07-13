@@ -332,7 +332,7 @@ func SPostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
 	if !ok {
 		return "", false
 	} else {
-		if Array.InArrayString(in, str_slices) {
+		if Array.InArray(in, str_slices) {
 			return in, true
 		} else {
 			c.JSON(RET.Ret_fail(407, key+" 's data should in ["+strings.Join(str_slices, ",")+"]", key+" 's data should in ["+strings.Join(str_slices, ",")+"]"))
