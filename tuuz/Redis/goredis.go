@@ -16,7 +16,6 @@ func init() {
 	if !app_conf.Recicon_on {
 		return
 	}
-	defer goredis.Close()
 	options := redis.Options{
 		Addr:         app_conf.Redicon_address + ":" + app_conf.Redicon_port,
 		Username:     app_conf.Redicon_username,
