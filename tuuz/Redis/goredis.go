@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var goredis_ctx = context.Background()
+var goredis_ctx context.Context
 
 var goredis *redis.Client
 
@@ -33,6 +33,7 @@ func init() {
 		options.PoolSize = app_conf.Redicon_poolsize
 	}
 	goredis = redis.NewClient(&options)
+	goredis_ctx = goredis.Context()
 	go func() {
 		for {
 			time.Sleep(3 * time.Second)
