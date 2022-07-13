@@ -16,13 +16,18 @@ func init() {
 	if !app_conf.Recicon_on {
 		return
 	}
+	defer goredis.Close()
 	options := redis.Options{
 		Addr:         app_conf.Redicon_address + ":" + app_conf.Redicon_port,
 		Username:     app_conf.Redicon_username,
 		Password:     app_conf.Redicon_password, // no password set
 		Network:      app_conf.Redicon_proto,
-		DB:           0, // use default DB
+		DB:           app_conf.Recion_db, // use default DB
 		MinIdleConns: app_conf.Redicon_MinIdleConn,
+		DialTimeout:  app_conf.Recion_timeout_dial,
+		WriteTimeout: app_conf.Recion_timeout_write,
+		ReadTimeout:  app_conf.Recion_timeout_read,
+		PoolTimeout:  app_conf.Recion_timeout_pool,
 	}
 	if app_conf.Redicon_poolsize > 0 {
 		options.PoolSize = app_conf.Redicon_poolsize
