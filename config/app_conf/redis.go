@@ -17,5 +17,3 @@ const Recion_timeout_write = 5 * time.Second
 const Recion_timeout_pool = 5 * time.Second
 
 const Recion_db = 0
-const Recion_idle_check_feq = 60 * time.Second
-const Recion_idle_check_feq = 60 * time.Second
