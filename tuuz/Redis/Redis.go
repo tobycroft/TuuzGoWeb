@@ -22,7 +22,7 @@ func ExpireAt(key string, expire_at time.Time) error {
 }
 
 func CheckExists(key string) bool {
-	row, err := goredis.Exists(goredis_ctx, key).Result()
+	row, err := goredis.Exists(goredis_ctx, app_conf.Project+":"+key).Result()
 	if err != nil {
 		return false
 	}
