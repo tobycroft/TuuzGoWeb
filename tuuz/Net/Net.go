@@ -1,7 +1,6 @@
 package Net
 
 import (
-	"crypto/tls"
 	"fmt"
 	"github.com/tobycroft/Calc"
 	"main.go/tuuz/Array"
@@ -36,7 +35,7 @@ func Rpc(url string, postData interface{}, username, password string) (string, e
 	req.SetBasicAuth(username, password)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url, postData)
 	body, err := ret.Content()
@@ -53,7 +52,7 @@ func PostRaw(url string, postData interface{}) (string, error) {
 	req.SetHeaders(header)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url, postData)
 	body, err := ret.Content()
@@ -71,7 +70,7 @@ func Post(url string, queries map[string]interface{}, postData map[string]interf
 	req.SetCookies(cookies)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	q := ""
 	req.Transport(transport)
 	if queries != nil {
@@ -90,7 +89,7 @@ func PostCookie(url string, queries map[string]interface{}, postData map[string]
 	req.SetCookies(cookies)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Content()
@@ -113,7 +112,7 @@ func PostCookieAuto(url string, queries map[string]interface{}, postData map[str
 	req.SetCookies(cook)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Content()
@@ -137,7 +136,7 @@ func PostCookieManual(url string, queries map[string]interface{}, postData map[s
 	req.SetCookies(cook)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Content()
@@ -157,7 +156,7 @@ func Get(url string, queries map[string]interface{}, headers map[string]string, 
 	req.SetCookies(cookies)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Get(url, queries)
 	if err != nil {
@@ -179,7 +178,7 @@ func GetCookie(url string, queries map[string]interface{}, headers map[string]st
 	req.SetCookies(cookies)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Get(url, queries)
 	body, err := ret.Content()
@@ -201,7 +200,7 @@ func GetCookieAuto(url string, queries map[string]interface{}, headers map[strin
 	req.SetCookies(cook)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Get(url, queries)
 	if err != nil {
@@ -231,7 +230,7 @@ func GetCookieManual(url string, queries map[string]interface{}, headers map[str
 	req.SetCookies(cook)
 	req.SetTimeout(5 * time.Second)
 	req.DisableKeepAlives(true)
-	req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
+	//req.SetTLSClient(&tls.Config{InsecureSkipVerify: true})
 	req.Transport(transport)
 	ret, err := req.Get(url, queries)
 	if err != nil {
