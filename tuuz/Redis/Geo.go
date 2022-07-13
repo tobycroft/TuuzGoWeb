@@ -14,7 +14,7 @@ func Geo_add(key string, longitude, latitude float64, geo_name string) error {
 }
 
 func Geo_get_pos(key string, geo_name string) (*redis.GeoPos, error) {
-	poss, err := goredis.GeoPos(goredis_ctx, key, geo_name).Result()
+	poss, err := goredis.GeoPos(goredis_ctx, app_conf.Project+":"+key, geo_name).Result()
 	if err != nil {
 		return nil, err
 	}
