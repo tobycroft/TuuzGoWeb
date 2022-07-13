@@ -46,11 +46,11 @@ func Sms_single(phone interface{}, quhao, text interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, interface{}](ret)
 		if errs != nil {
 			return errors.New(ret)
 		} else {
-			if rtt["code"].(float64) == 0 {
+			if rtt["code"] == 0 {
 				return nil
 			} else {
 				return errors.New(Calc.Any2String(rtt["echo"]))
