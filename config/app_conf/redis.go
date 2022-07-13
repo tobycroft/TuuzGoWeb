@@ -7,5 +7,5 @@ const Redicon_username = ""
 const Redicon_password = ""
 const Redicon_poolsize = 20
 const Redicon_MinIdleConn = 10
-const Recicon_on = true
+const Recicon_on = false
 const Recicon_panic_on_link_error = true
