@@ -1,6 +1,8 @@
 package Array
 
-func ArrayUnique[T string | int | int32 | int64 | float32 | float64 | comparable | byte](slice []T) []T {
+import "github.com/shopspring/decimal"
+
+func ArrayUnique[T string | int | int32 | int64 | float32 | float64 | byte | decimal.Decimal](slice []T) []T {
 	n64 := []T{}
 	for _, s1 := range slice {
 		temp := true
@@ -17,7 +19,7 @@ func ArrayUnique[T string | int | int32 | int64 | float32 | float64 | comparable
 	return n64
 }
 
-func ArrayDiff[T string | int | int32 | int64 | float32 | float64 | comparable | byte](slice, slice2 []T) []T {
+func ArrayDiff[T string | int | int32 | int64 | float32 | float64 | byte | decimal.Decimal](slice, slice2 []T) []T {
 	n64 := []T{}
 	for _, s1 := range slice {
 		temp := true
