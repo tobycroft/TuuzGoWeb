@@ -1,25 +1,25 @@
 package Jsong
 
-func ParseObject(data interface{}) (map[string]interface{}, error) {
+func ParseObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data interface{}) (map[T]V, error) {
 	ret, err := Encode(data)
 	if err != nil {
 		return nil, err
 	}
-	return JObject(ret)
+	return JObject[T, V](ret)
 }
 
-func ParseSlice(data interface{}) ([]interface{}, error) {
+func ParseSlice[T string | int | int32 | int64 | float32 | float64 | any](data interface{}) ([]T, error) {
 	ret, err := Encode(data)
 	if err != nil {
 		return nil, err
 	}
-	return JArray(ret)
+	return JArray[T](ret)
 }
 
-func ParseArrayObject(data interface{}) ([]map[string]interface{}, error) {
+func ParseArrayObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data interface{}) ([]map[T]V, error) {
 	ret, err := Encode(data)
 	if err != nil {
 		return nil, err
 	}
-	return JArrayObject(ret)
+	return JArrayObject[T, V](ret)
 }

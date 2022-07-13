@@ -7,9 +7,7 @@ import (
 )
 
 func Encode(data interface{}) (string, error) {
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	jb, err := json.Marshal(data)
-	//fmt.Println(jb)
+	jb, err := jsoniter.MarshalToString(data)
 	if err != nil {
 		fmt.Println("JENCODEEncode", err)
 		return "", err
@@ -17,73 +15,27 @@ func Encode(data interface{}) (string, error) {
 	return string(jb), err
 }
 
-func EncodeType(data interface{}) (string, error) {
-	m := make(map[string]interface{})
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	_, err := json.Marshal(data)
-	//fmt.Println(jb)
-	if err != nil {
-		fmt.Println("ParseType", err)
-		return "", err
-	}
-	j, _ := json.Marshal(data)
-	json.Unmarshal(j, &m)
-	return Encode(m)
-}
-
-func ParseType(data interface{}) (map[string]interface{}, error) {
-	m := make(map[string]interface{})
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	_, err := json.Marshal(data)
-	//fmt.Println(jb)
-	if err != nil {
-		fmt.Println("ParseType", err)
-		return nil, err
-	}
-	j, _ := json.Marshal(data)
-	json.Unmarshal(j, &m)
-	return m, err
-}
-
-func Decode(data string) interface{} {
-	ret, _ := JToken(data)
-	return ret
-}
-
-func JArrayObject(data string) ([]map[string]interface{}, error) {
-	var arr []map[string]interface{}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	err := json.Unmarshal([]byte(data), &arr)
+func JArrayObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data string) ([]map[T]V, error) {
+	var arr []map[T]V
+	err := jsoniter.UnmarshalFromString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
 	return arr, err
 }
 
-func JArray(data string) ([]interface{}, error) {
-	var arr []interface{}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	err := json.Unmarshal([]byte(data), &arr)
+func JArray[T string | int | int32 | int64 | float32 | float64 | any](data string) ([]T, error) {
+	var arr []T
+	err := jsoniter.UnmarshalFromString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
 	return arr, err
 }
 
-func JObject(data string) (map[string]interface{}, error) {
-	var arr map[string]interface{}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	err := json.Unmarshal([]byte(data), &arr)
-	if err != nil {
-		return nil, err
-	}
-	return arr, err
-}
-
-func JToken(data string) (interface{}, error) {
-	var arr interface{}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	err := json.Unmarshal([]byte(data), &arr)
+func JObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data string) (map[T]V, error) {
+	var arr map[T]V
+	err := jsoniter.UnmarshalFromString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
