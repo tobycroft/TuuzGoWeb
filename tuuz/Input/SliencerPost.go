@@ -6,12 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
-	"github.com/tobycroft/Calc"
 	"html/template"
 	"io"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
+	"main.go/tuuz/Calc"
 	"main.go/tuuz/Date"
+	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
 	"main.go/tuuz/Vali"
 	"path/filepath"
@@ -85,6 +86,72 @@ func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
 	}
 }
 
+func SPostDefault[T string | int | int32 | int64 | float32 | float64 | decimal.Decimal | any](key string, c *gin.Context, defaultValue T) T {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		return defaultValue
+	} else {
+		switch any(defaultValue).(type) {
+		case string:
+			return any(in).(T)
+
+		case int:
+			str, err := Calc.String2Int(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		case int32:
+			str, err := Calc.String2Int64(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		case int64:
+			str, err := Calc.String2Int64(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		case float64:
+			str, err := Calc.String2Float64(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		case float32:
+			str, err := Calc.String2Float64(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		case decimal.Decimal:
+			ret, err := decimal.NewFromString(in)
+			if err != nil {
+				return defaultValue
+			}
+			return any(ret).(T)
+
+		case nil:
+			return defaultValue
+
+		case bool:
+			str, ok := SPostBool(key, c)
+			if !ok {
+				return defaultValue
+			}
+			return any(str).(T)
+
+		}
+		return defaultValue
+	}
+}
+
 func SPostString(key string, c *gin.Context, xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
@@ -120,7 +187,19 @@ func SPostPhone(key string, length int, c *gin.Context) (string, bool) {
 }
 
 func SPostDate(key string, c *gin.Context) (time.Time, bool) {
-	return SPostDateTime(key, c)
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		return time.Time{}, false
+	} else {
+		p, err := time.Parse("2006-01-02", in)
+		if err != nil {
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a Date"))
+			c.Abort()
+			return time.Time{}, false
+		} else {
+			return p, true
+		}
+	}
 }
 
 func SPostDateTime(key string, c *gin.Context) (time.Time, bool) {
@@ -128,13 +207,21 @@ func SPostDateTime(key string, c *gin.Context) (time.Time, bool) {
 	if !ok {
 		return time.Time{}, false
 	} else {
-		datetime, err := Date.Date_time_parser(in)
-		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a Date(+Time) or RFC3339"))
-			c.Abort()
-			return time.Time{}, false
+		p, err := time.Parse("2006-01-02 15:04:05", in)
+		if err == nil {
+			return p, true
 		}
-		return datetime, true
+		p, err = time.Parse(time.RFC3339, in)
+		if err == nil {
+			return p, true
+		}
+		p, err = time.Parse(time.RFC3339Nano, in)
+		if err == nil {
+			return p, true
+		}
+		c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a DateTime or RFC3339"))
+		c.Abort()
+		return time.Time{}, false
 	}
 }
 
@@ -252,51 +339,48 @@ func SPostBool(key string, c *gin.Context) (bool, bool) {
 	}
 }
 
-func SPostArray[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) ([]T, bool) {
+func SPostArray(key string, c *gin.Context) ([]interface{}, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		var arr []T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		i, err := Jsong.JArray(in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array now is : "+in))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array"))
 			c.Abort()
 			return nil, false
 		}
-		return arr, true
+		return i, true
 	}
 }
 
-func SPostObject[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) (map[string]T, bool) {
+func SPostObject(key string, c *gin.Context) (map[string]interface{}, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		var arr map[string]T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		i, err := Jsong.JObject(in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Object now is : "+in))
+			c.JSON(RET.Ret_fail(407, key+" should be a Json-Object", key+" should be a Json-Object"))
 			c.Abort()
 			return nil, false
 		}
-		return arr, true
+		return i, true
 	}
 }
 
-func SPostArrayObject[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) ([]map[string]T, bool) {
+func SPostArrayObject(key string, c *gin.Context) ([]map[string]interface{}, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		var arr []map[string]T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		i, err := Jsong.JArrayObject(in)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-ArrayObject now is : "+in))
+			c.JSON(RET.Ret_fail(407, key+" should be a Json-ArrayObject", key+" should be a Json-ArrayObject"))
 			c.Abort()
 			return nil, false
 		}
-		return arr, true
+		return i, true
 	}
 }
 
@@ -307,7 +391,7 @@ func SPostAny(key string, c *gin.Context, AnyType interface{}) bool {
 	} else {
 		err := jsoniter.UnmarshalFromString(in, &AnyType)
 		if err != nil {
-			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType now is : "+in))
+			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType"))
 			c.Abort()
 			return false
 		}
@@ -332,7 +416,7 @@ func SPostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
 	if !ok {
 		return "", false
 	} else {
-		if Array.InArray(in, str_slices) {
+		if Array.InArrayString(in, str_slices) {
 			return in, true
 		} else {
 			c.JSON(RET.Ret_fail(407, key+" 's data should in ["+strings.Join(str_slices, ",")+"]", key+" 's data should in ["+strings.Join(str_slices, ",")+"]"))
