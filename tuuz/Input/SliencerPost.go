@@ -339,12 +339,12 @@ func SPostBool(key string, c *gin.Context) (bool, bool) {
 	}
 }
 
-func SPostArray(key string, c *gin.Context) ([]interface{}, bool) {
+func SPostArray[T string | int | int32 | int64 | float32 | float64 | any](key string, c *gin.Context) ([]T, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JArray(in)
+		i, err := Jsong.JArray[T](in)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array"))
 			c.Abort()
@@ -354,12 +354,12 @@ func SPostArray(key string, c *gin.Context) ([]interface{}, bool) {
 	}
 }
 
-func SPostObject(key string, c *gin.Context) (map[string]interface{}, bool) {
+func SPostObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](key string, c *gin.Context) (map[T]V, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JObject(in)
+		i, err := Jsong.JObject[T, V](in)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should be a Json-Object", key+" should be a Json-Object"))
 			c.Abort()
@@ -369,12 +369,12 @@ func SPostObject(key string, c *gin.Context) (map[string]interface{}, bool) {
 	}
 }
 
-func SPostArrayObject(key string, c *gin.Context) ([]map[string]interface{}, bool) {
+func SPostArrayObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](key string, c *gin.Context) ([]map[T]V, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return nil, false
 	} else {
-		i, err := Jsong.JArrayObject(in)
+		i, err := Jsong.JArrayObject[T, V](in)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, key+" should be a Json-ArrayObject", key+" should be a Json-ArrayObject"))
 			c.Abort()
@@ -416,7 +416,7 @@ func SPostIn(key string, c *gin.Context, str_slices []string) (string, bool) {
 	if !ok {
 		return "", false
 	} else {
-		if Array.InArrayString(in, str_slices) {
+		if Array.InArray(in, str_slices) {
 			return in, true
 		} else {
 			c.JSON(RET.Ret_fail(407, key+" 's data should in ["+strings.Join(str_slices, ",")+"]", key+" 's data should in ["+strings.Join(str_slices, ",")+"]"))
