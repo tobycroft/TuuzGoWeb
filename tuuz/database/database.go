@@ -12,6 +12,20 @@ var Database *gorose.Engin
 
 func init() {
 	var err error
+	cfg, err := goconfig.LoadConfigFile("conf.ini")
+	if err != nil {
+		goconfig.SaveConfigFile(&goconfig.ConfigFile{}, "conf.ini")
+	} else {
+		_, err := cfg.GetSection("database")
+		if err != nil {
+			cfg.SetValue("database", "dbname", "")
+			cfg.SetValue("database", "dbuser", "")
+			cfg.SetValue("database", "dbpass", "")
+			cfg.SetValue("database", "dbhost", "")
+			cfg.SetValue("database", "dbport", "")
+			goconfig.SaveConfigFile(cfg, "conf.ini")
+		}
+	}
 	Database, err = gorose.Open(DbConfig())
 	if err != nil {
 		log.Panic(err)

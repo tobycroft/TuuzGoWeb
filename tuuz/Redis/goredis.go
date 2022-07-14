@@ -2,6 +2,7 @@ package Redis
 
 import (
 	"context"
+	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/go-redis/redis/v9"
 	"log"
@@ -16,11 +17,15 @@ var goredis *redis.Client
 func init() {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
+		goconfig.SaveConfigFile(&goconfig.ConfigFile{}, "conf.ini")
 	} else {
 		value, err := cfg.GetSection("redis")
 		if err != nil {
+			cfg.SetValue("redis", "address", "")
+			cfg.SetValue("redis", "port", "")
+			fmt.Println(goconfig.SaveConfigFile(cfg, "conf.ini"))
 		} else {
-			if value["address"] != "" && value["address"] != "" && value["database"] != "" {
+			if value["address"] != "" && value["port"] != "" {
 				app_conf.Redicon_address = value["address"]
 				app_conf.Redicon_port = value["port"]
 				app_conf.Redicon_on = true
