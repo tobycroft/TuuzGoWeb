@@ -20,40 +20,17 @@ import (
 	"time"
 )
 
-func Post[T string | int | int32 | int64 | float64 | decimal.Decimal | time.Time | any](key string, c *gin.Context) (t T, ok bool) {
+func Post(key string, c *gin.Context, xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
 		c.Abort()
-		return t, false
+		return "", false
 	} else {
-		switch any(t).(type) {
-		case string:
-			return any(template.JSEscapeString(in)).(T), true
-		case int:
-			ret, ok := PostInt("key", c)
-			return any(ret).(T), ok
-		case int32:
-			ret, ok := PostInt64("key", c)
-			return any(int32(ret)).(T), ok
-		case int64:
-			ret, ok := PostInt64("key", c)
-			return any(ret).(T), ok
-		case float64:
-			ret, ok := PostFloat64("key", c)
-			return any(ret).(T), ok
-		case decimal.Decimal:
-			ret, ok := PostDecimal("key", c)
-			return any(ret).(T), ok
-		case time.Time:
-			ret, ok := PostDateTime("key", c)
-			return any(ret).(T), ok
-		case any:
-			return any(in).(T), ok
-		default:
-			c.JSON(RET.Ret_fail(407, key, "POST-["+key+"]"))
-			c.Abort()
-			return t, false
+		if xss {
+			return template.JSEscapeString(in), true
+		} else {
+			return in, true
 		}
 	}
 }
