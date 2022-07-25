@@ -53,7 +53,7 @@ func Push_single(uid interface{}, content, title, extra interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
@@ -83,7 +83,7 @@ func Push_more(uid []interface{}, content, title, extra interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
@@ -111,7 +111,7 @@ func Push_message(uid interface{}, content, extra interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
@@ -139,7 +139,7 @@ func Push_message_more(uids []interface{}, content, extra interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
@@ -163,7 +163,7 @@ func Push_all(content, title, extra interface{}) error {
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
@@ -178,15 +178,15 @@ func Push_all(content, title, extra interface{}) error {
 
 func User_sync(user, rid interface{}) error {
 	param := map[string]interface{}{
-		"user":  user,
-		"rid":   rid,
-		"token": token,
+		"instructor": user,
+		"rid":        rid,
+		"token":      token,
 	}
 	ret, err := Net.Post(url+"/sync", nil, param, nil, nil)
 	if err != nil {
 		return err
 	} else {
-		rtt, errs := Jsong.JObject(ret)
+		rtt, errs := Jsong.JObject[string, any](ret)
 		if errs != nil {
 			return errs
 		} else {
