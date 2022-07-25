@@ -10,6 +10,53 @@ import (
 	"time"
 )
 
+func MPostExp(c *gin.Context, goroseProData *gorose.Data, where_in []string, data_keys []string) (ok bool, where, data map[string]interface{}) {
+	ok = mpost_checker(c, goroseProData)
+	if !ok {
+		return false, nil, nil
+	}
+	if where_in == nil || len(where_in) < 1 || data_keys == nil || len(data_keys) < 1 {
+		c.JSON(RET.Ret_fail(402, "Where&DataKeys should be set", "GoroseProKeys is not ready"))
+		c.Abort()
+		return false, nil, nil
+	}
+	temp_data := *goroseProData
+	where = make(map[string]interface{})
+	for _, where_key := range where_in {
+		_, whereHave := temp_data[where_key]
+		if whereHave {
+			okWhere, ret := MPost(where_key, c, goroseProData)
+			if !okWhere {
+				c.JSON(RET.Ret_fail(402, "Where key in not set", "GoroseProWheres is not set"))
+				c.Abort()
+				return false, nil, nil
+			}
+			where[where_key] = ret
+		} else {
+			c.JSON(RET.Ret_fail(402, "Where is not exists in GoroseProData", "GoroseProWheres is not exists"))
+			c.Abort()
+			return false, nil, nil
+		}
+	}
+	data = make(map[string]interface{})
+	for _, data_key := range data_keys {
+		_, whereHave := temp_data[data_key]
+		if whereHave {
+			okWhere, ret := MPost(data_key, c, goroseProData)
+			if !okWhere {
+				continue
+			}
+			data[data_key] = ret
+		}
+	}
+	if len(data) < 1 {
+		c.JSON(RET.Ret_fail(400, "request in ["+strings.Join(data_keys, ",")+"]", "GoroseProData is not ready"))
+		c.Abort()
+		return false, nil, nil
+	}
+	return true, where, data
+}
+
 /*
 MPostAuto
 if u wanna use this functions
