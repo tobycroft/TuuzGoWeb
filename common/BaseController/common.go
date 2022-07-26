@@ -8,19 +8,21 @@ import (
 
 func CommonController() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		header_handler(c)
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
 			return
 		}
-		header_handler(c)
-		//	//c.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization, Token")
-		//	//c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, PATCH, DELETE")
-		//	//c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
-		//	//c.Header("Access-Control-Allow-Credentials", "true")
 		c.Next()
 	}
 }
 
 func CorsController() gin.HandlerFunc {
-	return cors.Default()
+	conf := cors.DefaultConfig()
+	conf.AllowAllOrigins = true
+	conf.AllowHeaders = []string{"*"}
+	conf.AllowCredentials = true
+	conf.AllowMethods = []string{"POST", "GET", "OPTIONS", "PUT", "PATCH", "DELETE"}
+	conf.ExposeHeaders = []string{"*"}
+	return cors.New(conf)
 }
