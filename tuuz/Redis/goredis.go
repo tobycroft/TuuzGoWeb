@@ -52,7 +52,7 @@ func init() {
 		options.PoolSize = app_conf.Redicon_poolsize
 	}
 	goredis = redis.NewClient(&options)
-	goredis_ctx = goredis.Context()
+	goredis_ctx = context.Background()
 	go func() {
 		for {
 			time.Sleep(3 * time.Second)
