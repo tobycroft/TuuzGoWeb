@@ -57,8 +57,9 @@ func Date2DateTime(year int, month time.Month, day int, hour, min, sec int) time
 	return time.Date(year, month, day, hour, min, sec, 0, time.Local)
 }
 
-func Year2Time(year int) time.Time {
-	return time.Date(year, time.January, 1, 0, 0, 0, 0, time.Local)
+func ThisYear2Time(year int) time.Time {
+	now := time.Now()
+	return time.Date(year, now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), now.Nanosecond(), time.Local)
 }
 
 func YearMonth2Time(year int, month time.Month) time.Time {
