@@ -30,7 +30,6 @@ func Date_is_in_offset_free_Month(the_time time.Time, offset_start, offset_end i
 
 func Date_is_in_this_Week(the_time time.Time) bool {
 	return Date_is_in_offset_free_Week(the_time, 0, 1)
-
 }
 
 func Date_is_in_offset_Week(the_time time.Time, offset int) bool {

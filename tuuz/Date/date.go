@@ -48,3 +48,11 @@ func Datetime2Date(datetime string) string {
 		return p.Format("2006-01-02")
 	}
 }
+
+func Date2Time(year int, month time.Month, day int) time.Time {
+	return time.Date(year, month, day, 0, 0, 0, 0, time.Local)
+}
+
+func Date2DateTime(year int, month time.Month, day int, hour, min, sec int) time.Time {
+	return time.Date(year, month, day, hour, min, sec, 0, time.Local)
+}
