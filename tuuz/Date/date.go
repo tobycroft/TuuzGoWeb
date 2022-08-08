@@ -56,3 +56,11 @@ func Date2Time(year int, month time.Month, day int) time.Time {
 func Date2DateTime(year int, month time.Month, day int, hour, min, sec int) time.Time {
 	return time.Date(year, month, day, hour, min, sec, 0, time.Local)
 }
+
+func Year2Time(year int) time.Time {
+	return time.Date(year, time.January, 1, 0, 0, 0, 0, time.Local)
+}
+
+func YearMonth2Time(year int, month time.Month) time.Time {
+	return time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
+}
