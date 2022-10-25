@@ -8,6 +8,8 @@ TuuzGoWeb基于Gin，四层架构，Gorose-Pro数据库，支持NestedTransactio
 
 框架组件库增加泛型(Go 1.18+)
 
+输入器支持简单操作以及链式操作
+
 # Gorose-Pro
 
 GorosePro为TuuzGoWeb的ORM支持，支持nested transaction，对复杂逻辑下的解耦有非常重要的帮助
