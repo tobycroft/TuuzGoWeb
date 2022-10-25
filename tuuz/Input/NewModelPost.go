@@ -55,11 +55,15 @@ func (post *ModelPost) IsComplete() bool {
 	return true
 }
 
-func (post *ModelPost) GetPostMap() (map[string]interface{}, error) {
-	if post.errs != nil {
-		return nil, post.errs[0]
+func (post *ModelPost) GetPostMap() (data map[string]interface{}, err error, errMsg string) {
+	if post.errMsgs != nil && len(post.errMsgs) > 0 {
+		errMsg = post.errMsgs[0]
 	}
-	return post.data, nil
+	if post.errs != nil && len(post.errs) > 0 {
+		err = post.errs[0]
+	}
+	data = post.data
+	return
 }
 
 // Fields: 如果需要保证字段一定存在，则使用fields，否则默认允许所有字段均不传
@@ -80,7 +84,12 @@ func (post *ModelPost) Data(field string, value interface{}) *ModelPost {
 	return post
 }
 
-func (post *ModelPost) String(key string) *ModelPost {
+func (post *ModelPost) Copy(from_field string, to_field string) *ModelPost {
+	post.data[to_field] = post.data[from_field]
+	return post
+}
+
+func (post *ModelPost) PostString(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
