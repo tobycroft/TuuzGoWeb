@@ -55,7 +55,7 @@ func (post *ModelPost) IsComplete() bool {
 	return true
 }
 
-func (post *ModelPost) Get() (map[string]interface{}, error) {
+func (post *ModelPost) GetPostMap() (map[string]interface{}, error) {
 	if post.errs != nil {
 		return nil, post.errs[0]
 	}
@@ -72,6 +72,11 @@ func (post *ModelPost) Fields(fields ...string) *ModelPost {
 
 func (post *ModelPost) Xss(anti_xss bool) *ModelPost {
 	post.xss = anti_xss
+	return post
+}
+
+func (post *ModelPost) Data(field string, value interface{}) *ModelPost {
+	post.data[field] = value
 	return post
 }
 
