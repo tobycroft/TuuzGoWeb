@@ -71,6 +71,11 @@ func (post *ModelPost) GetPostMap() (data map[string]interface{}, err error, err
 	return
 }
 
+func (post *ModelPost) Select() (data map[string]interface{}) {
+	data = post.data
+	return
+}
+
 // Fields: 如果需要保证字段一定存在，则使用fields，否则默认允许所有字段均不传
 func (post *ModelPost) Fields(fields ...string) *ModelPost {
 	for _, field := range fields {
