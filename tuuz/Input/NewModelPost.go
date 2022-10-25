@@ -41,8 +41,18 @@ func NewModelPost(c *gin.Context) *ModelPost {
 	}
 }
 
-func (post *ModelPost) Errors() ([]string, []error) {
-	return post.errMsgs, post.errs
+func (post *ModelPost) Errors() ([]error, []string) {
+	return post.errs, post.errMsgs
+}
+
+func (post *ModelPost) Error() (err error, errMsg string) {
+	if post.errMsgs != nil && len(post.errMsgs) > 0 {
+		errMsg = post.errMsgs[0]
+	}
+	if post.errs != nil && len(post.errs) > 0 {
+		err = post.errs[0]
+	}
+	return
 }
 
 func (post *ModelPost) IsComplete() bool {
@@ -56,12 +66,7 @@ func (post *ModelPost) IsComplete() bool {
 }
 
 func (post *ModelPost) GetPostMap() (data map[string]interface{}, err error, errMsg string) {
-	if post.errMsgs != nil && len(post.errMsgs) > 0 {
-		errMsg = post.errMsgs[0]
-	}
-	if post.errs != nil && len(post.errs) > 0 {
-		err = post.errs[0]
-	}
+	err, errMsg = post.Error()
 	data = post.data
 	return
 }
