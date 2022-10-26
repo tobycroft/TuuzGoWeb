@@ -5,7 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/Calc"
 	"html/template"
+	"main.go/tuuz/Array"
 	"main.go/tuuz/Date"
+	"strings"
 	"time"
 )
 
@@ -112,6 +114,25 @@ func (post *ModelPost) PostString(key string) *ModelPost {
 			post.data[key] = template.JSEscapeString(in)
 		} else {
 			post.data[key] = in
+		}
+	}
+	return post
+}
+
+func (post *ModelPost) PostIn(key string, str_slices []string) *ModelPost {
+	_, have := post.reserv_col[key]
+	in, ok := post.content.GetPostForm(key)
+	if !ok {
+		if have {
+			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
+			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
+		}
+	} else {
+		if Array.InArray(in, str_slices) {
+			post.data[key] = in
+		} else {
+			post.errMsgs = append(post.errMsgs, key+" 's data should in ["+strings.Join(str_slices, ",")+"]")
+			post.errs = append(post.errs, errors.New(key+" 's data should in ["+strings.Join(str_slices, ",")+"]"))
 		}
 	}
 	return post
