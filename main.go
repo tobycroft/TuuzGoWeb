@@ -5,7 +5,18 @@ import (
 	"github.com/tobycroft/Calc"
 	"main.go/config/app_conf"
 	"main.go/route"
+	"os"
 )
+
+func init() {
+	s, err := os.Stat("./log/")
+
+	if err != nil {
+		os.Mkdir("./log", 0755)
+	} else if s.IsDir() {
+		os.Mkdir("./log", 0755)
+	}
+}
 
 func main() {
 
