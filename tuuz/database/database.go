@@ -25,7 +25,7 @@ func _ready() {
 		value, err := cfg.GetSection("database")
 		if err != nil {
 			cfg.SetValue("database", "need", "true")
-			cfg.SetValue("database", "retry", "true")
+			cfg.SetValue("database", "retry", "false")
 			cfg.SetValue("database", "dbname", "")
 			cfg.SetValue("database", "dbuser", "")
 			cfg.SetValue("database", "dbpass", "")
