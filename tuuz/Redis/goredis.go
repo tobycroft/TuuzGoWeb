@@ -66,13 +66,15 @@ func _conn() {
 }
 
 func _keepAlive() {
-	for {
-		time.Sleep(3 * time.Second)
-		ret, err := goredis.Ping(goredis_ctx).Result()
-		if err != nil {
-			log.Println("redis_out", ret, err)
-			if app_conf.Recicon_panic_on_link_error {
-				panic("redis_out")
+	if app_conf.Redicon_on {
+		for {
+			time.Sleep(3 * time.Second)
+			ret, err := goredis.Ping(goredis_ctx).Result()
+			if err != nil {
+				log.Println("redis_out", ret, err)
+				if app_conf.Recicon_panic_on_link_error {
+					panic("redis_out")
+				}
 			}
 		}
 	}
