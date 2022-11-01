@@ -8,8 +8,10 @@ var Redicon_address = "10.0.0.171"
 var Redicon_port = "6379"
 
 const Redicon_proto = "tcp"
-const Redicon_username = ""
-const Redicon_password = ""
+
+var Redicon_username = ""
+var Redicon_password = ""
+
 const Redicon_poolsize = 20
 const Redicon_MinIdleConn = 10
 

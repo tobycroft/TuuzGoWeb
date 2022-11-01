@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/Unknwon/goconfig"
 	"github.com/tobycroft/Calc"
-	"main.go/config/app_conf"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Log"
 	"main.go/tuuz/Net"
@@ -27,6 +26,9 @@ func init() {
 	_ready()
 }
 
+var name string
+var token string
+
 func _ready() {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
@@ -40,26 +42,15 @@ func _ready() {
 			goconfig.SaveConfigFile(cfg, "conf.ini")
 			_ready()
 		} else {
-			if value["address"] != "" && value["port"] != "" {
-				app_conf.Redicon_address = value["name"]
-				app_conf.Redicon_port = value["token"]
-				app_conf.Redicon_on = true
+			if value["name"] != "" && value["token"] != "" {
+				name = value["name"]
+				token = value["token"]
 			}
 		}
 	}
 }
 
 func Sms_send(phone any, quhao, text any) error {
-	conf, err := goconfig.LoadConfigFile("conf.ini")
-	if err != nil {
-		return err
-	}
-	value, err := conf.GetSection("asms")
-	if err != nil {
-		return err
-	}
-	name := value["name"]
-	token := value["token"]
 	ts := time.Now().Unix()
 	param := map[string]any{
 		"phone": phone,

@@ -28,14 +28,18 @@ func _ready() {
 	} else {
 		value, err := cfg.GetSection("redis")
 		if err != nil {
-			cfg.SetValue("redis", "address", "")
-			cfg.SetValue("redis", "port", "")
+			cfg.SetValue("redis", "address", app_conf.Redicon_address)
+			cfg.SetValue("redis", "port", app_conf.Redicon_port)
+			cfg.SetValue("redis", "username", app_conf.Redicon_username)
+			cfg.SetValue("redis", "password", app_conf.Redicon_password)
 			fmt.Println(goconfig.SaveConfigFile(cfg, "conf.ini"))
 			_ready()
 		} else {
+			app_conf.Redicon_address = value["address"]
+			app_conf.Redicon_port = value["port"]
+			app_conf.Redicon_username = value["username"]
+			app_conf.Redicon_password = value["password"]
 			if value["address"] != "" && value["port"] != "" {
-				app_conf.Redicon_address = value["address"]
-				app_conf.Redicon_port = value["port"]
 				app_conf.Redicon_on = true
 			}
 		}
