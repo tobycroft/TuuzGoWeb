@@ -1,6 +1,9 @@
 package app_conf
 
-import "github.com/Unknwon/goconfig"
+import (
+	"fmt"
+	"github.com/Unknwon/goconfig"
+)
 
 var Project = "tuuzgoweb"
 var Debug = "tgw"
@@ -26,6 +29,7 @@ func _ready() {
 			cfg.SetValue("app", "appmode", AppMode)
 			cfg.SetValue("app", "websocketkey", WebsocketKey)
 			goconfig.SaveConfigFile(cfg, "conf.ini")
+			fmt.Println("app_ready")
 			_ready()
 		}
 		Project = value["project"]

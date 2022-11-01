@@ -2,6 +2,7 @@ package ASMS
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/tobycroft/Calc"
 	"main.go/tuuz/Jsong"
@@ -40,6 +41,7 @@ func _ready() {
 			cfg.SetValue("asms", "name", "")
 			cfg.SetValue("asms", "token", "")
 			goconfig.SaveConfigFile(cfg, "conf.ini")
+			fmt.Println("asms_ready")
 			_ready()
 		} else {
 			if value["name"] != "" && value["token"] != "" {

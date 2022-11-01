@@ -17,7 +17,7 @@ var goredis *redis.Client
 func init() {
 	_ready()
 	_conn()
-	_keepAlive()
+	go _keepAlive()
 }
 
 func _ready() {
@@ -33,6 +33,7 @@ func _ready() {
 			cfg.SetValue("redis", "username", app_conf.Redicon_username)
 			cfg.SetValue("redis", "password", app_conf.Redicon_password)
 			fmt.Println(goconfig.SaveConfigFile(cfg, "conf.ini"))
+			fmt.Println("redis_ready")
 			_ready()
 		} else {
 			app_conf.Redicon_address = value["address"]

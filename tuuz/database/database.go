@@ -1,12 +1,14 @@
 package database
 
 import (
+	"fmt"
 	"github.com/Unknwon/goconfig"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tobycroft/gorose-pro"
 	"log"
 	"main.go/config/db_conf"
 	"main.go/tuuz/Log"
+	"time"
 )
 
 var Database *gorose.Engin
@@ -32,6 +34,7 @@ func _ready() {
 			cfg.SetValue("database", "dbhost", "")
 			cfg.SetValue("database", "dbport", "")
 			goconfig.SaveConfigFile(cfg, "conf.ini")
+			fmt.Println("database_ready")
 			_ready()
 		}
 		need = value["need"]
@@ -48,19 +51,18 @@ func _ready() {
 func _conn() {
 	if need == "true" {
 		var err error
-		if retry == "true" {
-			for {
-				Database, err = gorose.Open(DbConfig())
-				if err != nil {
-					if retry == "true" {
-						Log.Dbrr(err, "database not connect")
-					} else {
-						log.Panic(err)
-					}
-				}
+		Database, err = gorose.Open(DbConfig())
+		if err != nil {
+			if retry == "true" {
+				Log.Dbrr(err, "database not connect")
+				time.Sleep(1)
+				_conn()
+			} else {
+				log.Panic(err)
 			}
 		}
 	}
+
 }
 
 func DbConfig() *gorose.Config {
