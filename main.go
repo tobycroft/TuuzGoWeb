@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	if !app_conf.TestMode {
+	if app_conf.TestMode == false {
 		s, err := os.Stat("./log/")
 
 		if err != nil {
