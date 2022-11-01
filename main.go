@@ -9,12 +9,14 @@ import (
 )
 
 func init() {
-	s, err := os.Stat("./log/")
+	if !app_conf.TestMode {
+		s, err := os.Stat("./log/")
 
-	if err != nil {
-		os.Mkdir("./log", 0755)
-	} else if s.IsDir() {
-		os.Mkdir("./log", 0755)
+		if err != nil {
+			os.Mkdir("./log", 0755)
+		} else if s.IsDir() {
+			os.Mkdir("./log", 0755)
+		}
 	}
 }
 
