@@ -24,7 +24,7 @@ func _ready() {
 			cfg.SetValue("app", "debug", Debug)
 			cfg.SetValue("app", "testmode", "false")
 			cfg.SetValue("app", "appmode", AppMode)
-			cfg.SetValue("app", "websocketKey", WebsocketKey)
+			cfg.SetValue("app", "websocketkey", WebsocketKey)
 			goconfig.SaveConfigFile(cfg, "conf.ini")
 			_ready()
 		}
