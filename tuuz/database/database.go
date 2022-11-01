@@ -6,29 +6,60 @@ import (
 	"github.com/tobycroft/gorose-pro"
 	"log"
 	"main.go/config/db_conf"
+	"main.go/tuuz/Log"
 )
 
 var Database *gorose.Engin
 
 func init() {
-	var err error
+	_ready()
+	_conn()
+}
+
+func _ready() {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
 		goconfig.SaveConfigFile(&goconfig.ConfigFile{}, "conf.ini")
+		_ready()
 	} else {
-		_, err := cfg.GetSection("database")
+		value, err := cfg.GetSection("database")
 		if err != nil {
+			cfg.SetValue("database", "need", "true")
+			cfg.SetValue("database", "retry", "true")
 			cfg.SetValue("database", "dbname", "")
 			cfg.SetValue("database", "dbuser", "")
 			cfg.SetValue("database", "dbpass", "")
 			cfg.SetValue("database", "dbhost", "")
 			cfg.SetValue("database", "dbport", "")
 			goconfig.SaveConfigFile(cfg, "conf.ini")
+			_ready()
 		}
+		need = value["need"]
+		retry = value["retry"]
+
+		dbname = value["dbname"]
+		dbuser = value["dbuser"]
+		dbpass = value["dbpass"]
+		dbhost = value["dbhost"]
+		dbport = value["dbport"]
 	}
-	Database, err = gorose.Open(DbConfig())
-	if err != nil {
-		log.Panic(err)
+}
+
+func _conn() {
+	if need == "true" {
+		var err error
+		if retry == "true" {
+			for {
+				Database, err = gorose.Open(DbConfig())
+				if err != nil {
+					if retry == "true" {
+						Log.Dbrr(err, "database not connect")
+					} else {
+						log.Panic(err)
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -43,21 +74,20 @@ func DbConfig() *gorose.Config {
 }
 
 func dsn_local() string {
-	cfg, err := goconfig.LoadConfigFile("conf.ini")
-	if err != nil {
-		return db_conf.Dsn()
+	if need == "true" {
+		if dbhost == "" || dbport == "" {
+			return db_conf.Dsn()
+		}
 	}
-	value, err := cfg.GetSection("database")
-	if err != nil {
-		return db_conf.Dsn()
-	} else {
-		dbname := value["dbname"]
-		dbuser := value["dbuser"]
-		dbpass := value["dbpass"]
-		dbhost := value["dbhost"]
-		dbport := value["dbport"]
-		conntype := "tcp"
-		charset := "utf8mb4"
-		return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true"
-	}
+	conntype := "tcp"
+	charset := "utf8mb4"
+	return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true"
 }
+
+var need string
+var retry string
+var dbname string
+var dbuser string
+var dbpass string
+var dbhost string
+var dbport string

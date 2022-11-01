@@ -2,7 +2,6 @@ package ASMS
 
 import (
 	"errors"
-	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/tobycroft/Calc"
 	"main.go/config/app_conf"
@@ -25,15 +24,21 @@ import (
 const url = "http://asms.tuuz.cc:10081"
 
 func init() {
+	_ready()
+}
+
+func _ready() {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
 		goconfig.SaveConfigFile(&goconfig.ConfigFile{}, "conf.ini")
+		_ready()
 	} else {
 		value, err := cfg.GetSection("asms")
 		if err != nil {
 			cfg.SetValue("asms", "name", "")
 			cfg.SetValue("asms", "token", "")
-			fmt.Println(goconfig.SaveConfigFile(cfg, "conf.ini"))
+			goconfig.SaveConfigFile(cfg, "conf.ini")
+			_ready()
 		} else {
 			if value["address"] != "" && value["port"] != "" {
 				app_conf.Redicon_address = value["name"]
