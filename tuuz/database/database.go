@@ -49,7 +49,7 @@ func _ready() {
 }
 
 func _conn() {
-	if need == "true" {
+	if need == "true" || need == "" {
 		var err error
 		Database, err = gorose.Open(DbConfig())
 		if err != nil {
@@ -76,7 +76,7 @@ func DbConfig() *gorose.Config {
 }
 
 func dsn_local() string {
-	if need == "true" {
+	if need == "true" || need == "" {
 		if dbhost == "" || dbport == "" {
 			return db_conf.Dsn()
 		}
