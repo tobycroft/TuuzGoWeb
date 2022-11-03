@@ -32,11 +32,11 @@ func _ready() {
 			fmt.Println("app_ready")
 			_ready()
 		}
-		Project = value["project"]
-		Debug = value["debug"]
+		Project = value["Project"]
+		Debug = value["Debug"]
 
-		TestMode = value["testmode"] == "true"
-		AppMode = value["appmode"]
-		WebsocketKey = value["websocketKey"]
+		TestMode = value["TestMode"] == "true"
+		AppMode = value["AppMode"]
+		WebsocketKey = value["WebsocketKey"]
 	}
 }
