@@ -23,11 +23,11 @@ func _ready() {
 	} else {
 		value, err := cfg.GetSection("app")
 		if err != nil {
-			cfg.SetValue("app", "project", Project)
-			cfg.SetValue("app", "debug", Debug)
-			cfg.SetValue("app", "testmode", "false")
-			cfg.SetValue("app", "appmode", AppMode)
-			cfg.SetValue("app", "websocketkey", WebsocketKey)
+			cfg.SetValue("app", "Project", Project)
+			cfg.SetValue("app", "Debug", Debug)
+			cfg.SetValue("app", "TestMode", "false")
+			cfg.SetValue("app", "AppMode", AppMode)
+			cfg.SetValue("app", "WebsocketKey", WebsocketKey)
 			goconfig.SaveConfigFile(cfg, "conf.ini")
 			fmt.Println("app_ready")
 			_ready()
