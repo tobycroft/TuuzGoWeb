@@ -1,8 +1,7 @@
 package Net
 
-import "github.com/kirinlabs/HttpRequest"
+import "github.com/tobycroft/HttpRequest"
 
-//
 func Request() *HttpRequest.Request {
 	req := HttpRequest.NewRequest()
 	//req := HttpRequest.NewRequest().Debug(true).DisableKeepAlives(false).SetTimeout(5)
