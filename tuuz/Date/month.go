@@ -63,11 +63,11 @@ func LastMonth1st_int() int64 {
 }
 
 func ThisWeek() string {
-	return Date_format_day(Date_offset_thisWeek())
+	return Date_format_day(Date_offset_thisWeek(false))
 }
 
 func ThisWeek_int() int64 {
-	return Date_offset_thisWeek().Unix()
+	return Date_offset_thisWeek(false).Unix()
 }
 
 func LastWeek() string {
