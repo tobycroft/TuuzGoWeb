@@ -96,7 +96,7 @@ func (post *ModelPost) FieldsBlankable(fields ...string) *ModelPost {
 }
 
 // FieldAllHave: 全域检测，不允许可空字段存在
-func (post *ModelPost) FieldAllHave(no_blank_filed bool) *ModelPost {
+func (post *ModelPost) FieldsAllHave(no_blank_filed bool) *ModelPost {
 	post.no_blank_filed = no_blank_filed
 	return post
 }
