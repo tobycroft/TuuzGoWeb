@@ -87,13 +87,22 @@ func (post *ModelPost) Fields(fields ...string) *ModelPost {
 	return post
 }
 
-func (post *ModelPost) Xss(anti_xss bool) *ModelPost {
-	post.xss = anti_xss
+// FieldsBlankable: 不检测字段，当Fields和Blankable冲突，默认检测优先，当仅开启全域检测Fields未提到时，默认FB优先
+func (post *ModelPost) FieldsBlankable(fields ...string) *ModelPost {
+	for _, field := range fields {
+		post.reserv_col[field] = true
+	}
 	return post
 }
 
+// FieldAllHave: 全域检测，不允许可空字段存在
 func (post *ModelPost) FieldAllHave(no_blank_filed bool) *ModelPost {
 	post.no_blank_filed = no_blank_filed
+	return post
+}
+
+func (post *ModelPost) Xss(anti_xss bool) *ModelPost {
+	post.xss = anti_xss
 	return post
 }
 
