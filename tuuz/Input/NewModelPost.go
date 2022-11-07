@@ -19,7 +19,8 @@ type ModelPost struct {
 }
 
 type modelConfig struct {
-	xss bool
+	xss            bool
+	no_blank_filed bool
 }
 
 type modelData struct {
@@ -91,6 +92,11 @@ func (post *ModelPost) Xss(anti_xss bool) *ModelPost {
 	return post
 }
 
+func (post *ModelPost) FieldAllHave(no_blank_filed bool) *ModelPost {
+	post.no_blank_filed = no_blank_filed
+	return post
+}
+
 func (post *ModelPost) Data(field string, value interface{}) *ModelPost {
 	post.data[field] = value
 	return post
@@ -105,7 +111,7 @@ func (post *ModelPost) PostString(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -123,7 +129,7 @@ func (post *ModelPost) PostIn(key string, str_slices []string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -142,7 +148,7 @@ func (post *ModelPost) PostInt64(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -162,7 +168,7 @@ func (post *ModelPost) PostDateTime(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -182,7 +188,7 @@ func (post *ModelPost) PostTime(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -202,7 +208,7 @@ func (post *ModelPost) PostFloat64(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
@@ -222,7 +228,7 @@ func (post *ModelPost) PostBool(key string) *ModelPost {
 	_, have := post.reserv_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
-		if have {
+		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
