@@ -12,8 +12,9 @@ import (
 )
 
 type ModelPost struct {
-	reserv_col map[string]bool
-	content    *gin.Context
+	check_col   map[string]bool
+	unckeck_col map[string]bool
+	content     *gin.Context
 	*modelConfig
 	*modelData
 }
@@ -32,9 +33,11 @@ type modelData struct {
 func NewModelPost(c *gin.Context) *ModelPost {
 	return &ModelPost{
 		make(map[string]bool),
+		make(map[string]bool),
 		c,
 		&modelConfig{
-			xss: false,
+			xss:            false,
+			no_blank_filed: false,
 		},
 		&modelData{
 			errMsgs: nil,
@@ -82,15 +85,17 @@ func (post *ModelPost) Select() (data map[string]interface{}) {
 // Fields: 如果需要保证字段一定存在，则使用fields，否则默认允许所有字段均不传
 func (post *ModelPost) Fields(fields ...string) *ModelPost {
 	for _, field := range fields {
-		post.reserv_col[field] = true
+		post.check_col[field] = true
 	}
 	return post
 }
 
-// FieldsBlankable: 不检测字段，当Fields和Blankable冲突，默认检测优先，当仅开启全域检测Fields未提到时，默认FB优先
-func (post *ModelPost) FieldsBlankable(fields ...string) *ModelPost {
+// FieldsCanBlank: 不检测字段，当Fields和Blankable冲突，默认检测优先，当仅开启全域检测Fields未提到时，默认FB优先
+func (post *ModelPost) FieldsCanBlank(fields ...string) *ModelPost {
 	for _, field := range fields {
-		post.reserv_col[field] = true
+		if !post.check_col[field] {
+			post.unckeck_col[field] = true
+		}
 	}
 	return post
 }
@@ -117,7 +122,7 @@ func (post *ModelPost) Copy(from_field string, to_field string) *ModelPost {
 }
 
 func (post *ModelPost) PostString(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -135,7 +140,7 @@ func (post *ModelPost) PostString(key string) *ModelPost {
 }
 
 func (post *ModelPost) PostIn(key string, str_slices []string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -154,7 +159,7 @@ func (post *ModelPost) PostIn(key string, str_slices []string) *ModelPost {
 }
 
 func (post *ModelPost) PostInt64(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -174,7 +179,7 @@ func (post *ModelPost) PostInt64(key string) *ModelPost {
 }
 
 func (post *ModelPost) PostDateTime(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -194,7 +199,7 @@ func (post *ModelPost) PostDateTime(key string) *ModelPost {
 }
 
 func (post *ModelPost) PostTime(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -214,7 +219,7 @@ func (post *ModelPost) PostTime(key string) *ModelPost {
 }
 
 func (post *ModelPost) PostFloat64(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
@@ -234,7 +239,7 @@ func (post *ModelPost) PostFloat64(key string) *ModelPost {
 }
 
 func (post *ModelPost) PostBool(key string) *ModelPost {
-	_, have := post.reserv_col[key]
+	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
 	if !ok {
 		if have || post.no_blank_filed {
