@@ -4,11 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Unknwon/goconfig"
-	"github.com/tobycroft/Calc"
-	"main.go/tuuz/Jsong"
-	"main.go/tuuz/Log"
-	"main.go/tuuz/Net"
-	"time"
+	"github.com/tobycroft/AossGoSdk"
 )
 
 /*
@@ -20,8 +16,6 @@ import (
 
  *
  */
-
-const url = "http://asms.tuuz.cc:10081"
 
 func init() {
 	_ready()
@@ -52,34 +46,11 @@ func _ready() {
 	}
 }
 
-func Sms_send(phone any, quhao, text any) error {
-	ts := time.Now().Unix()
-	param := map[string]any{
-		"phone": phone,
-		"quhao": quhao,
-		"text":  text,
-		"ts":    ts,
-		"name":  name,
-		"sign":  Calc.Md5(token + Calc.Any2String(ts)),
-	}
-	ret, err := Net.Post(url+"/asms/send", nil, param, nil, nil)
-	//fmt.Println(ret, err)
-	if err != nil {
-		Log.Crrs(err, ret)
-		return err
-	} else {
-		rtt, errs := Jsong.JObject[string, any](ret)
-		if errs != nil {
-			return errors.New(ret)
-		} else {
-			if Calc.Any2String(rtt["code"]) == "0" {
-				return nil
-			} else {
-				Log.Crrs(err, ret)
-				return errors.New(Calc.Any2String(rtt["echo"]))
-			}
-		}
-	}
+func Sms_send(phone, quhao, text any) error {
+	var sms AossGoSdk.ASMS
+	sms.Name = name
+	sms.Token = token
+	return sms.Sms_send(phone, quhao, text)
 }
 
 func Sms_single(phone any, quhao, text any, code int64) error {
