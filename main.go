@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/Calc"
 	"main.go/config/app_conf"
+	"main.go/extend/PortFinder"
 	"main.go/route"
 	"os"
 )
@@ -29,6 +30,10 @@ func main() {
 	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
 	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
 	route.OnRoute(mainroute)
-	mainroute.Run(":80")
+	if PortFinder.PortInUse(80) {
+		mainroute.Run(":80")
+	} else {
+		mainroute.Run(":81")
+	}
 
 }
