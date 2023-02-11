@@ -15,7 +15,7 @@ require (
 	github.com/tobycroft/Calc v1.2.2
 	github.com/tobycroft/HttpRequest v1.1.5
 	github.com/tobycroft/gorose-pro v1.9.4
-	github.com/tobycroft/AossGoSdk v1.12.1
+	github.com/tobycroft/AossGoSdk v1.12.3
 
 )
 
