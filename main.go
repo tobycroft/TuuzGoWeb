@@ -30,7 +30,7 @@ func main() {
 	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
 	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
 	route.OnRoute(mainroute)
-	if PortFinder.PortInUse(80) {
+	if !PortFinder.PortInUse(80) {
 		mainroute.Run(":80")
 	} else {
 		mainroute.Run(":81")
