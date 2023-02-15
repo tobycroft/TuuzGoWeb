@@ -1,3 +1,5 @@
 package app_conf
 
-const TimeZone = "Asia/Shanghai"
+import "time"
+
+var TimeZone = time.FixedZone("CST", 8*3600)
