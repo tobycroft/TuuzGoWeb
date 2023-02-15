@@ -6,8 +6,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tobycroft/gorose-pro"
 	"log"
+	"main.go/config/app_conf"
 	"main.go/config/db_conf"
 	"main.go/tuuz/Log"
+	"net/url"
 	"time"
 )
 
@@ -83,8 +85,7 @@ func dsn_local() string {
 	}
 	conntype := "tcp"
 	charset := "utf8mb4"
-
-	return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true"
+	return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true&loc=" + url.QueryEscape(app_conf.TimeZoneLocation)
 }
 
 var need string
