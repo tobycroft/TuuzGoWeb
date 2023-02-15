@@ -1,17 +1,44 @@
 package Date
 
 import (
+	"main.go/config/app_conf"
 	"regexp"
 	"strings"
 	"time"
 )
 
-func Date_time_parser(date_time string) (p time.Time, err error) {
+func Date_time_parser(date_time string, location *time.Location) (p time.Time, err error) {
 	if strings.Contains(date_time, "T") {
 		if strings.Contains(date_time, ".") {
-			return time.Parse(time.RFC3339Nano, date_time)
+			p, err = time.Parse(time.RFC3339Nano, date_time)
+			if err != nil {
+				return p, err
+			}
+			if location != nil {
+				p.In(location)
+			} else {
+				tz, err := time.LoadLocation(app_conf.TimeZone)
+				if err != nil {
+					return p, err
+				}
+				p.In(tz)
+			}
+			return p, err
 		} else {
-			return time.Parse(time.RFC3339, date_time)
+			p, err = time.Parse(time.RFC3339, date_time)
+			if err != nil {
+				return p, err
+			}
+			if location != nil {
+				p.In(location)
+			} else {
+				tz, err := time.LoadLocation(app_conf.TimeZone)
+				if err != nil {
+					return p, err
+				}
+				p.In(tz)
+			}
+			return p, err
 		}
 	} else {
 		var datetime_exp *regexp.Regexp

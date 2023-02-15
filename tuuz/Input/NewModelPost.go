@@ -187,7 +187,7 @@ func (post *ModelPost) PostDateTime(key string) *ModelPost {
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
 		}
 	} else {
-		i, e := Date.Date_time_parser(in)
+		i, e := Date.Date_time_parser(in, nil)
 		if e != nil {
 			post.errMsgs = append(post.errMsgs, key+" should only be a Date(+Time) or RFC3339")
 			post.errs = append(post.errs, e)
