@@ -15,13 +15,13 @@ func Date_time_parser(date_time string, location *time.Location) (p time.Time, e
 				return p, err
 			}
 			if location != nil {
-				p.In(location)
+				p = p.In(location)
 			} else {
 				tz, err := time.LoadLocation(app_conf.TimeZone)
 				if err != nil {
 					return p, err
 				}
-				p.In(tz)
+				p = p.In(tz)
 			}
 			return p, err
 		} else {
@@ -30,13 +30,13 @@ func Date_time_parser(date_time string, location *time.Location) (p time.Time, e
 				return p, err
 			}
 			if location != nil {
-				p.In(location)
+				p = p.In(location)
 			} else {
 				tz, err := time.LoadLocation(app_conf.TimeZone)
 				if err != nil {
 					return p, err
 				}
-				p.In(tz)
+				p = p.In(tz)
 			}
 			return p, err
 		}
