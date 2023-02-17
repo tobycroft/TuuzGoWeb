@@ -122,13 +122,14 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
-github.com/tobycroft/AossGoSdk v1.12.1/go.mod h1:9Lh6CrkrsNPwZSmuTUisGinZ+0O5I299foZBTbmSsOI=
-github.com/tobycroft/AossGoSdk v1.12.3/go.mod h1:9Lh6CrkrsNPwZSmuTUisGinZ+0O5I299foZBTbmSsOI=
+github.com/tobycroft/AossGoSdk v1.13.6 h1:sRShCL5Ff0+A4+/8tkIpdMqRoGTPIvOnOg0ZKi0GUPE=
 github.com/tobycroft/AossGoSdk v1.13.6/go.mod h1:9Lh6CrkrsNPwZSmuTUisGinZ+0O5I299foZBTbmSsOI=
 github.com/tobycroft/Calc v1.2.2 h1:+cONTOZ/9CaQ6IIz+cizrdkilKDX1E8Nfb/Ns2QduoA=
 github.com/tobycroft/Calc v1.2.2/go.mod h1:Rtbth5rVSBICUCh2tH0tQwB1x2SHzhtkyB1FndlETEA=
 github.com/tobycroft/HttpRequest v1.1.5 h1:NUAjTVSoanjVNny1GVaYKaxfJJd26fIY4dj3RoRMxao=
 github.com/tobycroft/HttpRequest v1.1.5/go.mod h1:WYJFLv/vPAQ7yIjkAbSnfq/ikuIrDr8wmSDXGDN34q0=
+github.com/tobycroft/TuuzNet v1.0.0 h1:ZJkxBn2XZJJ5T3rn5BUbsbN0cp7LvAAsDf9rIhqK+NE=
+github.com/tobycroft/TuuzNet v1.0.0/go.mod h1:HoBrTWCLYHHSw7uLkPZvOoI3/fCLfssm2qZTyhn9WB0=
 github.com/tobycroft/gorose-pro v1.9.4 h1:872tN/6BNxsVL9vriueai4ItrrtrDgmPul52oQbseos=
 github.com/tobycroft/gorose-pro v1.9.4/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
 github.com/ugorji/go v1.2.7/go.mod h1:nF9osbDWLy6bDVv/Rtoh6QgnvNDpmCalQV5urGCCS6M=
@@ -145,8 +146,8 @@ golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5y
 golang.org/x/crypto v0.6.0 h1:qfktjS5LUO+fFKeJXZ+ikTRijMmljikvG68fpMMruSc=
 golang.org/x/crypto v0.6.0/go.mod h1:OFC/31mSvZgRz0V1QTNCzfAI1aIRzbiufJtkMIlEp58=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
-golang.org/x/image v0.4.0 h1:x1RWAiZIvERqkltrFjtQP1ycmiR5pmhjtCfVOtdURuQ=
-golang.org/x/image v0.4.0/go.mod h1:FVC7BI/5Ym8R25iw5OLsgshdUBbT1h5jZTpA+mvAdZ4=
+golang.org/x/image v0.5.0 h1:5JMiNunQeQw++mMOz48/ISeNu3Iweh/JaZU8ZLqHRrI=
+golang.org/x/image v0.5.0/go.mod h1:FVC7BI/5Ym8R25iw5OLsgshdUBbT1h5jZTpA+mvAdZ4=
 golang.org/x/lint v0.0.0-20181026193005-c67002cb31c3/go.mod h1:UVdnD1Gm6xHRNCYTkRU2/jEulfH38KcIWyp/GAMgvoE=
 golang.org/x/lint v0.0.0-20190227174305-5b3e6a55c961/go.mod h1:wehouNa3lNwaWXcvxsM5YxQ5yQlVC4a0KAMCusXpPoU=
 golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=
