@@ -12,10 +12,10 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/json-iterator/go v1.1.12
 	github.com/shopspring/decimal v1.3.1
+	github.com/tobycroft/AossGoSdk v1.13.6
 	github.com/tobycroft/Calc v1.2.2
 	github.com/tobycroft/HttpRequest v1.1.5
 	github.com/tobycroft/gorose-pro v1.9.4
-	github.com/tobycroft/AossGoSdk v1.13.6
 
 )
 
@@ -36,10 +36,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
-	github.com/ugorji/go/codec v1.2.9 // indirect
+	github.com/ugorji/go/codec v1.2.10 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
-	golang.org/x/image v0.4.0 // indirect
-	golang.org/x/net v0.6.0 // indirect
+	golang.org/x/image v0.5.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
