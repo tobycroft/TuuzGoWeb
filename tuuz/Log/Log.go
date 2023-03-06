@@ -65,7 +65,7 @@ func Dbrr(err error, log string) {
 }
 
 func DBrrsql(err error, db gorose.IOrm, log string) {
-	fmt.Println(err, log)
+	fmt.Println(err, "\n", db.LastSql(), "\n", log)
 	if err != nil {
 		Write("Dberror", log, db.LastSql(), err.Error())
 	}
