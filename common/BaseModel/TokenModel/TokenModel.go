@@ -16,7 +16,7 @@ func Api_delete(uid interface{}) bool {
 	db.Where(where)
 	_, err := db.Delete()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return false
 	} else {
 		return true
@@ -32,7 +32,7 @@ func Api_delete_byType(uid, Type interface{}) bool {
 	db.Where(where)
 	_, err := db.Delete()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return false
 	} else {
 		return true
@@ -49,7 +49,7 @@ func Api_insert(uid, token, Type interface{}) bool {
 	db.Data(data)
 	_, err := db.Insert()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return false
 	} else {
 		return true
@@ -65,7 +65,7 @@ func Api_find(uid, token interface{}) gorose.Data {
 	db.Where(where)
 	ret, err := db.First()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return nil
 	} else {
 		return ret
@@ -82,7 +82,7 @@ func Api_find_type(uid, token, Type interface{}) gorose.Data {
 	db.Where(where)
 	ret, err := db.First()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return nil
 	} else {
 		return ret

@@ -16,7 +16,7 @@ func (self *Interface) Create(data map[string]interface{}) int64 {
 	db.Data(data)
 	ret, err := db.InsertGetId()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return 0
 	} else {
 		return ret
@@ -28,7 +28,7 @@ func Create(table string, data map[string]interface{}) int64 {
 	db.Data(data)
 	ret, err := db.InsertGetId()
 	if err != nil {
-		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		Log.DBrrsql(err, db, tuuz.FUNCTION_ALL())
 		return 0
 	} else {
 		return ret
