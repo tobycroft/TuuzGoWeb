@@ -16,6 +16,7 @@ import (
 	"main.go/tuuz/Vali"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -28,7 +29,12 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 		return "", false
 	} else {
 		if xss {
-			return template.JSEscapeString(in), true
+			tempin, err := strconv.Unquote(in)
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, err.Error(), "POST-["+key+"]-Error："+err.Error()))
+				return "", false
+			}
+			return template.JSEscapeString(tempin), true
 		} else {
 			return in, true
 		}
