@@ -29,7 +29,7 @@ func Post(key string, c *gin.Context, xss bool) (string, bool) {
 		return "", false
 	} else {
 		if xss {
-			tempin, err := strconv.Unquote(in)
+			tempin, err := strconv.Unquote("\"" + in + "\"")
 			if err != nil {
 				c.JSON(RET.Ret_fail(400, err.Error(), "POST-["+key+"]-Error："+err.Error()))
 				return "", false
