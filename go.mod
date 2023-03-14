@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/Unknwon/goconfig v1.0.0
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
+	github.com/feiin/go-xss v1.1.4
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
@@ -24,7 +25,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/feiin/go-xss v1.1.4 // indirect
 	github.com/feiin/pkg v0.0.0-20200516102027-5ac181da46b6 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -50,6 +50,6 @@ require (
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
-	google.golang.org/protobuf v1.29.0 // indirect
+	google.golang.org/protobuf v1.29.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
