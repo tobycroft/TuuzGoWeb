@@ -116,6 +116,11 @@ func (post *ModelPost) Data(field string, value interface{}) *ModelPost {
 	return post
 }
 
+func (post *ModelPost) Has(field string) bool {
+	_, ok := post.data[field]
+	return ok
+}
+
 func (post *ModelPost) Copy(from_field string, to_field string) *ModelPost {
 	post.data[to_field] = post.data[from_field]
 	return post
