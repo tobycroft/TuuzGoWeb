@@ -195,7 +195,7 @@ func (post *ModelPost) PostInt64(key string) *ModelPost {
 func (post *ModelPost) PostDateTime(key string) *ModelPost {
 	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
-	if !ok {
+	if !ok && in != "" {
 		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
