@@ -2,11 +2,13 @@ package Input
 
 import (
 	"errors"
+	"github.com/feiin/go-xss"
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/Calc"
 	"html/template"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Date"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -116,20 +118,6 @@ func (post *ModelPost) Data(field string, value interface{}) *ModelPost {
 	return post
 }
 
-func (post *ModelPost) Has(field string) bool {
-	_, ok := post.data[field]
-	return ok
-}
-
-func (post *ModelPost) Find(field string) any {
-	data, ok := post.data[field]
-	if ok {
-		return data
-	} else {
-		return nil
-	}
-}
-
 func (post *ModelPost) Copy(from_field string, to_field string) *ModelPost {
 	post.data[to_field] = post.data[from_field]
 	return post
@@ -146,6 +134,17 @@ func (post *ModelPost) PostString(key string) *ModelPost {
 	} else {
 		if post.xss {
 			post.data[key] = template.JSEscapeString(in)
+		} else {
+			post.data[key] = in
+		}
+		if post.xss {
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				post.errMsgs = append(post.errMsgs, "POST-["+key+"]:"+err.Error())
+				post.errs = append(post.errs, errors.New("POST-["+key+"]:"+err.Error()))
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			post.data[key] = out
 		} else {
 			post.data[key] = in
 		}
@@ -195,7 +194,7 @@ func (post *ModelPost) PostInt64(key string) *ModelPost {
 func (post *ModelPost) PostDateTime(key string) *ModelPost {
 	_, have := post.check_col[key]
 	in, ok := post.content.GetPostForm(key)
-	if !ok || in == "" {
+	if !ok {
 		if have || post.no_blank_filed {
 			post.errMsgs = append(post.errMsgs, "POST-["+key+"]")
 			post.errs = append(post.errs, errors.New("POST-["+key+"]"))
