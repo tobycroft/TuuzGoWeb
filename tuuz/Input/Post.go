@@ -204,6 +204,33 @@ func PostInt64(key string, c *gin.Context) (int64, bool) {
 	}
 }
 
+func PostInt64Range(key string, c *gin.Context, min, max int64) (int64, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return 0, false
+	} else {
+		i, e := Calc.String2Int64(in)
+		if e != nil {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be int64"))
+			c.Abort()
+			return 0, false
+		}
+		if i < min {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be greater than"+Calc.Any2String(min)))
+			c.Abort()
+			return 0, false
+		}
+		if i > max {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be less than"+Calc.Any2String(max)))
+			c.Abort()
+			return 0, false
+		}
+		return i, true
+	}
+}
+
 func PostFloat64(key string, c *gin.Context) (float64, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
