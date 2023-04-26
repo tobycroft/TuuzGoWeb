@@ -2,6 +2,7 @@ package Log
 
 import (
 	"fmt"
+	"github.com/tobycroft/gorose-pro"
 	"log"
 	"os"
 )
@@ -36,7 +37,7 @@ func Errs(err error, log string) {
 	}
 }
 
-//Database err
+// Database err
 func Drr(err error) {
 	if err != nil {
 		Write("Database", "", "", err.Error())
@@ -60,5 +61,12 @@ func Dbrr(err error, log string) {
 	fmt.Println(err, log)
 	if err != nil {
 		Write("Dberror", log, "", err.Error())
+	}
+}
+
+func DBrrsql(err error, db gorose.IOrm, log string) {
+	fmt.Println(err, "\n", db.LastSql(), "\n", log)
+	if err != nil {
+		Write("Dberror", log, db.LastSql(), err.Error())
 	}
 }

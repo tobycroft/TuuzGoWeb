@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-func Join[T int | int64 | float64 | float32 | decimal.Decimal | string | interface{}](slices []T) string {
+func Join[T int | int64 | float64 | float32 | decimal.Decimal | string | interface{}](slices []T, seperation string) string {
 	strs := []string{}
 	for _, slice := range slices {
 		strs = append(strs, Calc.Any2String(slice))
 	}
-	return strings.Join(strs, ",")
+	return strings.Join(strs, seperation)
 }

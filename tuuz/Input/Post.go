@@ -3,11 +3,11 @@ package Input
 import (
 	"crypto/sha256"
 	"errors"
+	"github.com/feiin/go-xss"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"github.com/tobycroft/Calc"
-	"html/template"
 	"io"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
@@ -16,39 +16,54 @@ import (
 	"main.go/tuuz/Vali"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
 
-func Post(key string, c *gin.Context, xss bool) (string, bool) {
+func Post(key string, c *gin.Context, need_xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
 		c.Abort()
 		return "", false
 	} else {
-		if xss {
-			return template.JSEscapeString(in), true
+		if need_xss {
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
+				c.Abort()
+				return "", false
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			return out, true
 		} else {
 			return in, true
 		}
 	}
 }
 
-func PostNull(key string, c *gin.Context, xss bool) (string, bool) {
+func PostNull(key string, c *gin.Context, need_xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return "", true
 	} else {
-		if xss {
-			return template.JSEscapeString(in), true
+		if need_xss {
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
+				c.Abort()
+				return "", false
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			return out, true
 		} else {
 			return in, true
 		}
 	}
 }
 
-func PostNullWithLength(key string, max_length int, c *gin.Context, xss bool) (string, bool) {
+func PostNullWithLength(key string, max_length int, c *gin.Context, need_xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		return "", true
@@ -59,8 +74,15 @@ func PostNullWithLength(key string, max_length int, c *gin.Context, xss bool) (s
 			c.Abort()
 			return "", false
 		}
-		if xss {
-			return template.JSEscapeString(in), true
+		if need_xss {
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
+				c.Abort()
+				return "", false
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			return out, true
 		} else {
 			return in, true
 		}
@@ -120,7 +142,7 @@ func PostTime(key string, c *gin.Context) (time.Time, bool) {
 	}
 }
 
-func PostLength(key string, min, max int, c *gin.Context, xss bool) (string, bool) {
+func PostLength(key string, min, max int, c *gin.Context, need_xss bool) (string, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
@@ -133,8 +155,15 @@ func PostLength(key string, min, max int, c *gin.Context, xss bool) (string, boo
 			c.Abort()
 			return "", false
 		}
-		if xss {
-			return template.JSEscapeString(in), true
+		if need_xss {
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
+				c.Abort()
+				return "", false
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			return out, true
 		} else {
 			return in, true
 		}
@@ -168,6 +197,33 @@ func PostInt64(key string, c *gin.Context) (int64, bool) {
 		i, e := Calc.String2Int64(in)
 		if e != nil {
 			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be int64"))
+			c.Abort()
+			return 0, false
+		}
+		return i, true
+	}
+}
+
+func PostInt64Range(key string, c *gin.Context, min, max int64) (int64, bool) {
+	in, ok := c.GetPostForm(key)
+	if !ok {
+		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
+		c.Abort()
+		return 0, false
+	} else {
+		i, e := Calc.String2Int64(in)
+		if e != nil {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be int64"))
+			c.Abort()
+			return 0, false
+		}
+		if i < min {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be greater than"+Calc.Any2String(min)))
+			c.Abort()
+			return 0, false
+		}
+		if i > max {
+			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be less than"+Calc.Any2String(max)))
 			c.Abort()
 			return 0, false
 		}
@@ -345,7 +401,14 @@ func PostLike(key string, c *gin.Context, like string) (string, bool) {
 		return "", false
 	} else {
 		if strings.Contains(in, like) {
-			return template.JSEscapeString(in), true
+			str, err := strconv.Unquote("\"" + in + "\"")
+			if err != nil {
+				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
+				c.Abort()
+				return "", false
+			}
+			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
+			return out, true
 		} else {
 			c.JSON(RET.Ret_fail(407, key+" 's data should contain with"+like+"]", key+" 's data should contain with"+like+"]"))
 			c.Abort()
