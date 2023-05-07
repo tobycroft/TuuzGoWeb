@@ -3,7 +3,7 @@ package Redis
 import "main.go/config/app_conf"
 
 func Hash_add(key string, value interface{}) error {
-	return goredis.HSet(goredis_ctx, app_conf.Project+":"+key, value).Err()
+	return goredis.HMSet(goredis_ctx, app_conf.Project+":"+key, value).Err()
 }
 
 func Hash_slices(key string, value []interface{}) error {
