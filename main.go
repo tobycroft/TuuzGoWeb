@@ -6,9 +6,11 @@ import (
 	"main.go/config/app_conf"
 	"main.go/route"
 	"os"
+	"time"
 )
 
 func init() {
+	time.Local = app_conf.TimeZone
 	if app_conf.TestMode == false {
 		s, err := os.Stat("./log/")
 
