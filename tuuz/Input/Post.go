@@ -218,12 +218,12 @@ func PostInt64Range(key string, c *gin.Context, min, max int64) (int64, bool) {
 			return 0, false
 		}
 		if i < min {
-			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be greater than"+Calc.Any2String(min)))
+			c.JSON(RET.Ret_fail(407, nil, key+" should be greater than"+Calc.Any2String(min)))
 			c.Abort()
 			return 0, false
 		}
 		if i > max {
-			c.JSON(RET.Ret_fail(407, e.Error(), key+" should be less than"+Calc.Any2String(max)))
+			c.JSON(RET.Ret_fail(407, nil, key+" should be less than"+Calc.Any2String(max)))
 			c.Abort()
 			return 0, false
 		}
