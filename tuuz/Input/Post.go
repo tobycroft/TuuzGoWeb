@@ -31,9 +31,7 @@ func Post(key string, c *gin.Context, need_xss bool) (string, bool) {
 		if need_xss {
 			str, err := strconv.Unquote("\"" + in + "\"")
 			if err != nil {
-				c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]-Error:"+err.Error()))
-				c.Abort()
-				return "", false
+				str = in
 			}
 			out := xss.FilterXSS(str, xss.NewDefaultXssOption())
 			return out, true
