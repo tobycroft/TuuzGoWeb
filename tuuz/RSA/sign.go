@@ -29,6 +29,7 @@ func RsaSign(signContent string, key string, hash crypto.Hash) string {
 	}
 
 	hashes := sha256.Sum256([]byte(signContent))
+	//有些公司这里使用二重签，这里记得先hash
 	hashHex := hex.EncodeToString(hashes[:])
 	hashes = sha256.Sum256([]byte(hashHex))
 
