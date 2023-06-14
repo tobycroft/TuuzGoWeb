@@ -4,8 +4,10 @@ import (
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/pem"
 	"errors"
 	"strings"
@@ -17,20 +19,27 @@ const (
 )
 
 // RsaSign sign = RsaSign(signContent, privateKey, crypto.SHA256)
-func RsaSign(signContent string, privateKey string, hash crypto.Hash) string {
-	shaNew := hash.New()
-	shaNew.Write([]byte(signContent))
-	hashed := shaNew.Sum(nil)
-	priKey, err := ParsePrivateKey(privateKey)
+func RsaSign(signContent string, key string, hash crypto.Hash) string {
+	// Convert private key from PEM format to RSA private key
+	privateKeyBytes := []byte(FormatPrivateKey(key)) // Replace with your actual private key
+	block, _ := pem.Decode(privateKeyBytes)
+	privateKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	if err != nil {
+		return ""
+	}
+
+	hashes := sha256.Sum256([]byte(signContent))
+	hashHex := hex.EncodeToString(hashes[:])
+	hashes = sha256.Sum256([]byte(hashHex))
+
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, hash, hashes[:])
 	if err != nil {
 		panic(err)
 	}
 
-	signature, err := rsa.SignPKCS1v15(rand.Reader, priKey, hash, hashed)
-	if err != nil {
-		panic(err)
-	}
-	return base64.StdEncoding.EncodeToString(signature)
+	signatureBase64 := base64.StdEncoding.EncodeToString(signature)
+
+	return signatureBase64
 }
 
 func ParsePrivateKey(privateKey string) (*rsa.PrivateKey, error) {
@@ -41,7 +50,7 @@ func ParsePrivateKey(privateKey string) (*rsa.PrivateKey, error) {
 		return nil, errors.New("私钥信息错误！")
 	}
 	// 3、解析DER编码的私钥，生成私钥对象
-	priKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+	priKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
