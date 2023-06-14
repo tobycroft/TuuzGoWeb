@@ -41,7 +41,7 @@ func ParsePrivateKey(privateKey string) (*rsa.PrivateKey, error) {
 		return nil, errors.New("私钥信息错误！")
 	}
 	// 3、解析DER编码的私钥，生成私钥对象
-	priKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	priKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
