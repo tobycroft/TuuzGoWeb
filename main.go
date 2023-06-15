@@ -22,7 +22,7 @@ func init() {
 	}
 }
 
-func main2() {
+func main() {
 
 	Calc.RefreshBaseNum()
 	mainroute := gin.Default()
