@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-func Set_add(key string, value any, duration time.Duration) error {
-	return goredis.SAdd(goredis_ctx, app_conf.Project+":"+key, value, time.Second*duration).Err()
+func Set_add(key string, value any) error {
+	return goredis.SAdd(goredis_ctx, app_conf.Project+":"+key, value).Err()
 }
 
 func Set_count(key string) int64 {

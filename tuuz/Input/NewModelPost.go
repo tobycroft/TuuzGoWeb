@@ -284,3 +284,17 @@ func (post *ModelPost) PostBool(key string) *ModelPost {
 	}
 	return post
 }
+
+func (post *ModelPost) Has(field string) bool {
+	_, ok := post.data[field]
+	return ok
+}
+
+func (post *ModelPost) Find(field string) any {
+	data, ok := post.data[field]
+	if ok {
+		return data
+	} else {
+		return nil
+	}
+}
