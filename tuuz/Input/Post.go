@@ -309,14 +309,14 @@ func PostArray[T int | string | int64 | float64 | interface{}](key string, c *gi
 	}
 }
 
-func PostObject[T int | string | int64 | float64 | interface{}](key string, c *gin.Context) (map[string]T, bool) {
+func PostObject[K int | string | int64 | float64, T int | string | int64 | float64 | any](key string, c *gin.Context) (map[K]T, bool) {
 	in, ok := c.GetPostForm(key)
 	if !ok {
 		c.JSON(RET.Ret_fail(400, key, "POST-["+key+"]"))
 		c.Abort()
 		return nil, false
 	} else {
-		var arr map[string]T
+		var arr map[K]T
 		err := jsoniter.UnmarshalFromString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Object now is : "+in))
