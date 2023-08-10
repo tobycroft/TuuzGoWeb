@@ -1,15 +1,16 @@
 package Redis
 
 import (
+	"context"
 	"fmt"
 	"main.go/config/app_conf"
 )
 
 func Suscribe(channel string) {
 
-	pubsub := goredis.Subscribe(goredis_ctx, app_conf.Project+":"+channel)
+	pubsub := goredis.Subscribe(context.Background(), app_conf.Project+":"+channel)
 
-	_, err := pubsub.Receive(goredis_ctx)
+	_, err := pubsub.Receive(context.Background())
 	if err != nil {
 		return
 	}
