@@ -12,6 +12,7 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gorilla/websocket v1.5.0
 	github.com/json-iterator/go v1.1.12
+	github.com/redis/go-redis/v9 v9.1.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/tobycroft/AossGoSdk v1.15.1
 	github.com/tobycroft/Calc v1.2.3
