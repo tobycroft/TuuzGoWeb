@@ -1,10 +1,10 @@
 package RET
 
 import (
-	"bytes"
+	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
-	jsoniter "github.com/json-iterator/go"
 	"main.go/config/app_conf"
+	"strings"
 )
 
 var (
@@ -15,30 +15,30 @@ var (
 
 func json(c *gin.Context, retCodePointer *int, retJsonPointer any) {
 	writeContentType(c.Writer, jsonContentType)
-	jsonBytes, err := jsoniter.Marshal(&retJsonPointer)
+	body, err := sonic.MarshalString(&retJsonPointer)
 	if err != nil {
 		c.Writer.WriteHeader(500)
 		c.Writer.WriteString("RetData-Marshal-Error:" + err.Error())
 		return
 	}
 	c.Writer.WriteHeader(*retCodePointer)
-	c.Writer.Write(jsonBytes)
+	c.Writer.WriteString(body)
 }
 
 func secure_json(c *gin.Context, retCodePointer *int, retJsonPointer any) {
 	writeContentType(c.Writer, jsonContentType)
-	jsonBytes, err := jsoniter.Marshal(&retJsonPointer)
+	body, err := sonic.MarshalString(&retJsonPointer)
 	if err != nil {
 		c.Writer.WriteHeader(500)
 		c.Writer.WriteString("RetData-Marshal-Error:" + err.Error())
 		return
 	}
-	if bytes.HasPrefix(jsonBytes, StringToBytes("[")) && bytes.HasSuffix(jsonBytes,
-		StringToBytes("]")) {
-		if _, err = c.Writer.Write(StringToBytes(app_conf.SecureJsonPrefix)); err != nil {
+
+	if strings.HasPrefix(body, "[") && strings.HasSuffix(body, "]") {
+		if _, err = c.Writer.WriteString(app_conf.SecureJsonPrefix); err != nil {
 			return
 		}
 	}
 	c.Writer.WriteHeader(*retCodePointer)
-	c.Writer.Write(jsonBytes)
+	c.Writer.WriteString(body)
 }
