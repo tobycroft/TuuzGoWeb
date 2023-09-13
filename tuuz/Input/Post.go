@@ -3,9 +3,9 @@ package Input
 import (
 	"crypto/sha256"
 	"errors"
+	"github.com/bytedance/sonic"
 	"github.com/feiin/go-xss"
 	"github.com/gin-gonic/gin"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"github.com/tobycroft/Calc"
 	"io"
@@ -299,7 +299,7 @@ func PostArray[T int | string | int64 | float64 | interface{}](key string, c *gi
 		return nil, false
 	} else {
 		var arr []T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		err := sonic.UnmarshalString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Array now is : "+in))
 			c.Abort()
@@ -317,7 +317,7 @@ func PostObject[K int | string | int64 | float64, T int | string | int64 | float
 		return nil, false
 	} else {
 		var arr map[K]T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		err := sonic.UnmarshalString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-Object now is : "+in))
 			c.Abort()
@@ -335,7 +335,7 @@ func PostArrayObject[T int | string | int64 | float64 | interface{}](key string,
 		return nil, false
 	} else {
 		var arr []map[string]T
-		err := jsoniter.UnmarshalFromString(in, &arr)
+		err := sonic.UnmarshalString(in, &arr)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-ArrayObject now is : "+in))
 			c.Abort()
@@ -352,7 +352,7 @@ func PostAny(key string, c *gin.Context, AnyType interface{}) bool {
 		c.Abort()
 		return false
 	} else {
-		err := jsoniter.UnmarshalFromString(in, &AnyType)
+		err := sonic.UnmarshalString(in, &AnyType)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType now is : "+in))
 			c.Abort()
