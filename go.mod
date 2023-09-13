@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/Unknwon/goconfig v1.0.0
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
+	github.com/bytedance/sonic v1.10.1
 	github.com/feiin/go-xss v1.1.6
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
@@ -17,12 +18,11 @@ require (
 	github.com/tobycroft/AossGoSdk v1.15.1
 	github.com/tobycroft/Calc v1.2.3
 	github.com/tobycroft/HttpRequest v1.1.5
-	github.com/tobycroft/gorose-pro v1.12.1
+	github.com/tobycroft/gorose-pro v1.12.2
 
 )
 
 require (
-	github.com/bytedance/sonic v1.10.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect

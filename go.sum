@@ -220,6 +220,8 @@ github.com/tobycroft/gorose-pro v1.11.7 h1:rcFsOuTyMQ9/z257OgAn+j4iRVTTE7PCklXeD
 github.com/tobycroft/gorose-pro v1.11.7/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
 github.com/tobycroft/gorose-pro v1.12.1 h1:JDr6j71jeu0jrutxvQV0jpzLCAezvAHwApUWm/5SgX8=
 github.com/tobycroft/gorose-pro v1.12.1/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
+github.com/tobycroft/gorose-pro v1.12.2 h1:1VKO05SQ/X0YHD3DNKleZqf/7uWZXZcTfo0s5myuXqQ=
+github.com/tobycroft/gorose-pro v1.12.2/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go v1.2.7/go.mod h1:nF9osbDWLy6bDVv/Rtoh6QgnvNDpmCalQV5urGCCS6M=
