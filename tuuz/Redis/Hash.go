@@ -70,6 +70,10 @@ func Hash_all(key string) (map[string]string, error) {
 	return data, err
 }
 
+func Hash_all_struct(key string, model_struct_pointer any) error {
+	return goredis.HGetAll(context.Background(), app_conf.Project+":"+key).Scan(&model_struct_pointer)
+}
+
 func Hash_delete(key string, field string) error {
 	return goredis.HDel(context.Background(), app_conf.Project+":"+key, field).Err()
 }
