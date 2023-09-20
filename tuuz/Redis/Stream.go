@@ -6,7 +6,7 @@ import (
 	"main.go/config/app_conf"
 )
 
-func Stream_publish(stream_key string, value interface{}) error {
+func Stream_publish(stream_key string, value any) error {
 	var xa redis.XAddArgs
 	xa.Stream = app_conf.Project + ":" + stream_key
 	xa.Values = value

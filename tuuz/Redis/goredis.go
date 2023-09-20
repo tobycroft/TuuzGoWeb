@@ -15,6 +15,7 @@ var goredis *redis.Client
 func init() {
 	_ready()
 	_conn()
+	newLimitter()
 	go _keepAlive()
 }
 
