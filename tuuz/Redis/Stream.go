@@ -24,3 +24,8 @@ func Stream_xRange(stream_key string) ([]redis.XMessage, error) {
 func Stream_xRevRange(stream_key string) ([]redis.XMessage, error) {
 	return goredis.XRevRange(context.Background(), app_conf.Project+":"+stream_key, "-", "+").Result()
 }
+
+func Stream_xRead(stream_key string) ([]redis.XStream, error) {
+	var xr redis.XReadArgs
+	return goredis.XRead(context.Background(), &xr).Result()
+}
