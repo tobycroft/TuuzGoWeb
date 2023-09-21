@@ -17,6 +17,6 @@ func Stream_xLength(stream_channel string) (int64, error) {
 	return goredis.XLen(context.Background(), app_conf.Project+":"+stream_channel).Result()
 }
 
-func Stream_xRange(stream_key string) {
-
+func Stream_xRange(stream_key string) ([]redis.XMessage, error) {
+	return goredis.XRange(context.Background(), app_conf.Project+":"+stream_key, "-", "+").Result()
 }
