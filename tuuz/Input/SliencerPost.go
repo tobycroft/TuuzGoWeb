@@ -74,6 +74,13 @@ func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
 		case nil:
 			return nil
 
+		case time.Time:
+			ret, err := Date.Date_time_parser(in, nil)
+			if err != nil {
+				return nil
+			}
+			return ret
+
 		case bool:
 			str, ok := SPostBool(key, c)
 			if !ok {
