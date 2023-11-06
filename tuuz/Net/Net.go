@@ -276,7 +276,7 @@ func CookieUpdater(new_cookie map[string]interface{}, ident string) {
 	} else {
 		user_cookie_map = Array.Merge(user_cookie_map, new_cookie)
 	}
-	err = Redis.Hash_add("__cookie__"+ident, user_cookie_map)
+	err = Redis.Hash_add_more("__cookie__"+ident, user_cookie_map)
 	if err != nil {
 		fmt.Println(err)
 		Log.Err(err)
@@ -285,7 +285,7 @@ func CookieUpdater(new_cookie map[string]interface{}, ident string) {
 }
 
 func CookieSelector(ident string) (map[string]interface{}, error) {
-	user_cookie_map, err := Redis.Hash_map_get("__cookie__" + ident)
+	user_cookie_map, err := Redis.Hash_all("__cookie__" + ident)
 	if err != nil {
 		return make(map[string]interface{}), err
 	}

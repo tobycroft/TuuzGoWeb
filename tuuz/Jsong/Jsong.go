@@ -2,12 +2,12 @@ package Jsong
 
 import (
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/bytedance/sonic"
 	"strings"
 )
 
 func Encode(data interface{}) (string, error) {
-	jb, err := jsoniter.MarshalToString(data)
+	jb, err := sonic.MarshalString(data)
 	if err != nil {
 		fmt.Println("JENCODEEncode", err)
 		return "", err
@@ -17,7 +17,7 @@ func Encode(data interface{}) (string, error) {
 
 func JArrayObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data string) ([]map[T]V, error) {
 	var arr []map[T]V
-	err := jsoniter.UnmarshalFromString(data, &arr)
+	err := sonic.UnmarshalString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func JArrayObject[T string | int | int32 | int64 | float32 | float64, V string |
 
 func JArray[T string | int | int32 | int64 | float32 | float64 | any](data string) ([]T, error) {
 	var arr []T
-	err := jsoniter.UnmarshalFromString(data, &arr)
+	err := sonic.UnmarshalString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func JArray[T string | int | int32 | int64 | float32 | float64 | any](data strin
 
 func JObject[T string | int | int32 | int64 | float32 | float64, V string | int | int32 | int64 | float32 | float64 | any](data string) (map[T]V, error) {
 	var arr map[T]V
-	err := jsoniter.UnmarshalFromString(data, &arr)
+	err := sonic.UnmarshalString(data, &arr)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,6 @@ func JObject[T string | int | int32 | int64 | float32 | float64, V string | int 
 func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 	var arr []map[string]interface{}
 
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	//var strs []string
 
 	data := *temp
@@ -59,7 +58,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 		for i, v := range strs {
 			arr2 := make(map[string]interface{})
 			if i == 0 {
-				err := json.Unmarshal([]byte(v+"}"), &arr2)
+				err := sonic.Unmarshal([]byte(v+"}"), &arr2)
 				if err != nil {
 					//unable += v + "}"
 					fmt.Println(1, i, i+1, v+"}")
@@ -67,7 +66,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 					arr = append(arr, arr2)
 				}
 			} else if len(strs) == int(i+1) {
-				err := json.Unmarshal([]byte("{"+v), &arr2)
+				err := sonic.Unmarshal([]byte("{"+v), &arr2)
 				if err != nil {
 					unable += "{" + v
 					//fmt.Println(2, i, i+1, "{"+v)
@@ -76,7 +75,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 				}
 				//fmt.Println(2, "len", len(strs), i+1, "{"+v)
 			} else {
-				err := json.Unmarshal([]byte("{"+v+"}"), &arr2)
+				err := sonic.Unmarshal([]byte("{"+v+"}"), &arr2)
 				if err != nil {
 					unable += "{" + v + "}"
 					fmt.Println(3, i, "{"+v+"}")
@@ -89,7 +88,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 		return arr, nil
 	} else if len(strs) > 1 {
 		arr2 := make(map[string]interface{})
-		err := json.Unmarshal([]byte(strs[0]+"}"), &arr2)
+		err := sonic.Unmarshal([]byte(strs[0]+"}"), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)
@@ -101,7 +100,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 		}
 	} else {
 		arr2 := make(map[string]interface{})
-		err := json.Unmarshal([]byte(data), &arr2)
+		err := sonic.Unmarshal([]byte(data), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)
@@ -119,7 +118,6 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 
 	var arr []interface{}
 
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	//var strs []string
 
 	data := *temp
@@ -129,7 +127,7 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 		for i, v := range strs {
 			var arr2 interface{}
 			if i == 0 {
-				err := json.Unmarshal([]byte(v+"]"), &arr2)
+				err := sonic.Unmarshal([]byte(v+"]"), &arr2)
 				if err != nil {
 					unable += v + "}"
 					fmt.Println(1, i, i+1, v+"]")
@@ -137,7 +135,7 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 					arr = append(arr, arr2)
 				}
 			} else if len(strs) == int(i+1) {
-				err := json.Unmarshal([]byte("["+v), &arr2)
+				err := sonic.Unmarshal([]byte("["+v), &arr2)
 				if err != nil {
 					unable += "{" + v
 					fmt.Println(2, i, i+1, "["+v)
@@ -146,7 +144,7 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 				}
 				//fmt.Println(2, "len", len(strs), i+1, "{"+v)
 			} else {
-				err := json.Unmarshal([]byte("["+v+"]"), &arr2)
+				err := sonic.Unmarshal([]byte("["+v+"]"), &arr2)
 				if err != nil {
 					unable += "{" + v + "}"
 					fmt.Println(3, i, "["+v+"]")
@@ -160,7 +158,7 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 		return arr, nil
 	} else if len(strs) > 1 {
 		var arr2 interface{}
-		err := json.Unmarshal([]byte(strs[0]+"]"), &arr2)
+		err := sonic.Unmarshal([]byte(strs[0]+"]"), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)
@@ -172,7 +170,7 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 		}
 	} else {
 		var arr2 interface{}
-		err := json.Unmarshal([]byte(data), &arr2)
+		err := sonic.Unmarshal([]byte(data), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)
@@ -189,7 +187,6 @@ func TCPJArray(temp *string) ([]interface{}, error) {
 func TCP_JSON_CUT(temp *string) (string, bool) {
 	var arr []map[string]interface{}
 	var arr2 map[string]interface{}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	//var strs []string
 
 	data := *temp
@@ -207,7 +204,7 @@ func TCP_JSON_CUT(temp *string) (string, bool) {
 			//fmt.Println(strs[i])
 		}
 		data = "[" + strings.Join(strs, ",") + "]"
-		err := json.Unmarshal([]byte(data), &arr)
+		err := sonic.Unmarshal([]byte(data), &arr)
 		if err != nil {
 			fmt.Println(err)
 		} else {
@@ -216,7 +213,7 @@ func TCP_JSON_CUT(temp *string) (string, bool) {
 		*temp = ""
 		return data, true
 	} else {
-		err := json.Unmarshal([]byte(data), &arr2)
+		err := sonic.Unmarshal([]byte(data), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)

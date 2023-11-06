@@ -46,10 +46,16 @@ func Date_time_parser(date_time string, location *time.Location) (p time.Time, e
 		if err != nil {
 			return
 		}
+		if location == nil {
+			location, err = time.LoadLocation(app_conf.TimeZoneLocation)
+			if err != nil {
+				location = app_conf.TimeZone
+			}
+		}
 		if datetime_exp.MatchString(date_time) {
-			return time.Parse("2006-1-2 15:4:5", date_time)
+			return time.ParseInLocation("2006-1-2 15:4:5", date_time, location)
 		} else {
-			return time.Parse("2006-1-2", date_time)
+			return time.ParseInLocation("2006-1-2", date_time, location)
 		}
 	}
 }

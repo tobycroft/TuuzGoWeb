@@ -4,19 +4,18 @@ import (
 	"context"
 	"fmt"
 	"github.com/Unknwon/goconfig"
-	"github.com/go-redis/redis/v9"
+	"github.com/redis/go-redis/v9"
 	"log"
 	"main.go/config/app_conf"
 	"time"
 )
-
-var goredis_ctx context.Context
 
 var goredis *redis.Client
 
 func init() {
 	_ready()
 	_conn()
+	newLimitter()
 	go _keepAlive()
 }
 
@@ -67,14 +66,13 @@ func _conn() {
 		options.PoolSize = app_conf.Redicon_poolsize
 	}
 	goredis = redis.NewClient(&options)
-	goredis_ctx = context.Background()
 }
 
 func _keepAlive() {
 	if app_conf.Redicon_on {
 		for {
 			time.Sleep(3 * time.Second)
-			ret, err := goredis.Ping(goredis_ctx).Result()
+			ret, err := goredis.Ping(context.Background()).Result()
 			if err != nil {
 				log.Println("redis_out", ret, err)
 				if app_conf.Recicon_panic_on_link_error {

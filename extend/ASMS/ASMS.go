@@ -46,18 +46,18 @@ func _ready() {
 	}
 }
 
-func Sms_send(phone, quhao, text any) error {
+func Sms_send(phone, quhao, text, ip any) error {
 	var sms AossGoSdk.ASMS
 	sms.Name = name
 	sms.Token = token
-	return sms.Sms_send(phone, quhao, text)
+	return sms.Sms_send(phone, quhao, text, ip)
 }
 
-func Sms_single(phone any, quhao, text any, code int64) error {
+func Sms_single(phone any, quhao, text, ip any, code int64) error {
 	if len(Api_find_in1(phone)) > 0 {
 		return errors.New("你已经发送验证码，请稍后再次发送")
 	}
-	err := Sms_send(phone, quhao, text)
+	err := Sms_send(phone, quhao, text, ip)
 	if err != nil {
 		return err
 	} else {

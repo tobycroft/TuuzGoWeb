@@ -3,8 +3,8 @@ package Input
 import (
 	"crypto/sha256"
 	"errors"
+	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
-	jsoniter "github.com/json-iterator/go"
 	"github.com/shopspring/decimal"
 	"github.com/tobycroft/Calc"
 	"html/template"
@@ -73,6 +73,13 @@ func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
 
 		case nil:
 			return nil
+
+		case time.Time:
+			ret, err := Date.Date_time_parser(in, nil)
+			if err != nil {
+				return nil
+			}
+			return ret
 
 		case bool:
 			str, ok := SPostBool(key, c)
@@ -369,7 +376,7 @@ func SPostAny(key string, c *gin.Context, AnyType interface{}) bool {
 	if !ok || in == "" {
 		return false
 	} else {
-		err := jsoniter.UnmarshalFromString(in, &AnyType)
+		err := sonic.UnmarshalString(in, &AnyType)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should be a Json-AnyType"))
 			c.Abort()
