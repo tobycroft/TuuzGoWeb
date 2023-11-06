@@ -85,7 +85,9 @@ func dsn_local() string {
 	}
 	conntype := "tcp"
 	charset := "utf8mb4"
-	return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true&loc=" + url.QueryEscape(app_conf.TimeZoneLocation)
+	//使用时区时间并处理成(time.Time)，如非必要，建议不要关闭
+	parseTime := "true"
+	return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=" + parseTime + "&loc=" + url.QueryEscape(app_conf.TimeZoneLocation)
 }
 
 var need string
