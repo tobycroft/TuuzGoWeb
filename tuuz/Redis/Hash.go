@@ -9,11 +9,11 @@ import (
 	"main.go/tuuz/Log"
 )
 
-func Hash_add(key string, field, value any) error {
+func Hash_set(key string, field, value any) error {
 	return goredis.HSet(context.Background(), app_conf.Project+":"+key, field, value).Err()
 }
 
-func Hash_add_more[T map[string]string | map[string]any | gorose.Data](key string, maps T) error {
+func Hash_set_map[T map[string]string | map[string]any | gorose.Data](key string, maps T) error {
 	return goredis.HSet(context.Background(), app_conf.Project+":"+key, maps).Err()
 }
 
@@ -51,7 +51,7 @@ func Hash_list_values(key string) ([]string, error) {
 	return goredis.HVals(context.Background(), app_conf.Project+":"+key).Result()
 }
 
-func Hash_get(key string, field string) (string, error) {
+func Hash_get_field(key string, field string) (string, error) {
 	return goredis.HGet(context.Background(), app_conf.Project+":"+key, field).Result()
 }
 
@@ -63,7 +63,7 @@ func Hash_count(key string) int64 {
 	return count
 }
 
-func Hash_all(key string) (map[string]string, error) {
+func Hash_get_all(key string) (map[string]string, error) {
 	data, err := goredis.HGetAll(context.Background(), app_conf.Project+":"+key).Result()
 	if err != nil {
 		return nil, err
@@ -74,12 +74,16 @@ func Hash_all(key string) (map[string]string, error) {
 	return data, err
 }
 
-func Hash_all_struct(key string, model_struct_pointer any) error {
+func Hash_get_struct(key string, model_struct_pointer any) error {
 	return goredis.HGetAll(context.Background(), app_conf.Project+":"+key).Scan(&model_struct_pointer)
 }
 
-func Hash_delete(key string, field string) error {
+func Hash_delete_field(key string, field string) error {
 	return goredis.HDel(context.Background(), app_conf.Project+":"+key, field).Err()
+}
+
+func Hash_delete(key string) error {
+	return Del(key)
 }
 
 func Hash_search(key string, cursor uint64, search_pattern string, count int64) ([]string, uint64, error) {
