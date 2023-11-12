@@ -17,6 +17,10 @@ func Hash_add_more[T map[string]string | map[string]any | gorose.Data](key strin
 	return goredis.HSet(context.Background(), app_conf.Project+":"+key, maps).Err()
 }
 
+func Hash_set_struct(key string, maps any) error {
+	return goredis.HSet(context.Background(), app_conf.Project+":"+key, maps).Err()
+}
+
 func Hash_field_exist(key string, field string) bool {
 	ok, err := goredis.HExists(context.Background(), app_conf.Project+":"+key, field).Result()
 	if err != nil {
