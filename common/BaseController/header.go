@@ -7,7 +7,7 @@ import (
 )
 
 func header_handler(c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Origin", c.Request.Header.Get("Origin"))
 	c.Header("Access-Control-Allow-Headers", "*")
 	c.Header("Access-Control-Allow-Credentials", "true")
 	c.Header("Access-Control-Max-Age", "3600")
