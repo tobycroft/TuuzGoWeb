@@ -6,14 +6,14 @@ import (
 	"unicode/utf8"
 )
 
-func Length(str string, minlen int, maxlen int) error {
-	if minlen == maxlen && utf8.RuneCountInString(str) != minlen {
+func Length[T int | int32 | int64](str string, minlen T, maxlen T) error {
+	if minlen == maxlen && utf8.RuneCountInString(str) != int(minlen) {
 		return errors.New("长度必须为" + any2string(maxlen))
 	}
-	if utf8.RuneCountInString(str) > maxlen {
+	if utf8.RuneCountInString(str) > int(maxlen) {
 		return errors.New("长度需要小于" + any2string(maxlen))
 	}
-	if utf8.RuneCountInString(str) < minlen {
+	if utf8.RuneCountInString(str) < int(minlen) {
 		return errors.New("长度需要大于" + any2string(minlen))
 	}
 	return nil
