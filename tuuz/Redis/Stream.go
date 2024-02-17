@@ -7,57 +7,61 @@ import (
 )
 
 type Stream struct {
-	stream_channel string
-	Producer       chan any
-	Consumer       chan any
-	group          string
-	consumer       string
+	StreamChannelName string
+	//Producer          chan any
+	//Consumer          chan any
+	Group    string
+	consumer string
 }
 
-func StreamNew(stream_name string) Stream {
-	return Stream{}.New(stream_name)
+type stream struct {
+	Stream
 }
 
-func (self Stream) New(stream_name string) Stream {
-	self.stream_channel = app_conf.Project + ":" + stream_name
+func StreamNew(stream_name string) stream {
+	return stream{}.New(stream_name)
+}
+
+func (self Stream) New(stream_name string) stream {
+	self.StreamChannelName = app_conf.Project + ":" + stream_name
 	//self.Producer = make(chan any)
 	//self.Consumer = make(chan any)
-	return self
+	return stream{self}
 }
 
-func (self Stream) Publish(value map[string]any) (string, error) {
+func (self stream) Publish(value map[string]any) (string, error) {
 	return goredis.XAdd(context.Background(), &redis.XAddArgs{
-		Stream: self.stream_channel,
+		Stream: self.StreamChannelName,
 		Values: value,
 	}).Result()
 }
 
-func (self Stream) XLength() (int64, error) {
-	return goredis.XLen(context.Background(), self.stream_channel).Result()
+func (self stream) XLength() (int64, error) {
+	return goredis.XLen(context.Background(), self.StreamChannelName).Result()
 }
 
-func (self Stream) XRange() ([]redis.XMessage, error) {
-	return goredis.XRange(context.Background(), self.stream_channel, "-", "+").Result()
+func (self stream) XRange() ([]redis.XMessage, error) {
+	return goredis.XRange(context.Background(), self.StreamChannelName, "-", "+").Result()
 }
 
-func (self Stream) XRevRange() ([]redis.XMessage, error) {
-	return goredis.XRevRange(context.Background(), self.stream_channel, "-", "+").Result()
+func (self stream) XRevRange() ([]redis.XMessage, error) {
+	return goredis.XRevRange(context.Background(), self.StreamChannelName, "-", "+").Result()
 }
 
-func (self Stream) XRead() ([]redis.XStream, error) {
+func (self stream) XRead() ([]redis.XStream, error) {
 	var xr redis.XReadArgs
 	return goredis.XRead(context.Background(), &xr).Result()
 }
 
-func (self Stream) XGroupCreateConsumer(group, consumer string) error {
-	return goredis.XGroupCreateConsumer(context.Background(), self.stream_channel, group, consumer).Err()
+func (self stream) XGroupCreateConsumer(group, consumer string) error {
+	return goredis.XGroupCreateConsumer(context.Background(), self.StreamChannelName, group, consumer).Err()
 }
 
-func (self Stream) XReadGroup() ([]redis.XStream, error) {
+func (self stream) XReadGroup() ([]redis.XStream, error) {
 	return goredis.XReadGroup(context.Background(), &redis.XReadGroupArgs{
-		Group:    self.group,
+		Group:    self.Group,
 		Consumer: self.consumer,
-		Streams:  []string{self.stream_channel},
+		Streams:  []string{self.StreamChannelName},
 		Count:    1,
 		Block:    0,
 		NoAck:    false,
