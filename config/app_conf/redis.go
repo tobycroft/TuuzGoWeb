@@ -22,4 +22,5 @@ const Recion_timeout_dial = 5 * time.Second
 const Recion_timeout_read = 5 * time.Second
 const Recion_timeout_write = 5 * time.Second
 const Recion_timeout_pool = 5 * time.Second
-const Recion_db = 0
+
+var Recion_db = 0

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/redis/go-redis/v9"
+	"github.com/tobycroft/Calc"
 	"log"
 	"main.go/config/app_conf"
 	"time"
@@ -31,6 +32,7 @@ func _ready() {
 			cfg.SetValue("redis", "port", app_conf.Redicon_port)
 			cfg.SetValue("redis", "username", app_conf.Redicon_username)
 			cfg.SetValue("redis", "password", app_conf.Redicon_password)
+			cfg.SetValue("redis", "db", "0")
 			fmt.Println(goconfig.SaveConfigFile(cfg, "conf.ini"))
 			fmt.Println("redis_ready")
 			_ready()
@@ -39,6 +41,9 @@ func _ready() {
 			app_conf.Redicon_port = value["port"]
 			app_conf.Redicon_username = value["username"]
 			app_conf.Redicon_password = value["password"]
+			if rdb, err := Calc.Any2Int_2(value["db"]); err == nil {
+				app_conf.Recion_db = rdb
+			}
 			if app_conf.Redicon_address != "" && app_conf.Redicon_port != "" {
 				app_conf.Redicon_on = true
 			}
