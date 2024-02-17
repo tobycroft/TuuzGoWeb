@@ -11,7 +11,7 @@ type Stream struct {
 	//Producer          chan any
 	//Consumer          chan any
 	Group    string
-	consumer string
+	Consumer string
 }
 
 type stream struct {
@@ -60,7 +60,7 @@ func (self stream) XGroupCreateConsumer(group, consumer string) error {
 func (self stream) XReadGroup() ([]redis.XStream, error) {
 	return goredis.XReadGroup(context.Background(), &redis.XReadGroupArgs{
 		Group:    self.Group,
-		Consumer: self.consumer,
+		Consumer: self.Consumer,
 		Streams:  []string{self.StreamChannelName},
 		Count:    1,
 		Block:    0,
