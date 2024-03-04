@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/redis/go-redis/v9"
 	"main.go/config/app_conf"
+	"time"
 )
 
 type Stream struct {
@@ -132,6 +133,34 @@ func (self *stream) XReadGroupMore(count int64) ([]redis.XStream, error) {
 
 func (self *stream) XPending() (*redis.XPending, error) {
 	return goredis.XPending(context.Background(), self.StreamChannelName, self.Group).Result()
+}
+
+func (self *stream) XClaim() error {
+	return goredis.XClaim(context.Background(), &redis.XClaimArgs{}).Err()
+}
+
+// XAutoClaim Reset the state of the stream message which wasn't ack
+func (self *stream) XAutoClaim(MinIdle time.Duration, Start string, Count int64) error {
+	return goredis.XAutoClaim(context.Background(), &redis.XAutoClaimArgs{
+		Stream:   self.StreamChannelName,
+		Group:    self.Group,
+		MinIdle:  MinIdle,
+		Start:    Start,
+		Count:    Count,
+		Consumer: self.Consumer,
+	}).Err()
+}
+
+// XAutoClaimAll Reset the state of the stream message which wasn't ack
+func (self *stream) XAutoClaimAll(Count int64) error {
+	return goredis.XAutoClaim(context.Background(), &redis.XAutoClaimArgs{
+		Stream:   self.StreamChannelName,
+		Group:    self.Group,
+		MinIdle:  5 * time.Second,
+		Start:    "0",
+		Count:    Count,
+		Consumer: self.Consumer,
+	}).Err()
 }
 
 func (self *stream) XTrim(MaxLen int64) error {
