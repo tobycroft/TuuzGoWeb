@@ -34,7 +34,7 @@ import (
 //	return arr, err
 //}
 
-func (self Curl) cookieHandler(resp_headers []*http.Cookie) map[string]interface{} {
+func (self *Curl) cookieHandler(resp_headers []*http.Cookie) map[string]interface{} {
 	cookie_arr := make(map[string]interface{})
 	for _, resp_header := range resp_headers {
 		cookie_arr[resp_header.Name] = resp_header.Value

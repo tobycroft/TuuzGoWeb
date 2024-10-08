@@ -8,6 +8,7 @@ import (
 	"github.com/bytedance/sonic"
 	"io"
 	"mime/multipart"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -15,13 +16,23 @@ import (
 	"time"
 )
 
-func (r *Curl) NewRequest() *Curl {
+var dialer = &net.Dialer{
+	Timeout:   5 * time.Second,
+	KeepAlive: 0 * time.Second,
+	//DualStack: true,
+}
+var transport = &http.Transport{
+	DialContext:  dialer.DialContext,
+	MaxIdleConns: 100,
+}
+
+func (r *Curl) newRequest() *Curl {
 	req := request{}
 	req.SetTimeout(30)
 	req.SetHeaders(map[string]string{})
 	req.SetCookies(map[string]string{})
 	req.Transport(transport)
-	r.request = req
+	r.request = &req
 	return r
 }
 
@@ -119,6 +130,9 @@ func (r *request) buildClient() *http.Client {
 
 // Set headers
 func (r *request) SetHeaders(headers map[string]string) *request {
+	if r.headers == nil {
+		r.headers = make(map[string]string)
+	}
 	if headers != nil || len(headers) > 0 {
 		for k, v := range headers {
 			r.headers[k] = v
@@ -129,7 +143,6 @@ func (r *request) SetHeaders(headers map[string]string) *request {
 
 // Init headers
 func (r *request) initHeaders(req *http.Request) {
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	for k, v := range r.headers {
 		req.Header.Set(k, v)
 	}
@@ -307,6 +320,9 @@ func (r *request) Get(url string, data ...interface{}) (*response, error) {
 func (r *request) post(url string, data ...interface{}) (*response, error) {
 	return r.request(http.MethodPost, url, data...)
 }
+func (r *request) postFD(url string, data ...interface{}) (*response, error) {
+	return r.requestFormData(http.MethodPost, url, data...)
+}
 
 // Put is a put http request
 func (r *request) Put(url string, data ...interface{}) (*response, error) {
@@ -378,6 +394,82 @@ func (r *request) request(method, url string, data ...interface{}) (*response, e
 	r.initHeaders(req)
 	r.initCookies(req)
 	r.initBasicAuth(req)
+
+	resp, err := r.cli.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	response.url = url
+	response.resp = resp
+
+	return response, nil
+}
+func (r *request) requestFormData(method, url string, data ...interface{}) (*response, error) {
+	// Build response
+	response := &response{}
+
+	// Start time
+	start := time.Now().UnixNano() / 1e6
+	// Count elapsed time
+	defer r.elapsedTime(start, response)
+
+	if method == "" || url == "" {
+		return nil, errors.New("parameter method and url is required")
+	}
+
+	// Debug infomation
+	defer r.log()
+
+	r.url = url
+	if len(data) > 0 {
+		r.data = data[0]
+	} else {
+		r.data = ""
+	}
+
+	var (
+		err error
+		req *http.Request
+		//body io.Reader
+	)
+	r.cli = r.buildClient()
+
+	method = strings.ToUpper(method)
+	r.method = method
+
+	if method == "GET" || method == "DELETE" {
+		url, err = buildUrl(url, data...)
+		if err != nil {
+			return nil, err
+		}
+		r.url = url
+	}
+
+	formdata := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(formdata)
+	switch data[0].(type) {
+	case map[string]string:
+		for i, v := range data[0].(map[string]string) {
+			bodyWriter.WriteField(i, v)
+		}
+		break
+
+	default:
+		return nil, errors.New("postform-should-be-map[string]string")
+	}
+	contentType := bodyWriter.FormDataContentType()
+	bodyWriter.Close()
+
+	req, err = http.NewRequest(method, url, formdata)
+	if err != nil {
+		return nil, err
+	}
+
+	r.initHeaders(req)
+	r.initCookies(req)
+	r.initBasicAuth(req)
+	req.Header.Set("Content-Type", contentType)
 
 	resp, err := r.cli.Do(req)
 	if err != nil {

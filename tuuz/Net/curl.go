@@ -1,5 +1,5 @@
 package Net
 
 type Curl struct {
-	request request
+	request *request
 }

@@ -18,27 +18,27 @@ type WsClient struct {
 	WriteChannel chan []byte
 }
 
-func (ws WsClient) SetRetry(retry bool) WsClient {
+func (ws *WsClient) SetRetry(retry bool) *WsClient {
 	ws.retry = retry
 	return ws
 }
 
-func (ws WsClient) SetRetryTime(retryTime int) WsClient {
+func (ws *WsClient) SetRetryTime(retryTime int) *WsClient {
 	ws.retryTime = retryTime
 	return ws
 }
 
-func (ws WsClient) SetRetryDelay(retryDelaySec time.Duration) WsClient {
+func (ws *WsClient) SetRetryDelay(retryDelaySec time.Duration) *WsClient {
 	ws.retryDelay = retryDelaySec * time.Second
 	return ws
 }
 
-func (ws WsClient) prepare_channel() {
+func (ws *WsClient) prepare_channel() {
 	ws.ReadChannel = make(chan []byte, 1)
 	ws.WriteChannel = make(chan []byte, 1)
 }
 
-func (ws WsClient) connect() (err error) {
+func (ws *WsClient) connect() (err error) {
 	if ws.Conn != nil {
 		ws.Conn.Close()
 	} else {
@@ -51,7 +51,7 @@ func (ws WsClient) connect() (err error) {
 	return
 }
 
-func (ws WsClient) NewConnect(url string) error {
+func (ws *WsClient) NewConnect(url string) error {
 	ws.url = url
 	if ws.retry {
 		if ws.retryDelay.Seconds() < 1 {
@@ -68,7 +68,7 @@ func (ws WsClient) NewConnect(url string) error {
 	return ws.err
 }
 
-func (ws WsClient) recv_data() {
+func (ws *WsClient) recv_data() {
 	for {
 		_, message, err := ws.Conn.ReadMessage()
 		if err != nil {
@@ -80,7 +80,7 @@ func (ws WsClient) recv_data() {
 	}
 }
 
-func (ws WsClient) send_data() {
+func (ws *WsClient) send_data() {
 	for c := range ws.WriteChannel {
 		err := ws.Conn.WriteMessage(websocket.TextMessage, c)
 		if err != nil {
