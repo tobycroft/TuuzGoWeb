@@ -10,7 +10,6 @@ func OnRoute(router *gin.Engine) {
 	router.Any("/", func(c *gin.Context) {
 		ws := Net.WsServer{}
 		ws.NewServer(c.Writer, c.Request, c.Writer.Header())
-		c.String(0, router.BasePath())
 	})
 	version1 := router.Group("/v1")
 	{
