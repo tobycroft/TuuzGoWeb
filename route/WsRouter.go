@@ -13,14 +13,15 @@ type route struct {
 func MainWsRouter() {
 	for c := range Net.WsServer_ReadChannel {
 		fmt.Println(c.Conn.RemoteAddr(), string(c.Message), c.Status)
-		r := route{}
-		err := sonic.Unmarshal(c.Message, &r)
+		nd, err := sonic.Get(c.Message, "route")
 		if err != nil {
-			fmt.Println(err)
 			continue
 		}
-
-		switch r.Route {
+		r, err := nd.String()
+		if err != nil {
+			continue
+		}
+		switch r {
 		case "login":
 			Net.WsServer_WriteChannel <- c
 			break
