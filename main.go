@@ -30,6 +30,7 @@ func main() {
 	//gin.DefaultWriter = ioutil.Discard
 	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
 	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
+	websocket.MainWsRouter()
 	route.OnRoute(mainroute)
 	mainroute.Run(":80")
 
