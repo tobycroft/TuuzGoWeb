@@ -218,6 +218,8 @@ github.com/tobycroft/TuuzNet v1.4.0 h1:qPYg0rqu/4Th30P2kK1/g/ZRf+78nflBqJa61+7xm
 github.com/tobycroft/TuuzNet v1.4.0/go.mod h1:Fl+ls5obNVUBe8wCZhEsNG4NzqsEoENVmTJ75CFV870=
 github.com/tobycroft/TuuzNet v1.5.0 h1:ogC2ephDYulSW7Sh2w/zIWd9hdtlDl3APEqjYUx8I8M=
 github.com/tobycroft/TuuzNet v1.5.0/go.mod h1:Fl+ls5obNVUBe8wCZhEsNG4NzqsEoENVmTJ75CFV870=
+github.com/tobycroft/TuuzNet v1.5.1 h1:I7nZDj+vlwV5BBgrTKITlbpVNOWiaPwCi4oS9k/9xkY=
+github.com/tobycroft/TuuzNet v1.5.1/go.mod h1:Fl+ls5obNVUBe8wCZhEsNG4NzqsEoENVmTJ75CFV870=
 github.com/tobycroft/gorose-pro v1.12.12 h1:4C0gqSpidWveKDHApggbiUa857SkShwpHWpZEJvNd2s=
 github.com/tobycroft/gorose-pro v1.12.12/go.mod h1:dgkEvC/YbvQKdrwCDac5Xy/OllbuERFz5Q1+QNRs3lQ=
 github.com/tobycroft/gorose-pro v1.13.4 h1:HWLSJbcB6xrRdHTg5qggIOjMjDZsB/9q8Tj18WOcs3Q=

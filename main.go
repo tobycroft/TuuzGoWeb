@@ -25,12 +25,12 @@ func init() {
 func main() {
 
 	Calc.RefreshBaseNum()
+	go route.MainWsRouter()
 	mainroute := gin.Default()
 	//gin.SetMode(gin.ReleaseMode)
 	//gin.DefaultWriter = ioutil.Discard
 	mainroute.SetTrustedProxies([]string{"0.0.0.0/0"})
 	mainroute.SecureJsonPrefix(app_conf.SecureJsonPrefix)
-	route.MainWsRouter()
 	route.OnRoute(mainroute)
 	mainroute.Run(":80")
 
