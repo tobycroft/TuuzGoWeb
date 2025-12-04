@@ -12,9 +12,9 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/redis/go-redis/v9 v9.17.2
 	github.com/shopspring/decimal v1.4.0
-	github.com/tobycroft/AossGoSdk v1.18.0
+	github.com/tobycroft/AossGoSdk v1.18.1
 	github.com/tobycroft/Calc v1.3.5
-	github.com/tobycroft/TuuzNet v1.7.2
+	github.com/tobycroft/TuuzNet v1.8.2
 	github.com/tobycroft/gorose-pro v1.14.1
 	github.com/yangyin5127/go-xss v1.3.1
 )
