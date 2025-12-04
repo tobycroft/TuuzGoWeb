@@ -1,0 +1,72 @@
+Index: tuuz/Input/NewModelPost.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Input\r\n\r\nimport (\r\n\t\"errors\"\r\n\t\"github.com/feiin/go-xss\"\r\n\t\"github.com/gin-gonic/gin\"\r\n\t\"github.com/tobycroft/Calc\"\r\n\t\"html/template\"\r\n\t\"main.go/tuuz/Array\"\r\n\t\"main.go/tuuz/Date\"\r\n\t\"strconv\"\r\n\t\"strings\"\r\n\t\"time\"\r\n)\r\n\r\ntype ModelPost struct {\r\n\tcheck_col   map[string]bool\r\n\tunckeck_col map[string]bool\r\n\tcontent     *gin.Context\r\n\t*modelConfig\r\n\t*modelData\r\n}\r\n\r\ntype modelConfig struct {\r\n\txss            bool\r\n\tno_blank_filed bool\r\n}\r\n\r\ntype modelData struct {\r\n\terrMsgs []string\r\n\terrs    []error\r\n\tdata    map[string]interface{}\r\n}\r\n\r\nfunc NewModelPost(c *gin.Context) *ModelPost {\r\n\treturn &ModelPost{\r\n\t\tmake(map[string]bool),\r\n\t\tmake(map[string]bool),\r\n\t\tc,\r\n\t\t&modelConfig{\r\n\t\t\txss:            false,\r\n\t\t\tno_blank_filed: false,\r\n\t\t},\r\n\t\t&modelData{\r\n\t\t\terrMsgs: nil,\r\n\t\t\terrs:    nil,\r\n\t\t\tdata:    make(map[string]interface{}),\r\n\t\t},\r\n\t}\r\n}\r\n\r\nfunc (post *ModelPost) Errors() ([]error, []string) {\r\n\treturn post.errs, post.errMsgs\r\n}\r\n\r\nfunc (post *ModelPost) Error() (err error, errMsg string) {\r\n\tif post.errMsgs != nil && len(post.errMsgs) > 0 {\r\n\t\terrMsg = post.errMsgs[0]\r\n\t}\r\n\tif post.errs != nil && len(post.errs) > 0 {\r\n\t\terr = post.errs[0]\r\n\t}\r\n\treturn\r\n}\r\n\r\nfunc (post *ModelPost) IsComplete() bool {\r\n\tif post.errs != nil {\r\n\t\treturn false\r\n\t}\r\n\tif len(post.errs) > 0 {\r\n\t\treturn false\r\n\t}\r\n\treturn true\r\n}\r\n\r\nfunc (post *ModelPost) GetPostMap() (data map[string]interface{}, err error, errMsg string) {\r\n\terr, errMsg = post.Error()\r\n\tdata = post.data\r\n\treturn\r\n}\r\n\r\nfunc (post *ModelPost) Select() (data map[string]interface{}) {\r\n\tdata = post.data\r\n\treturn\r\n}\r\n\r\n// Fields: 如果需要保证字段一定存在，则使用fields，否则默认允许所有字段均不传\r\nfunc (post *ModelPost) Fields(fields ...string) *ModelPost {\r\n\tfor _, field := range fields {\r\n\t\tpost.check_col[field] = true\r\n\t}\r\n\treturn post\r\n}\r\n\r\n// FieldsCanBlank: 不检测字段，当Fields和Blankable冲突，默认检测优先，当仅开启全域检测Fields未提到时，默认FB优先\r\nfunc (post *ModelPost) FieldsCanBlank(fields ...string) *ModelPost {\r\n\tfor _, field := range fields {\r\n\t\tif !post.check_col[field] {\r\n\t\t\tpost.unckeck_col[field] = true\r\n\t\t}\r\n\t}\r\n\treturn post\r\n}\r\n\r\n// FieldAllHave: 全域检测，不允许可空字段存在\r\nfunc (post *ModelPost) FieldsAllHave(no_blank_filed bool) *ModelPost {\r\n\tpost.no_blank_filed = no_blank_filed\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) Xss(anti_xss bool) *ModelPost {\r\n\tpost.xss = anti_xss\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) Data(field string, value interface{}) *ModelPost {\r\n\tpost.data[field] = value\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) Copy(from_field string, to_field string) *ModelPost {\r\n\tpost.data[to_field] = post.data[from_field]\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostString(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\tif post.xss {\r\n\t\t\tpost.data[key] = template.JSEscapeString(in)\r\n\t\t} else {\r\n\t\t\tpost.data[key] = in\r\n\t\t}\r\n\t\tif post.xss {\r\n\t\t\tstr, err := strconv.Unquote(\"\\\"\" + in + \"\\\"\")\r\n\t\t\tif err != nil {\r\n\t\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]:\"+err.Error())\r\n\t\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]:\"+err.Error()))\r\n\t\t\t}\r\n\t\t\tout := xss.FilterXSS(str, xss.NewDefaultXssOption())\r\n\t\t\tpost.data[key] = out\r\n\t\t} else {\r\n\t\t\tpost.data[key] = in\r\n\t\t}\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostIn(key string, str_slices []string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\tif Array.InArray(in, str_slices) {\r\n\t\t\tpost.data[key] = in\r\n\t\t} else {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" 's data should in [\"+strings.Join(str_slices, \",\")+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(key+\" 's data should in [\"+strings.Join(str_slices, \",\")+\"]\"))\r\n\t\t}\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostInt64(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\ti, e := Calc.String2Int64(in)\r\n\t\tif e != nil {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" should be int64\")\r\n\t\t\tpost.errs = append(post.errs, e)\r\n\t\t\treturn post\r\n\t\t}\r\n\t\tpost.data[key] = i\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostDateTime(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\ti, e := Date.Date_time_parser(in, nil)\r\n\t\tif e != nil {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" should only be a Date(+Time) or RFC3339\")\r\n\t\t\tpost.errs = append(post.errs, e)\r\n\t\t\treturn post\r\n\t\t}\r\n\t\tpost.data[key] = i\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostTime(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\ti, e := Calc.String2Int64(in)\r\n\t\tif e != nil {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" should be int64\")\r\n\t\t\tpost.errs = append(post.errs, e)\r\n\t\t\treturn post\r\n\t\t}\r\n\t\tpost.data[key] = time.Unix(i, 0)\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostFloat64(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\ti, e := Calc.String2Float64(in)\r\n\t\tif e != nil {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" should be float64\")\r\n\t\t\tpost.errs = append(post.errs, e)\r\n\t\t\treturn post\r\n\t\t}\r\n\t\tpost.data[key] = i\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) PostBool(key string) *ModelPost {\r\n\t_, have := post.check_col[key]\r\n\tin, ok := post.content.GetPostForm(key)\r\n\tif !ok {\r\n\t\tif have || post.no_blank_filed {\r\n\t\t\tpost.errMsgs = append(post.errMsgs, \"POST-[\"+key+\"]\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(\"POST-[\"+key+\"]\"))\r\n\t\t}\r\n\t} else {\r\n\t\tswitch in {\r\n\t\tcase \"1\":\r\n\t\t\tpost.data[key] = true\r\n\t\t\tbreak\r\n\r\n\t\tcase \"0\":\r\n\t\t\tpost.data[key] = false\r\n\t\t\tbreak\r\n\r\n\t\tcase \"true\":\r\n\t\t\tpost.data[key] = true\r\n\t\t\tbreak\r\n\r\n\t\tcase \"false\":\r\n\t\t\tpost.data[key] = false\r\n\t\t\tbreak\r\n\r\n\t\tdefault:\r\n\t\t\tpost.errMsgs = append(post.errMsgs, key+\" should be Boolean\")\r\n\t\t\tpost.errs = append(post.errs, errors.New(key+\" should be boolean\"))\r\n\t\t}\r\n\t}\r\n\treturn post\r\n}\r\n\r\nfunc (post *ModelPost) Has(field string) bool {\r\n\t_, ok := post.data[field]\r\n\treturn ok\r\n}\r\n\r\nfunc (post *ModelPost) Find(field string) any {\r\n\tdata, ok := post.data[field]\r\n\tif ok {\r\n\t\treturn data\r\n\t} else {\r\n\t\treturn nil\r\n\t}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tuuz/Input/NewModelPost.go b/tuuz/Input/NewModelPost.go
+--- a/tuuz/Input/NewModelPost.go	(revision 49084410ca51b43a95c649583fc758962fd0d861)
++++ b/tuuz/Input/NewModelPost.go	(date 1764859800131)
+@@ -2,7 +2,7 @@
+ 
+ import (
+ 	"errors"
+-	"github.com/feiin/go-xss"
++	"github.com/TuuzNet/go-xss"
+ 	"github.com/gin-gonic/gin"
+ 	"github.com/tobycroft/Calc"
+ 	"html/template"
+Index: go.mod
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module main.go\r\n\r\ngo 1.24.0\r\n\r\nrequire (\r\n\tgithub.com/Unknwon/goconfig v1.0.0\r\n\tgithub.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868\r\n\tgithub.com/bytedance/sonic v1.13.3\r\n\tgithub.com/feiin/go-xss v1.3.0\r\n\tgithub.com/gin-contrib/cors v1.7.6\r\n\tgithub.com/gin-gonic/gin v1.10.1\r\n\tgithub.com/go-redis/redis_rate/v10 v10.0.1\r\n\tgithub.com/go-sql-driver/mysql v1.9.3\r\n\tgithub.com/gorilla/websocket v1.5.3\r\n\tgithub.com/redis/go-redis/v9 v9.11.0\r\n\tgithub.com/shopspring/decimal v1.4.0\r\n\tgithub.com/tobycroft/AossGoSdk v1.15.1\r\n\tgithub.com/tobycroft/Calc v1.3.5\r\n\tgithub.com/tobycroft/HttpRequest v1.1.5\r\n\tgithub.com/tobycroft/TuuzNet v1.7.2\r\n\tgithub.com/tobycroft/gorose-pro v1.14.1\r\n\r\n)\r\n\r\nrequire (\r\n\tfilippo.io/edwards25519 v1.1.0 // indirect\r\n\tgithub.com/bytedance/sonic/loader v0.3.0 // indirect\r\n\tgithub.com/cespare/xxhash/v2 v2.3.0 // indirect\r\n\tgithub.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect\r\n\tgithub.com/chenzhuoyu/iasm v0.9.1 // indirect\r\n\tgithub.com/cloudwego/base64x v0.1.5 // indirect\r\n\tgithub.com/cloudwego/iasm v0.2.0 // indirect\r\n\tgithub.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect\r\n\tgithub.com/feiin/pkg v0.2.1 // indirect\r\n\tgithub.com/gabriel-vasile/mimetype v1.4.9 // indirect\r\n\tgithub.com/gin-contrib/sse v1.1.0 // indirect\r\n\tgithub.com/go-playground/locales v0.14.1 // indirect\r\n\tgithub.com/go-playground/universal-translator v0.18.1 // indirect\r\n\tgithub.com/go-playground/validator/v10 v10.27.0 // indirect\r\n\tgithub.com/goccy/go-json v0.10.5 // indirect\r\n\tgithub.com/gohouse/golib v0.0.0-20210711163732-a5c22059eb75 // indirect\r\n\tgithub.com/gohouse/t v0.0.0-20201007094014-630049a6bfe9 // indirect\r\n\tgithub.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect\r\n\tgithub.com/google/go-cmp v0.7.0 // indirect\r\n\tgithub.com/json-iterator/go v1.1.12 // indirect\r\n\tgithub.com/klauspost/cpuid/v2 v2.2.11 // indirect\r\n\tgithub.com/leodido/go-urn v1.4.0 // indirect\r\n\tgithub.com/mattn/go-isatty v0.0.20 // indirect\r\n\tgithub.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect\r\n\tgithub.com/modern-go/reflect2 v1.0.2 // indirect\r\n\tgithub.com/pelletier/go-toml/v2 v2.2.4 // indirect\r\n\tgithub.com/smartystreets/goconvey v1.7.2 // indirect\r\n\tgithub.com/twitchyliquid64/golang-asm v0.15.1 // indirect\r\n\tgithub.com/ugorji/go/codec v1.3.0 // indirect\r\n\tgolang.org/x/arch v0.18.0 // indirect\r\n\tgolang.org/x/crypto v0.39.0 // indirect\r\n\tgolang.org/x/image v0.28.0 // indirect\r\n\tgolang.org/x/net v0.41.0 // indirect\r\n\tgolang.org/x/sys v0.33.0 // indirect\r\n\tgolang.org/x/text v0.26.0 // indirect\r\n\tgoogle.golang.org/protobuf v1.36.6 // indirect\r\n\tgopkg.in/yaml.v3 v3.0.1 // indirect\r\n)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/go.mod b/go.mod
+--- a/go.mod	(revision 49084410ca51b43a95c649583fc758962fd0d861)
++++ b/go.mod	(date 1764859816785)
+@@ -6,7 +6,7 @@
+ 	github.com/Unknwon/goconfig v1.0.0
+ 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
+ 	github.com/bytedance/sonic v1.13.3
+-	github.com/feiin/go-xss v1.3.0
++	github.com/TuuzNet/go-xss v1.3.0
+ 	github.com/gin-contrib/cors v1.7.6
+ 	github.com/gin-gonic/gin v1.10.1
+ 	github.com/go-redis/redis_rate/v10 v10.0.1
+Index: .idea/copilot.data.migration.agent.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/copilot.data.migration.agent.xml b/.idea/copilot.data.migration.agent.xml
+new file mode 100644
+--- /dev/null	(date 1764859793237)
++++ b/.idea/copilot.data.migration.agent.xml	(date 1764859793237)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="AgentMigrationStateService">
++    <option name="migrationStatus" value="COMPLETED" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/copilot.data.migration.edit.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/copilot.data.migration.edit.xml b/.idea/copilot.data.migration.edit.xml
+new file mode 100644
+--- /dev/null	(date 1764859793242)
++++ b/.idea/copilot.data.migration.edit.xml	(date 1764859793242)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="EditMigrationStateService">
++    <option name="migrationStatus" value="COMPLETED" />
++  </component>
++</project>
+\ No newline at end of file
