@@ -126,6 +126,8 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/tobycroft/AossGoSdk v1.15.1 h1:QqM0EK3D+VUZ5njdu+NX3tHwfVV+eWRDMZMIk24H2k0=
 github.com/tobycroft/AossGoSdk v1.15.1/go.mod h1:9Lh6CrkrsNPwZSmuTUisGinZ+0O5I299foZBTbmSsOI=
+github.com/tobycroft/AossGoSdk v1.18.0 h1:R84ocvF/XDxMeDqcuQhbuaHRxUUK5jIMPbNoYBF2f2A=
+github.com/tobycroft/AossGoSdk v1.18.0/go.mod h1:9Lh6CrkrsNPwZSmuTUisGinZ+0O5I299foZBTbmSsOI=
 github.com/tobycroft/Calc v1.3.5 h1:b/xn6Bizt6pgC3mMiKgIpfQLLQE3SQMfxPN0j7fdjak=
 github.com/tobycroft/Calc v1.3.5/go.mod h1:Rtbth5rVSBICUCh2tH0tQwB1x2SHzhtkyB1FndlETEA=
 github.com/tobycroft/TuuzNet v1.7.2 h1:/9j3If382DA1L5sH9/N0N4zTezo92mKq3idfTqHQSLE=
