@@ -32,10 +32,6 @@ github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymF
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
-github.com/feiin/go-xss v1.3.0 h1:yavCQEbXQefhV7o3ysGBBE3+9LPk8ms9ZsnkyzlNSGo=
-github.com/feiin/go-xss v1.3.0/go.mod h1:KLU2XlMdDA8NIY2yumLiyFvn24/pO81j1/nKE2I3mrA=
-github.com/feiin/pkg v0.2.1 h1:fqewu0DwUvMHq50jxdQcUumfQ5JjZy4DyH/jfp6JzhI=
-github.com/feiin/pkg v0.2.1/go.mod h1:a+eNap+KldbxTPdyChieaQ+z8EUr5h3eXnDliCngMP4=
 github.com/gabriel-vasile/mimetype v1.4.11 h1:AQvxbp830wPhHTqc1u7nzoLT+ZFxGY7emj5DR5DYFik=
 github.com/gabriel-vasile/mimetype v1.4.11/go.mod h1:d+9Oxyo1wTzWdyVUPMmXFvp4F9tea18J8ufA774AB3s=
 github.com/gin-contrib/cors v1.7.6 h1:3gQ8GMzs1Ylpf70y8bMw4fVpycXIeX1ZemuSQIsnQQY=
@@ -140,6 +136,10 @@ github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go/codec v1.3.1 h1:waO7eEiFDwidsBN6agj1vJQ4AG7lh2yqXyOXqhgQuyY=
 github.com/ugorji/go/codec v1.3.1/go.mod h1:pRBVtBSKl77K30Bv8R2P+cLSGaTtex6fsA2Wjqmfxj4=
+github.com/yangyin5127/go-xss v1.3.1 h1:UrXS/gTtej+CxpLwwkaIxcXg3NXoJ9bVDUtadQZbLeI=
+github.com/yangyin5127/go-xss v1.3.1/go.mod h1:sVS4dD7xr20ZW8rw7Lc9Gp+Qd8EKaS6cQrYQQoHj2Qg=
+github.com/yangyin5127/pkg v0.2.2 h1:i5hc9GrS5jUrHE8eMhwg6YThN0YijdXKx0soFGHek0Y=
+github.com/yangyin5127/pkg v0.2.2/go.mod h1:Ng8BX7WYG37NmtQeYCwYkUKbpBN+UFYod1DK95ql4u0=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 go.uber.org/mock v0.6.0 h1:hyF9dfmbgIX5EfOdasqLsWD6xqpNZlXblLB/Dbnwv3Y=
 go.uber.org/mock v0.6.0/go.mod h1:KiVJ4BqZJaMj4svdfmHM0AUx4NJYO8ZNpPnZn1Z+BBU=
