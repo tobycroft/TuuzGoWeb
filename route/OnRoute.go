@@ -7,6 +7,7 @@ import (
 )
 
 func OnRoute(router *gin.Engine) {
+	ManRoute(router)
 	router.Any("/", func(c *gin.Context) {
 		ws := Net.WsServer{}
 		ws.NewServer(c.Writer, c.Request, c.Writer.Header())

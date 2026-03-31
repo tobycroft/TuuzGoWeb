@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/gorose-pro"
 	"main.go/tuuz/Input"
@@ -35,4 +36,18 @@ func upload(c *gin.Context) {
 		return
 	}
 	fmt.Println(file)
+}
+
+type TokenRequest struct {
+	Project string `json:"project" binding:"required"`
+	Secret  string `json:"secret" binding:"required"`
+}
+
+func login_json(c *gin.Context) {
+	var tk TokenRequest
+	c.ShouldBindWith(tk, Input.JsonHS)
+	json := map[string]string{}
+	json["username"] = "123"
+	json["password"] = "123"
+	c.JSON(0, json)
 }
