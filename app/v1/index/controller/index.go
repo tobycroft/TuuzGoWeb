@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/gorose-pro"
 	"main.go/tuuz/Input"
+	"main.go/tuuz/RET"
 )
 
 func IndexController(route *gin.RouterGroup) {
@@ -14,6 +15,7 @@ func IndexController(route *gin.RouterGroup) {
 	route.Any("login", loginss)
 	route.Any("upload", upload)
 	route.Any("register")
+	route.Any("json", login_json)
 }
 
 func index(c *gin.Context) {
@@ -45,9 +47,9 @@ type TokenRequest struct {
 
 func login_json(c *gin.Context) {
 	var tk TokenRequest
-	c.ShouldBindWith(tk, Input.JsonHS)
-	json := map[string]string{}
-	json["username"] = "123"
-	json["password"] = "123"
-	c.JSON(0, json)
+	err := c.ShouldBindWith(tk, Input.JsonHS)
+	if err != nil {
+		c.JSON(401, err)
+	}
+	RET.Success(c, 0, nil, "success")
 }
