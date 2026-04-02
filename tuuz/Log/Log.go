@@ -8,7 +8,7 @@ import (
 func Write(file_name string, logs string, discript string, other string) {
 	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
-		logger.Println(err)
+		logger.Fatalln(err)
 	} else {
 		logger := logger.New(file, "", logger.LstdFlags)
 		logger.Println(logs, discript, other)
