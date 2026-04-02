@@ -1,18 +1,16 @@
 package Log
 
 import (
-	"fmt"
-	"github.com/tobycroft/gorose-pro"
-	"log"
+	logger "log"
 	"os"
 )
 
 func Write(file_name string, logs string, discript string, other string) {
 	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
-		log.Fatalln(err)
+		logger.Println(err)
 	} else {
-		logger := log.New(file, "", log.LstdFlags)
+		logger := logger.New(file, "", logger.LstdFlags)
 		logger.Println(logs, discript, other)
 		file.Close()
 	}
@@ -31,7 +29,7 @@ func Err(err error) {
 }
 
 func Errs(err error, log string) {
-	fmt.Println(log, err)
+	logger.Println(log, err)
 	if err != nil {
 		Write("Error", log, "", err.Error())
 	}
@@ -51,22 +49,15 @@ func Crr(logs error) {
 }
 
 func Crrs(logs error, discript string) {
-	fmt.Println(logs, discript)
+	logger.Println(logs, discript)
 	if logs != nil {
 		Write("Common", "", discript, logs.Error())
 	}
 }
 
 func Dbrr(err error, log string) {
-	fmt.Println(err, log)
+	logger.Println(err, log)
 	if err != nil {
 		Write("Dberror", log, "", err.Error())
-	}
-}
-
-func DBrrsql(err error, db gorose.IOrm, log string) {
-	fmt.Println(err, "\n", db.LastSql(), "\n", log)
-	if err != nil {
-		Write("Dberror", log, db.LastSql(), err.Error())
 	}
 }
