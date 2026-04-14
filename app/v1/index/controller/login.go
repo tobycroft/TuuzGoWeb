@@ -2,9 +2,10 @@ package controller
 
 import (
 	"fmt"
+	"image/png"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"image/png"
 	"main.go/tuuz/Base64"
 	"main.go/tuuz/Captcha"
 	"main.go/tuuz/Input"

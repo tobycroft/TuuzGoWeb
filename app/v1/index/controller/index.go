@@ -2,9 +2,11 @@ package controller
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/tobycroft/gorose-pro"
 	"main.go/tuuz/Input"
+	"main.go/tuuz/RET"
 )
 
 func IndexController(route *gin.RouterGroup) {
@@ -13,6 +15,7 @@ func IndexController(route *gin.RouterGroup) {
 	route.Any("login", loginss)
 	route.Any("upload", upload)
 	route.Any("register")
+	route.Any("json", login_json)
 }
 
 func index(c *gin.Context) {
@@ -35,4 +38,18 @@ func upload(c *gin.Context) {
 		return
 	}
 	fmt.Println(file)
+}
+
+type TokenRequest struct {
+	Project string `json:"project" binding:"required"`
+	Secret  string `json:"secret" binding:"required"`
+}
+
+func login_json(c *gin.Context) {
+	var tk TokenRequest
+	err := c.ShouldBindWith(tk, Input.JsonHS)
+	if err != nil {
+		c.JSON(401, err)
+	}
+	RET.Success(c, 0, nil, "success")
 }
