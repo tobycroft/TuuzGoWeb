@@ -3,21 +3,22 @@ package Input
 import (
 	"crypto/sha256"
 	"errors"
+	"html/template"
+	"io"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
 	"github.com/shopspring/decimal"
 	"github.com/tobycroft/Calc"
-	"html/template"
-	"io"
 	"main.go/config/app_conf"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Date"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
 	"main.go/tuuz/Vali"
-	"path/filepath"
-	"strings"
-	"time"
 )
 
 func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
@@ -75,7 +76,7 @@ func SPost(key string, c *gin.Context, DemoType interface{}) interface{} {
 			return nil
 
 		case time.Time:
-			ret, err := Date.Date_time_parser(in, nil)
+			ret, err := Date.Date_time_parser(in)
 			if err != nil {
 				return nil
 			}
@@ -202,7 +203,7 @@ func SPostDateTime(key string, c *gin.Context) (time.Time, bool) {
 	if !ok || in == "" {
 		return time.Time{}, false
 	} else {
-		datetime, err := Date.Date_time_parser(in, nil)
+		datetime, err := Date.Date_time_parser(in)
 		if err != nil {
 			c.JSON(RET.Ret_fail(407, err.Error(), key+" should only be a Date(+Time) or RFC3339"))
 			c.Abort()

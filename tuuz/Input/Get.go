@@ -1,8 +1,9 @@
 package Input
 
 import (
-	"github.com/gin-gonic/gin"
 	"html/template"
+
+	"github.com/gin-gonic/gin"
 	"main.go/tuuz/RET"
 )
 

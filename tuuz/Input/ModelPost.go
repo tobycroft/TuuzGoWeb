@@ -1,13 +1,14 @@
 package Input
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/tobycroft/gorose-pro"
 	"html/template"
-	"main.go/tuuz/RET"
-	"main.go/tuuz/Vali"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/tobycroft/gorose-pro"
+	"main.go/tuuz/RET"
+	"main.go/tuuz/Vali"
 )
 
 func MPostExp(c *gin.Context, goroseProData *gorose.Data, where_in []string, data_keys []string) (ok bool, where, data map[string]interface{}) {
