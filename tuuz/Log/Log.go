@@ -3,6 +3,8 @@ package Log
 import (
 	logger "log"
 	"os"
+
+	"github.com/tobycroft/gorose-pro"
 )
 
 func Write(file_name string, logs string, discript string, other string) {
@@ -59,5 +61,12 @@ func Dbrr(err error, log string) {
 	logger.Println(err, log)
 	if err != nil {
 		Write("Dberror", log, "", err.Error())
+	}
+}
+
+func DBrrsql(err error, db gorose.IOrm, discript string) {
+	logger.Println(err, db.GetISession().LastSql(), discript)
+	if err != nil {
+		Write("Dberror", discript, db.GetISession().LastSql(), err.Error())
 	}
 }
