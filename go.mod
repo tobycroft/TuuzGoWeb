@@ -15,7 +15,7 @@ require (
 	github.com/tobycroft/AossGoSdk v1.29.0
 	github.com/tobycroft/Calc v1.3.5
 	github.com/tobycroft/TuuzNet v1.13.5
-	github.com/tobycroft/gorose-pro v1.16.4
+	github.com/tobycroft/gorose-pro v1.18.1
 	github.com/yangyin5127/go-xss v1.3.2
 	go.mongodb.org/mongo-driver/v2 v2.10.1
 )
@@ -33,8 +33,6 @@ require (
 	github.com/go-playground/validator/v10 v10.30.6 // indirect
 	github.com/goccy/go-json v0.12.0 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/gohouse/golib v0.0.0-20210711163732-a5c22059eb75 // indirect
-	github.com/gohouse/t v0.0.0-20201007094014-630049a6bfe9 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
